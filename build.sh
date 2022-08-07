@@ -24,5 +24,5 @@ sh mkimage.sh \
 	--workdir "$CACHEDIR"
 
 cd "$OUTDIR"
-sha256sum * > sha256sums
+sha256sum *.iso > sha256sums
 cd ..
