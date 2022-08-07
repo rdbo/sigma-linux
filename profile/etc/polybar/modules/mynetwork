@@ -1,0 +1,33 @@
+#!/bin/sh
+
+ETH_ICON_ON=''
+ETH_ICON_OFF=''
+WLAN_ICON_ON='直'
+WLAN_ICON_OFF='睊'
+
+IFACE=""
+ICON_ON="$ETH_ICON_ON"
+ICON_OFF="$ETH_ICON_OFF"
+MATCH_STR="inet "
+
+if [ $# -lt 1 ]; then
+	echo "Usage: mynetwork <-w> <-6> [IFACE]"
+	exit 1
+fi
+
+for arg in $@; do
+	if [ "$arg" = "-w" ]; then
+		ICON_ON="$WLAN_ICON_ON"
+		ICON_OFF="$WLAN_ICON_OFF"
+	elif [ "$arg" = "-6" ]; then
+		MATCH_STR="inet" # will match both 'inet' and 'inet6'
+	else
+		IFACE="$arg"
+	fi
+done
+
+if ifconfig "$IFACE" | grep "$MATCH_STR" > /dev/null; then
+	echo "${MOD_ICON_COLOR}$ICON_ON  ${MOD_TXT_COLOR}$IFACE"
+else
+	echo "%{F#FF6464}$ICON_OFF  ${MOD_TXT_COLOR}$IFACE"
+fi

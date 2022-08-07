@@ -1,0 +1,4 @@
+#!/bin/sh
+
+DEVDOPTS="udev" MOCK=prevent_openrc USEROPTS="-a -g a
+udio,video,netdev,input" setup-alpine

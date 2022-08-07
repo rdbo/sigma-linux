@@ -1,0 +1,30 @@
+#!/bin/sh
+
+PROFILENAME=$(cat /etc/hostname)
+WORKDIR=/etc/local.d
+SETUP_PATH="/usr/sbin/setup-$PROFILENAME"
+PREV_OPENRC_PATH="/usr/sbin/prevent_openrc"
+
+# create 'setup-$PROFILENAME' script
+mv "$WORKDIR/setup" "$SETUP_PATH"
+chmod 0755 "$SETUP_PATH"
+mv "$WORKDIR/etc/local.d/prevent_openrc" "$PREV_OPENRC_PATH"
+
+# copy /etc/skel content to /root
+cp -r /etc/skel/. /root/
+
+# fix bspwm (use dbus session)
+sed -i 's/^Exec=.*/Exec=dbus-run-session -- bspwm/g' /usr/share/xsessions/bspwm.desktop
+
+# move backgrounds, icons and themes to proper folder
+mkdir -p /usr/share /usr/share/themes /usr/share/icons
+mv "$WORKDIR/backgrounds" /usr/share/
+cp -rf "$WORKDIR/themes/." /usr/share/themes/
+rm -rf "$WORKDIR/themes"
+cp -rf "$WORKDIR/icons/." /usr/share/icons/
+
+# disable 'local' service by default
+rc-update del local
+
+# this script is only used once, self-delete after usage
+rm /etc/local.d/mksetup.start
