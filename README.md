@@ -5,7 +5,7 @@
 ![screenshot-apps](screenshots/screenshot-apps.png)
 
 # License
-All the files in this repository follow the license in the file `LICENSE`, unless explicitly said otherwise (e.g through a CREDITS file)
+All the files in this repository follow the license in the file `LICENSE`, unless explicitly said otherwise (e.g through a CREDITS or a LICENSE file)
 
 # Building
 Use Alpine Linux.  
