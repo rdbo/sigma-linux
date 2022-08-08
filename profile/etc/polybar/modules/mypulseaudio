@@ -11,7 +11,10 @@ if [ $# -ne 1 ] || { [ "$1" != "sink" ] && [ "$1" != "source" ]; } then
 fi
 
 DEVNAME="$1"
-DEVICE="$(pactl get-default-$DEVNAME)"
+DEVICE="$(pactl get-default-$DEVNAME 2>/dev/null)"
+if [ $? -ne 0 ]; then
+	exit 1
+fi
 VOL="$(pactl get-$DEVNAME-volume $DEVICE)"
 VOL_LEFT="$(echo $VOL | cut -d ' ' -f 5 | head -n 1)"
 VOL_RIGHT="$(echo $VOL | cut -d ' ' -f 12 | head -n 1)"
