@@ -26,6 +26,9 @@ super + alt + c
 super + Print
 	maim ~/Pictures/$(date +%Y-%m-%d_%H-%M-%S)
 
+super + shift + b
+	i3lock -c "#101a20"
+
 #
 # bspwm hotkeys
 #

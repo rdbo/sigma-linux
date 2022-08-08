@@ -45,6 +45,9 @@ addapk lxappearance
 ## Screenshot Tool
 addapk maim
 
+## Screen Lock
+addapk i3lock
+
 # --------------------
 # Audio 
 
@@ -88,11 +91,11 @@ addapk firefox
 # addapk libreoffice
 # addapk poppler poppler-utils
 
-## Image Editor
+## Graphics Tools
 # addapk gimp
-
-## Vector Editor
 # addapk inkscape
+# addapk imagemagick
+# addapk ffmpeg
 
 ## Password Manager
 # addapk keepassxc
