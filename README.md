@@ -7,6 +7,14 @@
 # License
 All the files in this repository follow the license in the file `LICENSE`, unless explicitly said otherwise (e.g through a CREDITS or a LICENSE file)
 
+# Software
+- Display Manager: LightDM
+- Window Manager: BSPWM
+- Compositor: Picom
+- Status Bar: Polybar
+- Terminal: Alacritty
+- Browser: Firefox
+
 # Building
 Use Alpine Linux.  
 Run the following commands as root.
