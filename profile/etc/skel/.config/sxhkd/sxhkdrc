@@ -22,6 +22,10 @@ super + alt + b
 super + alt + c
 	sh ~/.config/picom/launch.sh
 
+# take screenshot
+super + Print
+	maim ~/Pictures/$(date +%Y-%m-%d_%H-%M-%S)
+
 #
 # bspwm hotkeys
 #
