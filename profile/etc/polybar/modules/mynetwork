@@ -28,7 +28,7 @@ done
 
 IFACE_INFO="$(ifconfig "$IFACE" 2>/dev/null)"
 if [ $? -ne 0 ]; then
-	exit 1
+	exit 2
 fi
 
 if echo "$IFACE_INFO" | grep "$MATCH_STR" > /dev/null; then

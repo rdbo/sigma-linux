@@ -13,7 +13,7 @@ fi
 DEVNAME="$1"
 DEVICE="$(pactl get-default-$DEVNAME 2>/dev/null)"
 if [ $? -ne 0 ]; then
-	exit 1
+	exit 2
 fi
 VOL="$(pactl get-$DEVNAME-volume $DEVICE)"
 VOL_LEFT="$(echo $VOL | cut -d ' ' -f 5 | head -n 1)"
