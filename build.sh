@@ -16,7 +16,7 @@ cp "$PROFILEDIR/genapkovl.sh" "aports/scripts/genapkovl-$PROFILENAME.sh"
 # create user directories
 for dir in Downloads Documents Pictures Videos Music; do
 	mkdir -p "$PROFILEDIR/profile/etc/skel/$dir"
-do
+done
 
 # build alpine iso
 cd aports/scripts
