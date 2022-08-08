@@ -26,7 +26,12 @@ for arg in $@; do
 	fi
 done
 
-if ifconfig "$IFACE" | grep "$MATCH_STR" > /dev/null; then
+IFACE_INFO="$(ifconfig "$IFACE" 2>/dev/null)"
+if [ $? -ne 0 ]; then
+	exit 1
+fi
+
+if echo "$IFACE_INFO" | grep "$MATCH_STR" > /dev/null; then
 	echo "${MOD_ICON_COLOR}$ICON_ON  ${MOD_TXT_COLOR}$IFACE"
 else
 	echo "%{F#FF6464}$ICON_OFF  ${MOD_TXT_COLOR}$IFACE"

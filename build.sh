@@ -8,10 +8,17 @@ export APKLIST="$(sh $PROFILEDIR/apklist.sh)"
 
 mkdir -p "$CACHEDIR" "$OUTDIR"
 
+# setup runtime files
 echo "$PROFILENAME" > "$PROFILEDIR/etc/hostname"
 cp "$PROFILEDIR/mkimg.sh" "aports/scripts/mkimg.$PROFILENAME.sh"
 cp "$PROFILEDIR/genapkovl.sh" "aports/scripts/genapkovl-$PROFILENAME.sh"
 
+# create user directories
+for dir in Downloads Documents Pictures Videos Music; do
+	mkdir -p "$PROFILEDIR/profile/etc/skel/$dir"
+do
+
+# build alpine iso
 cd aports/scripts
 sh mkimage.sh \
 	--tag edge \
@@ -23,6 +30,7 @@ sh mkimage.sh \
 	--profile "$PROFILENAME" \
 	--workdir "$CACHEDIR"
 
+# create checksum
 cd "$OUTDIR"
 sha256sum *.iso > sha256sums
 cd ..
