@@ -19,10 +19,10 @@ addapk e2fsprogs ntfs-3g
 ## TODO: Add Bluetooth drivers/tools
 
 ## Development Tools
-addapk gcc gdb make python3 tar gzip xz p7zip
+# addapk gcc gdb make python3 tar gzip xz p7zip
 
 ## Tools for building this distribuition
-addapk git alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi
+# addapk git alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi
 
 # --------------------
 # Xorg
@@ -82,7 +82,7 @@ addapk pavucontrol pulseaudio-ctl wireplumber
 addapk iwd
 
 ## VPN Tools
-addapk wireguard-tools openvpn
+# addapk wireguard-tools openvpn
 
 # --------------------
 # Applications

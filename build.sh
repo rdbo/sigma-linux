@@ -4,6 +4,7 @@ export PROFILENAME="sigma"
 export CACHEDIR="$(pwd)/cache"
 export PROFILEDIR="$(pwd)/profile"
 export OUTDIR="$(pwd)/iso"
+export UNIONFS_SIZE="2G"
 export APKLIST="$(sh $PROFILEDIR/apklist.sh)"
 
 mkdir -p "$CACHEDIR" "$OUTDIR"
