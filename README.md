@@ -32,6 +32,7 @@ adduser build -G abuild
 Give administrative access to the build user:
 ```
 echo "%abuild ALL=(ALL) ALL" > /etc/sudoers.d/abuild
+addgroup build wheel
 ```
 
 Change to the build user:

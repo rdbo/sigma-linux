@@ -15,6 +15,9 @@ addapk() {
 ## Storage
 addapk e2fsprogs ntfs-3g
 
+# Admin Tools
+addapk sudo
+
 ## Development Tools
 # addapk gcc gdb make python3 tar gzip xz p7zip
 
