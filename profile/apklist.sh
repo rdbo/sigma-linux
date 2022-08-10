@@ -10,13 +10,10 @@ addapk() {
 # System
 
 ## Firmware
-addapk linux-firmware
+# addapk linux-firmware
 
 ## Storage
 addapk e2fsprogs ntfs-3g
-
-## Bluetooth
-## TODO: Add Bluetooth drivers/tools
 
 ## Development Tools
 # addapk gcc gdb make python3 tar gzip xz p7zip
@@ -82,7 +79,7 @@ addapk pavucontrol pulseaudio-ctl wireplumber
 addapk iwd
 
 ## VPN Tools
-# addapk wireguard-tools openvpn
+addapk wireguard-tools openvpn
 
 # --------------------
 # Applications
