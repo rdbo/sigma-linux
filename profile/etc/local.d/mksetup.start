@@ -19,11 +19,11 @@ sed -i 's/^Exec=.*/Exec=dbus-run-session -- bspwm/g' /usr/share/xsessions/bspwm.
 
 # move backgrounds, icons and themes to proper folder
 mkdir -p /usr/share /usr/share/backgrounds /usr/share/themes /usr/share/icons
-mv -f "$WORKDIR/backgrounds/*" /usr/share/backgrounds/
-rm -rf "$WORKDIR/backgrouds"
-mv -f "$WORKDIR/themes/*" /usr/share/themes/
+cp -rf "$WORKDIR/backgrounds/." /usr/share/backgrounds
+rm -rf "$WORKDIR/backgrounds"
+cp -rf "$WORKDIR/themes/." /usr/share/themes
 rm -rf "$WORKDIR/themes"
-mv -f "$WORKDIR/icons/*" /usr/share/icons/
+cp -rf "$WORKDIR/icons/." /usr/share/icons
 rm -rf "$WORKDIR/icons"
 
 # disable 'local' service by default
