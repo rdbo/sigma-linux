@@ -1,1 +1,1 @@
-rm -rf cache
+sudo rm -rf cache
