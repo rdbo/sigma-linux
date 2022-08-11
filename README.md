@@ -65,5 +65,5 @@ The output ISO file will be in the 'iso' folder inside the project directory, al
 
 OBS: Clearing the cache might be needed for a rebuild:
 ```
-rm -rf cache
+./clean.sh
 ```
