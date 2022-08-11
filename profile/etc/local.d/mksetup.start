@@ -14,7 +14,7 @@ cp -rf "$WORKDIR/rootfs/." /
 cp -r /etc/skel/. /root/
 
 # disable 'local' service by default
-rc-update del local
+rc-update del local sysinit
 
 # this script is only used once, self-delete after usage
 rm /etc/local.d/mksetup.start
