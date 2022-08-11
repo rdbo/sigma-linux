@@ -13,10 +13,13 @@ addapk() {
 # addapk linux-firmware
 
 ## Storage
-addapk e2fsprogs ntfs-3g
+addapk ntfs-3g
 
 # Admin Tools
 addapk sudo
+
+# Setup Dependencies
+addapk openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
 
 ## Development Tools
 # addapk gcc gdb make python3 tar gzip xz p7zip
