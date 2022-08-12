@@ -3,6 +3,9 @@
 PROFILENAME=$(cat /etc/hostname)
 WORKDIR=/etc/local.d
 
+# fix possible apk problems
+apk fix
+
 # create 'setup-$PROFILENAME'
 chmod 0755 "$WORKDIR/setup"
 mv -f "$WORKDIR/setup" "$WORKDIR/rootfs/usr/sbin/setup-$PROFILENAME"
@@ -14,7 +17,7 @@ cp -rf "$WORKDIR/rootfs/." /
 cp -r /etc/skel/. /root/
 
 # disable 'local' service by default
-rc-update del local sysinit
+rc-update del local default
 
 # this script is only used once, self-delete after usage
 rm /etc/local.d/mksetup.start

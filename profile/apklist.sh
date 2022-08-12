@@ -16,10 +16,10 @@ addapk() {
 addapk ntfs-3g
 
 # Admin Tools
-addapk sudo
+addapk sudo doas
 
 # Setup Dependencies
-addapk openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
+addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
 
 ## Development Tools
 # addapk gcc gdb make python3 tar gzip xz p7zip
