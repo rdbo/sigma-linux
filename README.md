@@ -15,6 +15,12 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - Terminal: Alacritty
 - Browser: Firefox
 
+# Installing
+- Download the ISO from the latest release
+- Burn the ISO into a USB drive or some device: `sudo dd if=alpine-sigma-edge-x86_64.iso of=/dev/sdX`
+- Boot into Sigma Linux and run the command `setup-sigma`
+- Follow the installation steps and reboot
+
 # Building
 Use Alpine Linux.  
 Run the following commands as root.
