@@ -7,6 +7,16 @@ export OUTDIR="$(pwd)/iso"
 export UNIONFS_SIZE="2G"
 export APKLIST="$(sh $PROFILEDIR/apklist.sh)"
 
+# download/update 'aports' repository
+if [ ! -d aports ]; then
+	git clone --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
+else
+	cd aports
+	git fetch
+	cd ..
+fi
+
+# create required directories
 mkdir -p "$CACHEDIR" "$OUTDIR"
 
 # setup runtime files

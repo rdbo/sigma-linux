@@ -22,7 +22,23 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - Open a terminal with `Super + Enter` and run the command: `setup-sigma`
 - Follow the installation steps and reboot
 
-# Building
+# Building (Docker)
+With Docker installed and running, setup the Dockerimage:
+```
+docker build -t sigma-linux .
+```
+
+Spawn a shell in the Docker container:
+```
+docker run -it sigma-linux sh
+```
+
+Start the build process:
+```
+./build.sh
+```
+
+# Building (Manual)
 Use Alpine Linux.  
 Run the following commands as root.
 Install the required packages:
@@ -57,14 +73,9 @@ Clone this repository if you haven't yet:
 git clone --depth 1 <url>
 ```
 
-Enter the repository folder and clone 'aports':
+Enter the repository folder and start the build process:
 ```
 cd sigma-linux
-git clone --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
-```
-
-Start the build process:
-```
 ./build.sh
 ```
 
