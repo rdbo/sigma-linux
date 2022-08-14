@@ -79,6 +79,8 @@ cd sigma-linux
 ./build.sh
 ```
 
+# Notes
+
 The output ISO file will be in the 'iso' folder inside the project directory, along with a sha256 checksum.
 
 OBS: Clearing the cache might be needed for a rebuild:
