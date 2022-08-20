@@ -1,7 +1,18 @@
 set rtp^=/etc/vim/pack/themes/start/vim-code-dark
+set rtp^=/etc/vim/pack/vendor/start/nerdtree
 set nocompatible
 set number
 set cursorline
+
+noremap <C-J> <C-W>j
+noremap <C-K> <C-W>k
+noremap <C-H> <C-W>h
+noremap <C-L> <C-W>l
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
 
 filetype on
 filetype plugin on
