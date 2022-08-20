@@ -1,0 +1,65 @@
+# Guide - Sigma Linux
+Quick guide for using Sigma Linux. Read the `README.md` file for installation steps.
+
+## Keybindings
+- Super + Space -> Open application menu
+- Super + Enter -> Open terminal
+- Super + {1..9} -> Switch between workspaces
+- Super + {H,J,K,L} -> Switch window focus
+- Super + Alt + Q -> Quit session
+For more keybindings, read: /etc/skel/.config/sxhkd/sxhkdrc
+
+## Programs
+- Terminal Emulator: alacritty
+- Browser: firefox
+- Text Editor: vim
+- Window Manager: bspwm
+- Status Bar: polybar
+- App Launcher: rofi
+- Image Viewer: feh
+- Network Daemon: iwd
+- Screenshot Tool: maim
+- Audio Server: pipewire
+- Audio Manager: pavucontrol
+- Screen Locker: i3lock
+- Appearance Changer: lxappearance
+
+## Connecting to Ethernet
+With your ethernet cable plugged in, just make sure the interface is up and start `udhcpc` (replace `<iface>` with your interface, generally `eth0`):
+```
+ifconfig <iface> up
+udhcpc -i <iface>
+```
+
+## Connecting to Wi-Fi
+For the following commands, replace `<iface>` with your interface, generally `wlan0`.
+
+Make sure your interface is up by running the command:
+```
+ifconfig <iface> up
+```
+
+To connect to Wi-Fi, use `iwctl`:
+```
+iwctl
+```
+
+Turn on network scanning:
+```
+station <iface> scan
+```
+
+List available networks:
+```
+station <iface> get-networks
+```
+
+Connect to network (replace `<nwname>` with the name of the network; use backslash `\` if it has spaces, e.g `My\ Network\ With\ Spaces`; enter the password afterwards if asked):
+```
+station <iface> connect <nwname>
+```
+
+Start the dhcp client:
+```
+udhcpc -i <iface>
+```
