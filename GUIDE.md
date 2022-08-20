@@ -1,11 +1,14 @@
 # Guide - Sigma Linux
 Quick guide for using Sigma Linux. Read the `README.md` file for installation steps.
 
-## Keybindings
+## Hotkeys
 - Super + Space -> Open application menu
 - Super + Enter -> Open terminal
 - Super + {1..9} -> Switch between workspaces
 - Super + {H,J,K,L} -> Switch window focus
+- Super + {Left, Down, Up, Right} -> Move floating window
+- Super + Ctrl + {C, X} -> Close/kill focused window
+- Super + {T, S, F} -> Change window mode to tiled/floating/fullscreen
 - Super + Shift + B -> Lock screen
 - Super + PrintScreen -> Take screenshot (gets saved at `$HOME/<date_time>.png`
 - Super + Alt + R -> Restart session
