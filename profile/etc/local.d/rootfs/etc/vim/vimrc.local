@@ -1,0 +1,17 @@
+set rtp^=/etc/vim/pack/themes/start/vim-code-dark
+set nocompatible
+set number
+set cursorline
+
+filetype on
+filetype plugin on
+filetype indent on
+
+syntax on
+
+colorscheme codedark
+
+hi CursorLine cterm=NONE
+hi CursorLineNr cterm=NONE term=bold ctermfg=49
+hi LineNr cterm=NONE ctermfg=49
+
