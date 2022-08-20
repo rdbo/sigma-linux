@@ -1,1 +1,7 @@
 .git/
+iso/
+aports/
+extra/
+screenshots/
+Dockerfile
+.dockerignore

@@ -23,6 +23,17 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - Follow the installation steps and reboot
 
 # Building (Docker)
+Install Docker (run as root):
+```
+apk add docker
+```
+
+Activate and enable Docker (run as root):
+```
+rc-service docker start
+rc-update add docker # optional
+```
+
 With Docker installed and running, setup the Dockerimage:
 ```
 docker build -t sigma-linux .
