@@ -39,9 +39,14 @@ With Docker installed and running, setup the Dockerimage:
 docker build -t sigma-linux .
 ```
 
-Spawn a shell in the Docker container:
+Create the 'iso' folder:
 ```
-docker run -it sigma-linux sh
+mkdir -p iso
+```
+
+Spawn a shell in the Docker container and pass the 'iso' folder to it:
+```
+docker run -v $(pwd)/iso:/app/iso -it sigma-linux sh
 ```
 
 Start the build process:
