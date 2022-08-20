@@ -15,7 +15,8 @@ For more guidance, go to the [Alpine Linux Wiki](https://wiki.alpinelinux.org/wi
 - Super + PrintScreen -> Take screenshot (gets saved at `$HOME/<date_time>.png`
 - Super + Alt + R -> Restart session
 - Super + Alt + Q -> Quit session
-For more keybindings, read: /etc/skel/.config/sxhkd/sxhkdrc
+- (Vim) Ctrl - T -> Toggle NERDTree
+For more hotkeys, read: /etc/skel/.config/sxhkd/sxhkdrc
 
 ## Programs
 - Terminal Emulator: alacritty
