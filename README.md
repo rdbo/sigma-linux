@@ -54,6 +54,11 @@ Start the build process:
 ./build.sh
 ```
 
+Leave the container:
+```
+exit
+```
+
 # Building (Manual)
 Use Alpine Linux.  
 Run the following commands as root.
