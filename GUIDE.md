@@ -1,7 +1,7 @@
 # Guide - Sigma Linux
 Quick guide for using Sigma Linux. Read the `README.md` file for installation steps.
 
-For more guidance, go to the [Alpine Linux Wiki](https://wiki.alpinelinux.org/wiki/Main_Page)
+For more guidance, go to the [Alpine Linux Wiki](https://wiki.alpinelinux.org/wiki/Main_Page).
 
 ## Hotkeys
 - Super + Space -> Open application menu
