@@ -3,6 +3,8 @@
 
 ![screenshot-desktop](screenshots/screenshot-desktop.png)
 ![screenshot-apps](screenshots/screenshot-apps.png)
+![screenshot-firefox](screenshots/screenshot-firefox.png)
+![screenshot-vim](screenshots/screenshot-vim.png)
 
 # License
 All the files in this repository follow the license in the file `LICENSE` present in this directory, unless explicitly said otherwise (e.g through a CREDITS or another LICENSE file)
