@@ -6,6 +6,9 @@ Quick guide for using Sigma Linux. Read the `README.md` file for installation st
 - Super + Enter -> Open terminal
 - Super + {1..9} -> Switch between workspaces
 - Super + {H,J,K,L} -> Switch window focus
+- Super + Shift + B -> Lock screen
+- Super + PrintScreen -> Take screenshot (gets saved at `$HOME/<date_time>.png`
+- Super + Alt + R -> Restart session
 - Super + Alt + Q -> Quit session
 For more keybindings, read: /etc/skel/.config/sxhkd/sxhkdrc
 
