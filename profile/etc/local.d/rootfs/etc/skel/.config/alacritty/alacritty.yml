@@ -903,6 +903,6 @@ window:
 
 colors:
   primary:
-    background: '#00100A'
+    background: '#141414'
   normal:
     cyan: '#00FFC8'
