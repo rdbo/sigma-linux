@@ -1,4 +1,4 @@
 aports/
 cache/
-iso/
-profile/etc/hostname
+out/
+profile/repo

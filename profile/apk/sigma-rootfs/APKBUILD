@@ -1,0 +1,31 @@
+# Contributor: Rdbo
+# Maintainer:
+pkgname="$PROFILENAME-rootfs"
+pkgver="$PROFILEVER"
+pkgrel=0
+pkgdesc="RootFS for '$PROFILENAME'"
+url="$PROFILEURL"
+arch="all"
+license="MIT License"
+depends="$APKLIST"
+makedepends="tar gzip"
+checkdepends=""
+install=""
+subpackages=""
+source="rootfs.tar.gz"
+builddir="$srcdir/"
+sha512sums="$ROOTFS_SHA512"
+
+build() {
+        tar -zxvf rootfs.tar.gz
+}
+
+check() {
+        :
+}
+
+package() {
+        mkdir -p "$pkgdir"
+        cp -rf "$srcdir"/rootfs/. "$pkgdir"/
+}
+

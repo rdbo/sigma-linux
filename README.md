@@ -41,14 +41,14 @@ With Docker installed and running, setup the Dockerimage:
 docker build -t sigma-linux .
 ```
 
-Create the 'iso' folder:
+Create the 'out' folder:
 ```
-mkdir -p iso
+mkdir -p out
 ```
 
 Spawn a shell in the Docker container and pass the 'iso' folder to it:
 ```
-docker run -v $(pwd)/iso:/app/iso -it sigma-linux sh
+docker run -v $(pwd)/out:/app/out -it sigma-linux sh
 ```
 
 Start the build process:
@@ -104,9 +104,9 @@ cd sigma-linux
 
 # Notes
 
-The output ISO file will be in the 'iso' folder inside the project directory, along with a sha256 checksum.
+The output ISO file will be in the 'out' folder inside the project directory, along with a sha256 checksum.
 
-OBS: Clearing the cache might be needed for a rebuild:
+OBS: Cleaning up might be needed for a rebuild:
 ```
 ./clean.sh
 ```

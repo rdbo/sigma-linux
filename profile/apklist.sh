@@ -16,7 +16,7 @@ addapk() {
 addapk ntfs-3g
 
 # Admin Tools
-addapk sudo doas
+addapk sudo doas openssh
 
 # Setup Dependencies
 addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools

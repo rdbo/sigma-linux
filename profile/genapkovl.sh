@@ -47,12 +47,14 @@ EOF
 mkdir -p "$tmp"/etc/apk
 makefile root:root 0644 "$tmp"/etc/apk/world <<EOF
 alpine-base
-$(echo $APKLIST | sed 's/ /\n/g')
+$PROFILENAME-rootfs
 EOF
 
 # Custom filesystem modifications
 mkdir -p "$tmp"/etc
-cp -rf "$PROFILEDIR/etc/." "$tmp"/etc/
+makefile root:root 0644 "$tmp"/hostname << EOF
+$PROFILENAME
+EOF
 
 # Standard services
 rc_add devfs sysinit
@@ -78,7 +80,6 @@ rc_add udev sysinit
 rc_add udev-trigger sysinit
 rc_add udev-settle sysinit
 rc_add udev-postmount default
-rc_add local default
 rc_add lightdm default
 rc_add iwd default
 

@@ -1,7 +1,8 @@
 .git/
-iso/
+out/
 aports/
 extra/
 screenshots/
 Dockerfile
 .dockerignore
+profile/repo/
