@@ -16,6 +16,7 @@ For more guidance, go to the [Alpine Linux Wiki](https://wiki.alpinelinux.org/wi
 - Super + Alt + R -> Restart session
 - Super + Alt + Q -> Quit session
 - (Vim) Ctrl - T -> Toggle NERDTree
+
 For more hotkeys, read: /etc/skel/.config/sxhkd/sxhkdrc
 
 ## Programs
