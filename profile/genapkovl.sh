@@ -51,6 +51,7 @@ $PROFILENAME-rootfs
 EOF
 
 # Custom filesystem modifications
+mkdir -p "$tmp"/etc/local.d
 makefile root:root 0755 "$tmp"/etc/local.d/initial-setup.start <<EOF
 #!/bin/sh
 
