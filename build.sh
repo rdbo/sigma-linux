@@ -26,8 +26,8 @@ fi
 mkdir -p "$CACHEDIR" "$OUTDIR"
 
 # setup runtime files
-echo "$PROFILENAME" > "$PROFILEDIR/etc/hostname"
 cp "$PROFILEDIR/mkimg.sh" "aports/scripts/mkimg.$PROFILENAME.sh"
+cp "$PROFILEDIR/mkimg.base.sh" aports/scripts/
 cp "$PROFILEDIR/genapkovl.sh" "aports/scripts/genapkovl-$PROFILENAME.sh"
 
 # create user directories
