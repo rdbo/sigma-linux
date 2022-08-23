@@ -26,9 +26,8 @@ fi
 mkdir -p "$CACHEDIR" "$OUTDIR"
 
 # setup runtime files
-cp "$PROFILEDIR/mkimg.sh" "aports/scripts/mkimg.$PROFILENAME.sh"
-cp "$PROFILEDIR/mkimg.base.sh" aports/scripts/
-cp "$PROFILEDIR/genapkovl.sh" "aports/scripts/genapkovl-$PROFILENAME.sh"
+cp "$PROFILEDIR/mkimg.sh" "$BASEDIR/aports/scripts/mkimg.$PROFILENAME.sh"
+cp "$PROFILEDIR/genapkovl.sh" "$BASEDIR/aports/scripts/genapkovl-$PROFILENAME.sh"
 
 # create user directories
 for dir in Downloads Documents Pictures Videos Music; do
