@@ -67,7 +67,7 @@ Run the following commands as root.
 Install the required packages:
 ```
 apk update
-apk add alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi
+apk add alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi grub-bios
 ```
 
 Create a build user:

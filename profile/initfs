@@ -1,4 +1,6 @@
 #!/bin/sh
+
+# setup filesystem
 /bin/busybox mkdir -p usr/bin usr/sbin
 /bin/busybox --install -s
 
@@ -19,6 +21,42 @@ mount -t devtmpfs devtmpfs sysroot/dev
 mount -t proc proc sysroot/proc
 mount -t sysfs sysfs sysroot/sys
 
+# add services
+rc_add() {
+    mkdir -p sysroot/etc/runlevels/$2
+    ln -sf /etc/init.d/$1 sysroot/etc/runlevels/$2/$1
+}
+
+rc_add devfs sysinit
+rc_add dmesg sysinit
+rc_add mdev sysinit
+rc_add hwdrivers sysinit
+rc_add modloop sysinit
+
+rc_add hwclock boot
+rc_add modules boot
+rc_add sysctl boot
+rc_add hostname boot
+rc_add bootmisc boot
+rc_add syslog boot
+
+rc_add mount-ro shutdown
+rc_add killprocs shutdown
+rc_add savecache shutdown
+
+rc_add dbus default
+rc_add udev sysinit
+rc_add udev-trigger sysinit
+rc_add udev-settle sysinit
+rc_add udev-postmount default
+rc_add local default
+rc_add lightdm default
+rc_add iwd default
+
+# filesystem changes
+cp -r sysroot/etc/skel/. /root/
+
+# switch root
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh

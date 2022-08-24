@@ -2,7 +2,7 @@
 
 # OBS: This script must be called from 'build.sh'
 
-ROOTFSDL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz"
+ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz"
 APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget sigma-rootfs"
 INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb virtio"
 
@@ -10,13 +10,14 @@ cd "$CACHEDIR"
 
 # create base structure
 mkdir -p base
-mkdir -p content
-mkdir -p content/boot/grub
-mkdir -p initrd/bin
+mkdir -p final
+mkdir -p final/boot/grub
 mkdir -p apkcache
 
 # download/extract minirootfs
-wget "$ROOTFSDL" -O base.tar.gz
+if [ ! -f "base.tar.gz" ]; then
+    wget "$ROOTFS_URL" -O base.tar.gz
+fi
 tar -zxf base.tar.gz -C base/
 
 # install apks on minirootfs
@@ -35,23 +36,27 @@ apk add \
 echo "$PROFILENAME" > base/etc/hostname
 
 # create squashfs
-mksquashfs base content/profile.sfs -comp zstd -Xcompression-level 9
+mksquashfs base final/profile.sfs -comp zstd -Xcompression-level 9
 
 # create initfs
 cp "$PROFILEDIR"/initfs ./
-mkinitfs -i initfs -F "$INITFS_FEATURES" -o content/boot/initramfs
+mkinitfs -i initfs -F "$INITFS_FEATURES" -o final/boot/initramfs
 
-# create grub entry
-cp "$PROFILEDIR"/grub.cfg content/boot/grub/grub.cfg
+# create grub config
+cp "$PROFILEDIR"/apk/sigma-rootfs/rootfs/usr/share/backgrounds/wallpaper.png final/boot/
+cp "$PROFILEDIR"/grub.cfg final/boot/grub/grub.cfg
 
 # build iso
-cp /boot/vmlinuz-lts content/boot/vmlinuz
+cp /boot/vmlinuz-lts final/boot/vmlinuz
 
 grub-mkrescue \
     -o "$OUTDIR/$PROFILENAME"-linux.iso \
     -sysid LINUX \
     -volid "$PROFILENAME-linux" \
-    content
+    final
+
+# cleanup
+rm -rf initfs base/ final/
 
 cd "$BASEDIR"
 
