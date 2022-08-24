@@ -13,25 +13,12 @@ export UNIONFS_SIZE="2G"
 export APKLIST="$(sh $PROFILEDIR/apklist.sh)"
 export REPODIR="$PROFILEDIR/repo"
 
-# download/update 'aports' repository
-if [ ! -d "$BASEDIR"/aports ]; then
-	git clone --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
-else
-	cd "$BASEDIR"/aports
-	git fetch
-	cd "$BASEDIR"
-fi
-
 # create required directories
 mkdir -p "$CACHEDIR" "$OUTDIR"
 
-# setup runtime files
-cp "$PROFILEDIR/mkimg.sh" "$BASEDIR/aports/scripts/mkimg.$PROFILENAME.sh"
-cp "$PROFILEDIR/genapkovl.sh" "$BASEDIR/aports/scripts/genapkovl-$PROFILENAME.sh"
-
 # create user directories
 for dir in Downloads Documents Pictures Videos Music; do
-	mkdir -p "$PROFILEDIR/etc/local.d/rootfs/etc/skel/$dir"
+	mkdir -p "$PROFILEDIR/apk/sigma-rootfs/rootfs/etc/skel/$dir"
 done
 
 # build sigma rootfs apk
@@ -43,18 +30,8 @@ abuild -rf -P "$REPODIR"
 rm rootfs.tar.gz
 cd "$BASEDIR"
 
-# build alpine iso
-cd "$BASEDIR"/aports/scripts
-sh mkimage.sh \
-	--tag edge \
-	--outdir "$OUTDIR" \
-	--arch "$PROFILEARCH" \
-        --repository "$REPODIR/apk" \
-	--repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
-	--repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-	--repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
-	--profile "$PROFILENAME" \
-	--workdir "$CACHEDIR"
+# build iso
+sudo -E sh build-minirootfs.sh
 
 # create checksum
 cd "$OUTDIR"
