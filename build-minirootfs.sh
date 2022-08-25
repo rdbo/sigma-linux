@@ -3,7 +3,7 @@
 # OBS: This script must be called from 'build.sh'
 
 ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz"
-APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget sigma-rootfs"
+APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget"
 INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb virtio"
 
 cd "$CACHEDIR"
@@ -43,7 +43,7 @@ cp "$PROFILEDIR"/initfs ./
 mkinitfs -i initfs -F "$INITFS_FEATURES" -o final/boot/initramfs
 
 # create grub config
-cp "$PROFILEDIR"/apk/sigma-rootfs/rootfs/usr/share/backgrounds/wallpaper.png final/boot/
+cp "$PROFILEDIR"/wallpaper-grub.png final/boot/wallpaper.png
 cp "$PROFILEDIR"/grub.cfg final/boot/grub/grub.cfg
 
 # build iso
