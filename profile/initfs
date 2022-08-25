@@ -53,9 +53,6 @@ rc_add local default
 rc_add lightdm default
 rc_add iwd default
 
-# filesystem changes
-cp -r sysroot/etc/skel/. /root/
-
 # switch root
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"

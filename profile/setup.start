@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# copy default configs to root
+cp -r /etc/skel/. /root/
+
+# disable local.d service
+rc-update del local.d default
+
+# self-delete after running
+rm /etc/local.d/setup.start

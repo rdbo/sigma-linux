@@ -52,12 +52,7 @@ EOF
 
 # Custom filesystem modifications
 mkdir -p "$tmp"/etc/local.d
-makefile root:root 0755 "$tmp"/etc/local.d/initial-setup.start <<EOF
-#!/bin/sh
-
-cp -r /etc/skel/. /root/
-rm /etc/local.d/initial-setup.start
-EOF
+cp "$PROFILEDIR"/setup.start "$tmp"/etc/local.d/
 
 # Standard services
 rc_add devfs sysinit

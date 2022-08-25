@@ -35,6 +35,9 @@ apk add \
 # filesystem changes
 echo "$PROFILENAME" > base/etc/hostname
 
+mkdir -p base/etc/local.d
+cp "$PROFILEDIR"/setup.start base/etc/local.d/
+
 # create squashfs
 mksquashfs base final/profile.sfs -comp zstd -Xcompression-level 9
 
