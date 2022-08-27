@@ -89,7 +89,7 @@ rc_add lightdm default
 rc_add iwd default
 
 # create squashfs
-mksquashfs base final/profile.sfs
+mksquashfs base final/profile.sfs -comp zstd -Xcompression-level 22
 
 # create initfs
 KERNEL_VERSION="$(ls kernel/lib/modules | head -1)"
