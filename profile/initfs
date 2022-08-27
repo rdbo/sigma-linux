@@ -54,6 +54,7 @@ rc_add lightdm default
 rc_add iwd default
 
 # switch root
+sh
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh

@@ -9,6 +9,7 @@ INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb v
 cd "$CACHEDIR"
 
 # create base structure
+mkdir -p kernel
 mkdir -p base
 mkdir -p final
 mkdir -p final/boot/grub
@@ -18,7 +19,19 @@ mkdir -p apkcache
 if [ ! -f "base.tar.gz" ]; then
     wget "$ROOTFS_URL" -O base.tar.gz
 fi
+tar -zxf base.tar.gz -C kernel/
 tar -zxf base.tar.gz -C base/
+
+# install kernel
+if [ ! -f kernel/boot/vmlinuz-edge ]; then
+    apk add \
+        --root kernel/ \
+        --cache-dir apkcache/ \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+        linux-edge
+fi
+
+cp kernel/boot/vmlinuz-edge final/boot/vmlinuz
 
 # install apks on minirootfs
 apk add \
@@ -39,19 +52,19 @@ mkdir -p base/etc/local.d
 cp "$PROFILEDIR"/setup.start base/etc/local.d/
 
 # create squashfs
-mksquashfs base final/profile.sfs -comp zstd -Xcompression-level 9
+mksquashfs base final/profile.sfs
 
 # create initfs
+KERNEL_VERSION="$(ls kernel/lib/modules | head -1)"
 cp "$PROFILEDIR"/initfs ./
-mkinitfs -i initfs -F "$INITFS_FEATURES" -o final/boot/initramfs
+mkinitfs -b kernel/ -i initfs -F "$INITFS_FEATURES" -o kernel/boot/initramfs "$KERNEL_VERSION"
+cp kernel/boot/initramfs final/boot/
 
 # create grub config
 cp "$PROFILEDIR"/wallpaper-grub.png final/boot/wallpaper.png
 cp "$PROFILEDIR"/grub.cfg final/boot/grub/grub.cfg
 
 # build iso
-cp /boot/vmlinuz-lts final/boot/vmlinuz
-
 grub-mkrescue \
     -o "$OUTDIR/$PROFILENAME"-linux.iso \
     -sysid LINUX \
@@ -59,7 +72,7 @@ grub-mkrescue \
     final
 
 # cleanup
-rm -rf initfs base/ final/
+rm -rf base/ final/
 
 cd "$BASEDIR"
 

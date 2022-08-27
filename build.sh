@@ -31,8 +31,8 @@ rm rootfs.tar.gz
 cd "$BASEDIR"
 
 # build iso
-# sudo -E sh build-minirootfs.sh
-sh build-mkimg.sh
+sudo -E sh build-minirootfs.sh
+# sh build-mkimg.sh
 
 # create checksum
 cd "$OUTDIR"
