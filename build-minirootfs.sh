@@ -2,7 +2,7 @@
 
 # OBS: This script must be called from 'build.sh'
 
-ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz"
+ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/$PROFILEARCH/alpine-minirootfs-3.16.2-$PROFILEARCH.tar.gz"
 APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget"
 INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb virtio"
 
@@ -27,11 +27,12 @@ if [ ! -f kernel/boot/vmlinuz-edge ]; then
     apk add \
         --root kernel/ \
         --cache-dir apkcache/ \
+        --arch "$PROFILEARCH" \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
-        linux-edge
+        linux-lts
 fi
 
-cp kernel/boot/vmlinuz-edge final/boot/vmlinuz
+cp kernel/boot/vmlinuz-lts final/boot/vmlinuz
 
 # install apks on minirootfs
 apk add \
@@ -39,6 +40,7 @@ apk add \
     --cache-dir apkcache/ \
     --allow-untrusted \
     --force-overwrite \
+    --arch "$PROFILEARCH" \
     --repository "$REPODIR/apk/" \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
@@ -57,8 +59,7 @@ mksquashfs base final/profile.sfs
 # create initfs
 KERNEL_VERSION="$(ls kernel/lib/modules | head -1)"
 cp "$PROFILEDIR"/initfs ./
-mkinitfs -b kernel/ -i initfs -F "$INITFS_FEATURES" -o kernel/boot/initramfs "$KERNEL_VERSION"
-cp kernel/boot/initramfs final/boot/
+mkinitfs -b kernel/ -i initfs -F "$INITFS_FEATURES" -o final/boot/initramfs "$KERNEL_VERSION"
 
 # create grub config
 cp "$PROFILEDIR"/wallpaper-grub.png final/boot/wallpaper.png
@@ -66,7 +67,7 @@ cp "$PROFILEDIR"/grub.cfg final/boot/grub/grub.cfg
 
 # build iso
 grub-mkrescue \
-    -o "$OUTDIR/$PROFILENAME"-linux.iso \
+    -o "$OUTDIR"/$PROFILENAME-linux-$PROFILEARCH.iso \
     -sysid LINUX \
     -volid "$PROFILENAME-linux" \
     final
