@@ -3,7 +3,7 @@
 # OBS: This script must be called from 'build.sh'
 
 ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/$PROFILEARCH/alpine-minirootfs-3.16.2-$PROFILEARCH.tar.gz"
-APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget"
+APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget sigma-rootfs"
 INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb virtio"
 KERNEL_FLAVOR="lts"
 
@@ -55,12 +55,6 @@ echo "$PROFILENAME" > base/etc/hostname
 
 mkdir -p base/etc/local.d
 cp "$PROFILEDIR"/setup.start base/etc/local.d/
-cat > base/etc/local.d/localtest.start << EOF
-echo LOCAL SERVICE STARTED!
-adduser -D tester
-passwd -d tester
-cat /etc/passwd
-EOF
 
 # add services
 rc_add() {
