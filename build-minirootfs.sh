@@ -55,6 +55,12 @@ echo "$PROFILENAME" > base/etc/hostname
 
 mkdir -p base/etc/local.d
 cp "$PROFILEDIR"/setup.start base/etc/local.d/
+cat > base/etc/local.d/localtest.start << EOF
+echo LOCAL SERVICE STARTED!
+adduser -D tester
+passwd -d tester
+cat /etc/passwd
+EOF
 
 # add services
 rc_add() {
@@ -66,7 +72,7 @@ rc_add devfs sysinit
 rc_add dmesg sysinit
 rc_add mdev sysinit
 rc_add hwdrivers sysinit
-rc_add modloop sysinit
+# rc_add modloop sysinit
 
 rc_add hwclock boot
 rc_add modules boot

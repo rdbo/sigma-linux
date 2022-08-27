@@ -22,7 +22,7 @@ mount -t proc proc sysroot/proc # optional, openrc will mount the procfs it if i
 mount -t sysfs sysfs sysroot/sys
 
 # switch root
-sh
+chroot /sysroot passwd -d root
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh
