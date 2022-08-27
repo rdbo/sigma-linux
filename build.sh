@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export PROFILENAME="sigma"
-export PROFILEVER="2.1"
+export PROFILEVER="3.0"
 export PROFILEURL="https://github.com/rdbo/sigma-linux"
 export PROFILEARCH="x86_64"
 export BASEDIR="$(pwd)"
