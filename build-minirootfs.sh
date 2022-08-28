@@ -2,11 +2,6 @@
 
 # OBS: This script must be called from 'build.sh'
 
-ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/$PROFILEARCH/alpine-minirootfs-3.16.2-$PROFILEARCH.tar.gz"
-APKS="alpine-base openrc busybox-initscripts busybox kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget sigma-rootfs"
-INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb virtio"
-KERNEL_FLAVOR="lts"
-
 cd "$CACHEDIR"
 
 # create base structure
@@ -48,7 +43,7 @@ apk add \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-    $APKS
+    $ROOTFS_APKS
 
 # filesystem changes
 echo "$PROFILENAME" > base/etc/hostname
@@ -89,7 +84,7 @@ rc_add lightdm default
 rc_add iwd default
 
 # create squashfs
-mksquashfs base final/profile.sfs -comp zstd -Xcompression-level 22
+mksquashfs base final/profile.sfs -comp zstd -Xcompression-level $ZSTD_LEVEL
 
 # create initfs
 KERNEL_VERSION="$(ls kernel/lib/modules | head -1)"
