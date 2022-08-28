@@ -81,7 +81,7 @@ fi
 
 # build iso
 echo "[*] Starting build command: $BUILD_CMD"
-sudo -E sh build-minirootfs.sh
+$BUILD_CMD
 echo "[*] Build complete"
 
 # create checksum
