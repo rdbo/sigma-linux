@@ -19,13 +19,32 @@ fi
 tar -zxf base.tar.gz -C kernel/
 tar -zxf base.tar.gz -C base/
 
+# cache all required apks
+if [ ! -d apkcache/$PROFILEARCH ]; then
+    mkdir -p apkcache/$PROFILEARCH
+    cd apkcache/$PROFILEARCH
+
+    apk fetch \
+        --recursive \
+        --no-cache \
+        --allow-untrusted \
+        --arch "$PROFILEARCH" \
+        --repository "$REPODIR/apk/" \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
+        $ROOTFS_APKS linux-$KERNEL_FLAVOR
+
+    cd "$CACHEDIR"
+fi
+
 # install kernel
 if [ ! -f kernel/boot/vmlinuz-$KERNEL_FLAVOR ]; then
     apk add \
         --root kernel/ \
-        --cache-dir apkcache/ \
+        --no-cache \
         --arch "$PROFILEARCH" \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+        --repository "$CACHEDIR"/apkcache/ \
         linux-$KERNEL_FLAVOR
 fi
 
@@ -35,14 +54,10 @@ cp -r kernel/lib/modules/. base/lib/modules/
 # install apks on minirootfs
 apk add \
     --root base/ \
-    --cache-dir apkcache/ \
+    --no-cache \
     --allow-untrusted \
     --force-overwrite \
     --arch "$PROFILEARCH" \
-    --repository "$REPODIR/apk/" \
-    --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
-    --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-    --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
     $ROOTFS_APKS
 
 # filesystem changes
@@ -88,8 +103,7 @@ mksquashfs base final/profile.sfs -comp zstd -Xcompression-level $ZSTD_LEVEL
 
 # create initfs
 KERNEL_VERSION="$(ls kernel/lib/modules | head -1)"
-cp "$PROFILEDIR"/initfs ./
-mkinitfs -b kernel/ -i initfs -F "$INITFS_FEATURES" -o final/boot/initramfs "$KERNEL_VERSION"
+mkinitfs -b kernel/ -i "$PROFILEDIR"/initfs -F "$INITFS_FEATURES" -o final/boot/initramfs "$KERNEL_VERSION"
 
 # create grub config
 cp "$PROFILEDIR"/wallpaper-grub.png final/boot/wallpaper.png

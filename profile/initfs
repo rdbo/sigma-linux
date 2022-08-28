@@ -21,8 +21,10 @@ mount -t devtmpfs devtmpfs sysroot/dev
 mount -t proc proc sysroot/proc # optional, openrc will mount the procfs it if it hasn't been mounted yet
 mount -t sysfs sysfs sysroot/sys
 
-# switch root
+# clear root password
 chroot /sysroot passwd -d root
+
+# switch root
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh
