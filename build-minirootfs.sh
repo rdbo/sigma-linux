@@ -48,6 +48,8 @@ if [ ! -f kernel/boot/vmlinuz-$KERNEL_FLAVOR ]; then
         linux-$KERNEL_FLAVOR
 fi
 
+cp kernel/boot/System.map-$KERNEL_FLAVOR final/boot/
+cp kernel/boot/System.map-$KERNEL_FLAVOR final/boot/System.map
 cp kernel/boot/vmlinuz-$KERNEL_FLAVOR final/boot/vmlinuz
 cp -r kernel/lib/modules/. base/lib/modules/
 
@@ -58,6 +60,7 @@ apk add \
     --allow-untrusted \
     --force-overwrite \
     --arch "$PROFILEARCH" \
+    --repository "$CACHEDIR"/apkcache/ \
     $ROOTFS_APKS
 
 # filesystem changes

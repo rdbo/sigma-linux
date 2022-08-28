@@ -24,7 +24,11 @@ mount -t sysfs sysfs sysroot/sys
 # clear root password
 chroot /sysroot passwd -d root
 
+# start extra modules
+chroot /sysroot /sbin/modprobe -a i915
+
 # switch root
+sh
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh
