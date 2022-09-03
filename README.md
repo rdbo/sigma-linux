@@ -36,19 +36,9 @@ rc-service docker start
 rc-update add docker # optional
 ```
 
-With Docker installed and running, setup the Dockerimage:
+With Docker installed and running, execute the `docker-env.sh` script:
 ```
-docker build -t sigma-linux .
-```
-
-Create the 'out' folder:
-```
-mkdir -p out
-```
-
-Spawn a shell in the Docker container and pass the 'iso' folder to it:
-```
-docker run -v $(pwd)/out:/app/out -it sigma-linux sh
+./docker-env.sh
 ```
 
 Start the build process:

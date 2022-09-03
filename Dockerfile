@@ -16,4 +16,4 @@ RUN find . -exec chown build:abuild {} \;
 
 USER build
 RUN abuild-keygen -i -a -n
-RUN mkdir -p out
+RUN mkdir -p cache out

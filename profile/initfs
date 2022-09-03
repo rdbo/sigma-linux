@@ -8,6 +8,8 @@ modprobe -a loop squashfs sd-mod usb-storage overlay simpledrm
 mount -t devtmpfs devtmpfs /dev
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
+echo -n /lib/firmware/ > /sys/module/firmware_class/parameters/path
+echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 nlplug-findfs
 
@@ -25,10 +27,10 @@ mount -t sysfs sysfs sysroot/sys
 chroot /sysroot passwd -d root
 
 # start extra modules
-chroot /sysroot /sbin/modprobe -a i915
+# chroot /sysroot /sbin/modprobe -a i915
 
 # switch root
-sh
+# sh # start serial shell
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh
