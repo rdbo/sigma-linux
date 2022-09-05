@@ -45,7 +45,7 @@ if [ ! -f kernel/boot/vmlinuz-$KERNEL_FLAVOR ]; then
         --no-cache \
         --arch "$PROFILEARCH" \
         --repository "$CACHEDIR"/apkcache/ \
-        linux-$KERNEL_FLAVOR
+        linux-$KERNEL_FLAVOR alpine-conf mdev-conf
 fi
 
 cp kernel/boot/System.map-$KERNEL_FLAVOR final/boot/

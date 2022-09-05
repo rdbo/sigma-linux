@@ -1,9 +1,10 @@
 #!/bin/sh
 
-# setup filesystem
+# install busybox
 /bin/busybox mkdir -p usr/bin usr/sbin
 /bin/busybox --install -s
 
+# setup modules/devices
 modprobe -a loop squashfs sd-mod usb-storage overlay simpledrm
 mount -t devtmpfs devtmpfs /dev
 mount -t proc proc /proc
@@ -13,24 +14,19 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 nlplug-findfs
 
+# mount devices
 mkdir -p /media/root-ro /media/root-rw/work /media/root-rw/root /media/cdrom
 mount -t iso9660 /dev/sr0 /media/cdrom
 mount -t squashfs /media/cdrom/profile.sfs /media/root-ro
 
+# mount overlay and setup new root
 mkdir -p sysroot/dev sysroot/proc sysroot/sys
 mount -t overlay -o lowerdir=/media/root-ro,upperdir=/media/root-rw/root,workdir=/media/root-rw/work overlayfs sysroot
 mount -t devtmpfs devtmpfs sysroot/dev
 mount -t proc proc sysroot/proc # optional, openrc will mount the procfs it if it hasn't been mounted yet
 mount -t sysfs sysfs sysroot/sys
 
-# clear root password
-chroot /sysroot passwd -d root
-
-# start extra modules
-# chroot /sysroot /sbin/modprobe -a i915
-
 # switch root
-# sh # start serial shell
 exec /bin/busybox switch_root /sysroot /sbin/init
 echo "initramfs emergency recovery shell launched"
 exec /bin/busybox sh
