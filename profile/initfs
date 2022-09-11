@@ -31,6 +31,9 @@ modprobe -a loop squashfs sd-mod usb-storage overlay simpledrm
 sh
 
 # mount devices
+# fix for usb:
+# losetup -r -f /dev/sdX # replace X with the drive letter
+# mount -t iso9660 /dev/loop0 /media/cdrom/
 mkdir -p /media/root-ro /media/root-rw/work /media/root-rw/root /media/cdrom
 mount -t iso9660 /dev/cdrom /media/cdrom || mount -t iso9660 /dev/sr0 /media/cdrom
 mount -t squashfs /media/cdrom/profile.sfs /media/root-ro
@@ -41,6 +44,9 @@ mount -t overlay -o lowerdir=/media/root-ro,upperdir=/media/root-rw/root,workdir
 mount -t devtmpfs devtmpfs sysroot/dev
 mount -t proc proc sysroot/proc # optional, openrc will mount the procfs it if it hasn't been mounted yet
 mount -t sysfs sysfs sysroot/sys
+
+# clear root password
+chroot /sysroot passwd -d root
 
 # switch root
 exec /bin/busybox switch_root /sysroot /sbin/init

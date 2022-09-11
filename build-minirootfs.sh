@@ -60,7 +60,11 @@ apk add \
     --allow-untrusted \
     --force-overwrite \
     --arch "$PROFILEARCH" \
+    --repository "$REPODIR/apk/" \
     --repository "$CACHEDIR"/apkcache/ \
+    --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+    --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
+    --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
     $ROOTFS_APKS
 
 # filesystem changes
