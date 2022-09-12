@@ -27,8 +27,8 @@ nlplug-findfs
 # setup modules
 modprobe -a loop squashfs sd-mod usb-storage overlay simpledrm
 
-# debug shell
-## sh
+# debug/fix shell
+sh # for some reason, openrc won't boot properly on real hardware without this
 
 # mount devices
 ## fix for usb:
