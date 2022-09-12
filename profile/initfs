@@ -31,11 +31,18 @@ modprobe -a loop squashfs sd-mod usb-storage overlay simpledrm
 sh
 
 # mount devices
-# fix for usb:
-# losetup -r -f /dev/sdX # replace X with the drive letter
-# mount -t iso9660 /dev/loop0 /media/cdrom/
+## fix for usb:
+## losetup -r -f /dev/sdX # replace X with the drive letter
+## mount -t iso9660 /dev/loop0 /media/cdrom/
+
+## find sigma-linux device
+BOOTDEV="$(blkid | grep -E '(.*):.*\s*LABEL="sigma-linux".*\s*TYPE="iso9660".*$' | head -n 1 | cut -d ':' -f 1)"
+if [ -z "$BOOTDEV" ]; then
+    echo "Unable to find boot device"
+fi
+
 mkdir -p /media/root-ro /media/root-rw/work /media/root-rw/root /media/cdrom
-mount -t iso9660 /dev/cdrom /media/cdrom || mount -t iso9660 /dev/sr0 /media/cdrom
+mount -t iso9660 "$BOOTDEV" /media/cdrom
 mount -t squashfs /media/cdrom/profile.sfs /media/root-ro
 
 # mount overlay and setup new root
