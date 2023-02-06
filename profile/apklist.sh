@@ -19,10 +19,10 @@ addapk ntfs-3g
 addapk sudo doas openssh
 
 # Setup Dependencies
-addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
+addapk alpine-base busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
 
 ## Development Tools
-# addapk gcc gdb make python3 tar gzip xz p7zip
+# addapk bash gcc gdb make python3 perl tar gzip xz
 
 ## Tools for building this distribuition
 # addapk git alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi
@@ -31,7 +31,7 @@ addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btr
 # Xorg
 
 ## Xorg Server
-addapk dbus dbus-openrc xorg-server dbus eudev udev udev-init-scripts udev-init-scripts-openrc
+addapk dbus dbus-openrc xorg-server eudev udev udev-init-scripts udev-init-scripts-openrc
 
 ## Xorg Video
 addapk xf86-video-intel xf86-video-amdgpu xf86-video-vesa xf86-video-vboxvideo xf86-video-vmware xf86-video-modesetting xf86-video-qxl xf86-video-nouveau mesa mesa-egl
@@ -42,17 +42,20 @@ addapk xf86-input-libinput xf86-input-evdev xf86-input-synaptics
 ## Xorg Tools
 addapk xrandr xsetroot setxkbmap xprop
 
+# Xorg Libraries
+addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev
+
 ## Display Manager
-addapk lightdm lightdm-gtk-greeter
+# addapk lightdm lightdm-gtk-greeter
 
 ## Window Manager
-addapk bspwm
+# addapk bspwm
 
 ## Hotkey Daemon
-addapk sxhkd
+# addapk sxhkd
 
 ## Compositor
-addapk picom
+# addapk picom
 
 ## Cursor Theme
 addapk adwaita-icon-theme
@@ -61,13 +64,13 @@ addapk adwaita-icon-theme
 addapk papirus-icon-theme
 
 ## Appearance Changer
-addapk lxappearance
+# addapk lxappearance
 
 ## Screenshot Tool
 addapk maim
 
 ## Screen Lock
-addapk i3lock
+# addapk i3lock
 
 # --------------------
 # Audio 
@@ -76,7 +79,7 @@ addapk i3lock
 addapk pipewire pipewire-alsa pipewire-pulse
 
 ## Audio Tools
-addapk pavucontrol pulseaudio-ctl wireplumber
+addapk pulsemixer pulseaudio-ctl wireplumber
 
 # --------------------
 # Network
@@ -91,22 +94,28 @@ addapk wireguard-tools openvpn
 # Applications
 
 ## Terminal Emulator
-addapk alacritty
+# addapk alacritty
 
 ## Status Bar
-addapk polybar
+# addapk polybar
 
 ## Text Editor
 addapk vim
 
+# File Explorer
+addapk xfe
+
+# Notification Daemon
+addapk dunst
+
 ## App Launcher
-addapk rofi
+# addapk rofi
 
 ## Image Viewer
 addapk feh
 
 ## Browser
-addapk firefox
+# addapk firefox
 
 ## Office Tools
 # addapk libreoffice
@@ -122,10 +131,14 @@ addapk firefox
 # addapk keepassxc
 
 # --------------------
+# Utilities
+addapk mandoc ncurses file
+
+# --------------------
 # Misc
 
 ## Fonts
-addapk font-ubuntu-mono-nerd
+# addapk font-ubuntu-mono-nerd
 
 # --------------------
 # Show Packages

@@ -10,10 +10,10 @@ RUN adduser -D build -G abuild
 RUN echo "%abuild ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/abuild
 RUN addgroup build wheel
 
-COPY . .
-
-RUN find . -exec chown build:abuild {} \;
-
+RUN chown -R build:abuild /app
 USER build
 RUN abuild-keygen -i -a -n
+
 RUN mkdir -p cache out
+RUN chown build:abuild cache out
+COPY --chown=build:abuild . .

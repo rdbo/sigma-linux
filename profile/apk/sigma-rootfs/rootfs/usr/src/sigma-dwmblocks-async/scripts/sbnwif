@@ -1,0 +1,56 @@
+#!/bin/sh
+
+ETH_ICON_ON=''
+ETH_ICON_OFF=''
+WLAN_ICON_ON='直'
+WLAN_ICON_OFF='睊'
+
+IFACE=""
+ICON_ON="$ETH_ICON_ON"
+ICON_OFF="$ETH_ICON_OFF"
+MATCH_STR="inet "
+
+if [ $# -lt 1 ]; then
+	echo "Usage: mynetwork < -w > < -6 > [IFACE]"
+	exit 1
+fi
+
+for arg in $@; do
+	if [ "$arg" = "-w" ]; then
+		ICON_ON="$WLAN_ICON_ON"
+		ICON_OFF="$WLAN_ICON_OFF"
+	elif [ "$arg" = "-6" ]; then
+		# MATCH_STR="inet" # will match both 'inet' and 'inet6'
+                MATCH_STR="inet6 "
+	else
+		IFACE="$arg"
+	fi
+done
+
+IFACE_INFO="$(ip address show "$IFACE" 2>/dev/null)"
+if [ $? -ne 0 ]; then
+	exit 2
+fi
+
+IFACE_IP="$(ip address show "$IFACE" | grep "$MATCH_STR" | head -n 1 | cut -d " " -f 6)"
+if [ -z "$IFACE_IP" ]; then
+	IFACE_IP="NONE"
+fi
+
+if ip address show "$IFACE" | grep " state UP " > /dev/null; then
+	IFACE_STATE="UP"
+else
+	IFACE_STATE="DOWN"
+fi
+
+if [ "$IFACE_STATE" = "UP" ] && [ "$IFACE_IP" != "NONE" ]; then
+	echo "$ICON_ON $IFACE"
+else
+	echo "$ICON_OFF $IFACE"
+fi
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+	notif="$(echo "Interface  : $IFACE\nState  :     $IFACE_STATE\nIP 直 :        $IFACE_IP")"
+	notify-send "$notif"
+fi
+

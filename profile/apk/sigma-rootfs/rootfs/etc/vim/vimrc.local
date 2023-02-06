@@ -3,6 +3,8 @@ set rtp^=/etc/vim/pack/vendor/start/nerdtree
 set nocompatible
 set number
 set cursorline
+set ruler
+set autoindent
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 noremap <C-J> <C-W>j
@@ -27,3 +29,5 @@ hi CursorLine cterm=NONE
 hi CursorLineNr cterm=NONE term=bold ctermfg=49
 hi LineNr cterm=NONE ctermfg=49
 
+let NERDTreeShowHidden=1
+autocmd vimenter * if !argc() | NERDTree | endif

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+cpu_info="$(cat /proc/stat | grep "cpu " | cut -d " " -f 3-)"
+cpu_idle="$(echo $cpu_info | cut -d " " -f 4)"
+cpu_total="$(expr $(echo $cpu_info | sed 's/ / + /g'))"
+
+if [ ! -f /tmp/cpuinfo.log ]; then
+	echo "$cpu_idle $cpu_total" > /tmp/cpuinfo.log
+fi
+
+old_cpu_info="$(cat /tmp/cpuinfo.log)"
+old_cpu_idle="$(echo $old_cpu_info | cut -d " " -f 1)"
+old_cpu_total="$(echo $old_cpu_info | cut -d " " -f 2)"
+
+echo "$cpu_idle $cpu_total" > /tmp/cpuinfo.log
+
+cpu_idle_diff="$(expr $cpu_idle - $old_cpu_idle)"
+cpu_total_diff="$(expr $cpu_total - $old_cpu_total)"
+
+if [ "$cpu_total" = "0" ]; then
+	cpu_perc="0"
+else
+	cpu_perc="$(expr \( $cpu_total_diff - $cpu_idle_diff \) \* 100 / $cpu_total_diff)"
+fi
+
+echo " CPU: ${cpu_perc}%"
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+	notif="$(echo " CPU Idle:  $cpu_idle\n CPU Total: $cpu_total")"
+	notify-send "$notif"
+fi

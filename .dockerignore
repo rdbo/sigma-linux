@@ -6,4 +6,5 @@ extra/
 screenshots/
 Dockerfile
 .dockerignore
+docker-env.sh
 profile/repo/

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo " "
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+    notify-send "Started virtual keyboard  "
+    svkbd-mobile-intl > /dev/null 2>&1 &
+fi

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo " "
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+    chkbdlayout &
+fi

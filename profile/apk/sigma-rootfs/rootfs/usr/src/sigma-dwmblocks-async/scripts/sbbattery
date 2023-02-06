@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]; then
+	echo "Try again. Usage: mybattery [BATTERY]"
+	exit 1
+fi
+
+BATTERY_DIR="/sys/class/power_supply/$1"
+if [ ! -d $BATTERY_DIR ]; then
+	exit 2
+fi
+
+BAT0_ICON=''
+BAT1_ICON=''
+BAT2_ICON=''
+BAT3_ICON=''
+BAT4_ICON=''
+CHARGING_ICON=''
+
+BATTERY_STATUS="$(cat ${BATTERY_DIR}/status)"
+BATTERY_CHARGE="$(cat ${BATTERY_DIR}/capacity)"
+
+if [ $BATTERY_CHARGE -le 10 ]; then
+	BAT_ICON="$BAT0_ICON "
+elif [ $BATTERY_CHARGE -le 40 ]; then
+	BAT_ICON="$BAT1_ICON "
+elif [ $BATTERY_CHARGE -le 60 ]; then
+	BAT_ICON="$BAT2_ICON "
+elif [ $BATTERY_CHARGE -lt 100 ]; then
+	BAT_ICON="$BAT3_ICON "
+else
+	BAT_ICON="$BAT4_ICON "
+fi
+
+if [ "$BATTERY_STATUS" = "Charging" ]; then
+	BAT_ICON="$BAT_ICON $CHARGING_ICON"
+fi
+
+echo "$BAT_ICON ${BATTERY_CHARGE}%"
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+    notify-send "Battery Charge $BAT_ICON: ${BATTERY_CHARGE}%"
+fi
+

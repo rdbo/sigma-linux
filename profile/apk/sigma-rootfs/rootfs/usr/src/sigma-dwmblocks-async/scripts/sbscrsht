@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo ""
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+	scrsht &
+	notify-send "  Started 'scrsht'"
+fi
