@@ -46,6 +46,7 @@ EOF
 ## Standard Alpine base + custom APKs
 mkdir -p "$tmp"/etc/apk
 makefile root:root 0644 "$tmp"/etc/apk/world <<EOF
+alpine-base
 $PROFILENAME-rootfs
 EOF
 

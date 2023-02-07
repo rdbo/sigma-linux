@@ -19,7 +19,7 @@ addapk ntfs-3g
 addapk sudo doas openssh
 
 # Setup Dependencies
-addapk alpine-base busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
+addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
 
 ## Development Tools
 # addapk bash gcc gdb make python3 perl tar gzip xz
@@ -91,6 +91,10 @@ addapk iwd
 addapk wireguard-tools openvpn
 
 # --------------------
+# Bluetooth
+addapk bluez
+
+# --------------------
 # Applications
 
 ## Terminal Emulator
@@ -112,7 +116,7 @@ addapk dunst
 # addapk rofi
 
 ## Image Viewer
-addapk feh
+addapk feh nsxiv
 
 ## Browser
 # addapk firefox

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DATA_FILE="/tmp/nwusage.log"
+DATA_FILE="$HOME/.cache/sigma/nwusage.log"
 
 last_rx=0
 last_tx=0
@@ -38,7 +38,7 @@ else
 	last_tx="$new_tx"
 fi
 
-echo -e "${new_rx}\n${new_tx}" > $DATA_FILE
+printf "${new_rx}\n${new_tx}\n" > $DATA_FILE
 
 speed_rx="$(expr $new_rx - $last_rx) B/s"
 speed_tx="$(expr $new_tx - $last_tx) B/s"
@@ -61,6 +61,6 @@ if [ "$BLOCK_BUTTON" = "1" ]; then
 	new_tx="$(convert_unit "$new_tx" "KiB")"
 	new_tx="$(convert_unit "$new_tx" "MiB")"
 	new_tx="$(convert_unit "$new_tx" "GiB")"
-        notif=$(echo -e "Total Downloads  : $new_rx\nTotal Uploads  :   $new_tx")
+        notif=$(printf "Total Downloads  : $new_rx\nTotal Uploads  :   $new_tx\n")
         notify-send "$notif"
 fi

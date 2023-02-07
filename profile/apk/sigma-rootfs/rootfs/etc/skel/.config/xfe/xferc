@@ -160,7 +160,7 @@ hiddenfiles=0
 
 [SETTINGS]
 listforecolor=#00ffc8
-iconpath=/usr/share/xfe/icons/gnomeblue-theme
+iconpath=/usr/share/xfe/icons/default-theme
 hilitecolor=#131f26
 single_click=0
 highlightcolor=#101a20

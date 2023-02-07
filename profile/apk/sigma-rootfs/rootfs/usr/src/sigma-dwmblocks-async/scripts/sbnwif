@@ -1,56 +1,77 @@
 #!/bin/sh
 
+DATA_FILE="$HOME/.cache/sigma/nwif"
+
 ETH_ICON_ON=''
 ETH_ICON_OFF=''
 WLAN_ICON_ON='直'
 WLAN_ICON_OFF='睊'
+UNPLUGGED_ICON="󰚦"
 
 IFACE=""
-ICON_ON="$ETH_ICON_ON"
-ICON_OFF="$ETH_ICON_OFF"
+ICON_ON=""
+ICON_OFF=""
 MATCH_STR="inet "
 
-if [ $# -lt 1 ]; then
-	echo "Usage: mynetwork < -w > < -6 > [IFACE]"
-	exit 1
+FONT="FiraCode Nerd Font:size=10"
+DARKBLUE="#101a20"
+NEONGREEN="#00ffc8"
+alias dmenu='dmenu -fn "$FONT" -nb "$DARKBLUE" -nf "$NEONGREEN" -sb "$NEONGREEN" -sf "$DARKBLUE"'
+
+
+if [ -f "$DATA_FILE" ]; then
+	IFACE="$(cat "$DATA_FILE")"
+else
+	IFACE="$(ls /sys/class/net | head -n 1)"
+	if [ -z "$IFACE" ]; then
+		IFACE="none"
+	fi
+	echo "$IFACE" > "$DATA_FILE"
 fi
 
-for arg in $@; do
-	if [ "$arg" = "-w" ]; then
+if [ ! -d "/sys/class/net/$IFACE" ]; then
+	echo "$UNPLUGGED_ICON $IFACE"
+	IFACE_STATE="unplugged"
+	IPV4_ADDR="none"
+	IPV6_ADDR="none"
+else
+	if [ -d "/sys/class/net/$IFACE/wireless" ]; then
 		ICON_ON="$WLAN_ICON_ON"
 		ICON_OFF="$WLAN_ICON_OFF"
-	elif [ "$arg" = "-6" ]; then
-		# MATCH_STR="inet" # will match both 'inet' and 'inet6'
-                MATCH_STR="inet6 "
 	else
-		IFACE="$arg"
+		ICON_ON="$ETH_ICON_ON"
+		ICON_OFF="$ETH_ICON_OFF"
 	fi
-done
 
-IFACE_INFO="$(ip address show "$IFACE" 2>/dev/null)"
-if [ $? -ne 0 ]; then
-	exit 2
-fi
+	IFACE_STATE="$(cat "/sys/class/net/$IFACE/operstate")"
+	IPV4_ADDR="$(ip address show "$IFACE" | grep "inet " | head -n 1 | sed -E "s/\s+inet\s+//g" | cut -d " " -f 1)"
+	IPV6_ADDR="$(ip address show "$IFACE" | grep "inet6 " | head -n 1 | sed -E "s/\s+inet6\s+//g" | cut -d " " -f 1)"
+	if [ -z "$IPV4_ADDR" ]; then
+		IPV4_ADDR="none"
+	fi
 
-IFACE_IP="$(ip address show "$IFACE" | grep "$MATCH_STR" | head -n 1 | cut -d " " -f 6)"
-if [ -z "$IFACE_IP" ]; then
-	IFACE_IP="NONE"
-fi
+	if [ -z "$IPV6_ADDR" ]; then
+		IPV6_ADDR="none"
+	fi
 
-if ip address show "$IFACE" | grep " state UP " > /dev/null; then
-	IFACE_STATE="UP"
-else
-	IFACE_STATE="DOWN"
-fi
-
-if [ "$IFACE_STATE" = "UP" ] && [ "$IFACE_IP" != "NONE" ]; then
-	echo "$ICON_ON $IFACE"
-else
-	echo "$ICON_OFF $IFACE"
+	if [ "$IFACE_STATE" = "up" ]; then
+		echo "$ICON_ON $IFACE"
+	else
+		echo "$ICON_OFF $IFACE"
+	fi
 fi
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
-	notif="$(echo -e "Interface  : $IFACE\nState  :     $IFACE_STATE\nIP 直 :        $IFACE_IP")"
+	notif="$(printf "Interface  : $IFACE\nState  :     $IFACE_STATE\nIPv4 󰀂 :      $IPV4_ADDR\nIPv6 󰀂 :      $IPV6_ADDR")"
 	notify-send "$notif"
+elif [ "$BLOCK_BUTTON" = "2" ]; then
+	iface_list="$(ls /sys/class/net/)"
+	dmenu_str=""
+	for iface in $iface_list; do
+		dmenu_str="$iface\n$dmenu_str"
+	done
+	iface="$(printf "$dmenu_str" | dmenu)"
+	if [ ! -z "$iface" ]; then
+		echo "$iface" > "$DATA_FILE"
+	fi
 fi
-

@@ -1,9 +1,10 @@
 #!/bin/sh
 
-kbdlayout="$(echo "us\nbr\nru" | dmenu -p "Choose your keyboard layout: " -fn "FiraCode Nerd Font:size=10" -nb "#101a20" -nf "#00ffc8" -sb "#00ffc8" -sf "#101a20")"
+kbdlayout="$(printf "us\nbr\nru\n" | dmenu -p "Choose your keyboard layout: " -fn "FiraCode Nerd Font:size=10" -nb "#101a20" -nf "#00ffc8" -sb "#00ffc8" -sf "#101a20")"
 if [ -z "$kbdlayout" ]; then
 	notify-send "   Keyboard layout unchanged"
 else
 	setxkbmap -layout "$kbdlayout"
 	notify-send "  Keyboard layout set to: $kbdlayout"
+	echo "$kbdlayout" > "$HOME/.cache/sigma/kbdlayout"
 fi

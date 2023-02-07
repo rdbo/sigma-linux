@@ -15,7 +15,10 @@ if [ "$(id -u)" = "0" ]; then
 else
 	PS1="$PS1 $ "
 fi
-PS1="$PS1\033[1;37m"
+export PS1="$PS1\033[0;37m"
+
+# create sigma cache folder
+mkdir -p "$HOME/.cache/sigma"
 
 # fix for Java GUI applications
 export _JAVA_AWT_WM_NONREPARENTING=1

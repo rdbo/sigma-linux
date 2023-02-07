@@ -26,6 +26,6 @@ fi
 echo " CPU: ${cpu_perc}%"
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
-	notif="$(echo -e " CPU Idle:  $cpu_idle\n CPU Total: $cpu_total")"
+	notif="$(printf " CPU Idle:  $cpu_idle\n CPU Total: $cpu_total\n")"
 	notify-send "$notif"
 fi
