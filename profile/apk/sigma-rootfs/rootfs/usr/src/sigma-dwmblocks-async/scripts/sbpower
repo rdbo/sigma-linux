@@ -1,6 +1,6 @@
 #!/bin/sh
 
-printf "⏻ \t\n"
+printf " ⏻ \t\n"
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
 	choice="$(printf "Lock Screen\nQuit\nPower Off\nReboot\n" | dmenu)"

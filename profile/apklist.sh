@@ -61,7 +61,7 @@ addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-d
 addapk adwaita-icon-theme
 
 ## Icon Theme
-addapk papirus-icon-theme
+# addapk papirus-icon-theme
 
 ## Appearance Changer
 # addapk lxappearance

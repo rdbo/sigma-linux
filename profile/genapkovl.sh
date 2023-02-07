@@ -80,5 +80,6 @@ rc_add udev-settle sysinit
 rc_add udev-postmount default
 rc_add local default
 rc_add iwd default
+rc_add bluetooth default
 
 tar -c -C "$tmp" etc | gzip -9n > $HOSTNAME.apkovl.tar.gz
