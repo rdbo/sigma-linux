@@ -13,12 +13,6 @@ ICON_ON=""
 ICON_OFF=""
 MATCH_STR="inet "
 
-FONT="FiraCode Nerd Font:size=10"
-DARKBLUE="#101a20"
-NEONGREEN="#00ffc8"
-alias dmenu='dmenu -fn "$FONT" -nb "$DARKBLUE" -nf "$NEONGREEN" -sb "$NEONGREEN" -sf "$DARKBLUE"'
-
-
 if [ -f "$DATA_FILE" ]; then
 	IFACE="$(cat "$DATA_FILE")"
 else
@@ -64,7 +58,7 @@ fi
 if [ "$BLOCK_BUTTON" = "1" ]; then
 	notif="$(printf "Interface  : $IFACE\nState  :     $IFACE_STATE\nIPv4 󰀂 :      $IPV4_ADDR\nIPv6 󰀂 :      $IPV6_ADDR")"
 	notify-send "$notif"
-elif [ "$BLOCK_BUTTON" = "2" ]; then
+elif [ "$BLOCK_BUTTON" = "3" ]; then
 	iface_list="$(ls /sys/class/net/)"
 	dmenu_str=""
 	for iface in $iface_list; do
@@ -73,5 +67,6 @@ elif [ "$BLOCK_BUTTON" = "2" ]; then
 	iface="$(printf "$dmenu_str" | dmenu)"
 	if [ ! -z "$iface" ]; then
 		echo "$iface" > "$DATA_FILE"
+                notify-send "Interface Changed: $iface"
 	fi
 fi

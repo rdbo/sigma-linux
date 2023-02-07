@@ -21,12 +21,12 @@ build() {
 	rootfs="$srcdir/rootfs"
 	cd "$rootfs"/usr/src
 	mkdir -p "$rootfs"/usr/bin
-	make -C sigma-dmenu install DESTDIR="$rootfs"/ PREFIX=/usr
-	make -C sigma-dwm install DESTDIR="$rootfs"/ PREFIX=/usr
-	make -C sigma-dwmblocks-async install DESTDIR="$rootfs"/ PREFIX=/usr
-	make -C sigma-slock install DESTDIR="$rootfs"/ PREFIX=/usr
-	make -C sigma-st install DESTDIR="$rootfs"/ PREFIX=/usr
-	make -C sigma-svkbd install DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-dmenu install clean DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-dwm install clean DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-dwmblocks-async install clean DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-slock install clean DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-st install clean DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-svkbd install clean DESTDIR="$rootfs"/ PREFIX=/usr
 	install -m 0755 sigma-dwmblocks-async/scripts/* "$rootfs"/usr/bin/
         find "$rootfs"/usr/share/man -type f -exec gzip {} \;
 }
