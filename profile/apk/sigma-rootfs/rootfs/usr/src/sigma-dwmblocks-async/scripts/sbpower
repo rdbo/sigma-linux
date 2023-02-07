@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "⏻ \t"
+echo -e "⏻ \t"
 
 DMENU_THEME=''
 FONT="FiraCode Nerd Font:size=10"
@@ -10,9 +10,8 @@ NEONGREEN="#00ffc8"
 alias dmenu='dmenu -fn "$FONT" -nb "$DARKBLUE" -nf "$NEONGREEN" -sb "$NEONGREEN" -sf "$DARKBLUE"'
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
-	choice="$(echo "Lock Screen\nQuit\nPower Off\nReboot" | dmenu)"
+	choice="$(echo -e "Lock Screen\nQuit\nPower Off\nReboot" | dmenu)"
 
-	echo "CHOICE: $choice"
 	case "$choice" in
 		"Lock Screen") slock ;;
 		"Quit") pkill -9 dwm;;

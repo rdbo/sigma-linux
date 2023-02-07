@@ -50,7 +50,7 @@ else
 fi
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
-	notif="$(echo "Interface  : $IFACE\nState  :     $IFACE_STATE\nIP 直 :        $IFACE_IP")"
+	notif="$(echo -e "Interface  : $IFACE\nState  :     $IFACE_STATE\nIP 直 :        $IFACE_IP")"
 	notify-send "$notif"
 fi
 
