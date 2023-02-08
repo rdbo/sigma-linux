@@ -8,13 +8,14 @@ const Block blocks[] = {
 	BLOCK("sbnwif",           1,  3),
 	BLOCK("sbcpu",            1,  5),
 	BLOCK("sbmemory",         5,  6),
-	BLOCK("sbbattery",   10, 7),
+	BLOCK("sbbattery",        10, 7),
 	BLOCK("sbaudio sink",     1,  8),
 	BLOCK("sbaudio source",   1,  9),
 	BLOCK("sbbluetooth",      0,  10),
 	BLOCK("sbscrsht",         0,  11),
 	BLOCK("sbvirtkbd",        0,  12),
 	BLOCK("sbkbdlayout",      0,  13),
-	BLOCK("sbpower",          0,  14),
-	BLOCK("sbgap",        0,  15)
+	BLOCK("sbmonitor",        0,  14),
+	BLOCK("sbpower",          0,  15),
+	BLOCK("sbgap",            0,  16)
 };
