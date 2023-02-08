@@ -64,7 +64,7 @@ elif [ "$BLOCK_BUTTON" = "3" ]; then
 	for iface in $iface_list; do
 		dmenu_str="$iface\n$dmenu_str"
 	done
-	iface="$(printf "$dmenu_str" | dmenu)"
+	iface="$(printf "$dmenu_str" | dmenu -p "Choose an interface")"
 	if [ ! -z "$iface" ]; then
 		echo "$iface" > "$DATA_FILE"
                 notify-send "  Interface Changed: $iface"

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-kbdlayout="$(printf "us\nbr\nru\n" | dmenu -p "Choose your keyboard layout: " -fn "FiraCode Nerd Font:size=10" -nb "#101a20" -nf "#00ffc8" -sb "#00ffc8" -sf "#101a20")"
+layouts="$(localectl list-x11-keymap-layouts)"
+kbdlayout="$(printf "$layouts" | dmenu -p "Choose your keyboard layout: ")"
 if [ -z "$kbdlayout" ]; then
 	notify-send "   Keyboard layout unchanged"
 else

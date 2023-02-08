@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MONITORS="$(xrandr --listmonitors | grep -E "^\s+[0-9]:" | sed -E 's/.*\s+(.*)$/\1/g')"
-MONITOR="$(printf "$MONITORS" | dmenu)"
+MONITOR="$(printf "$MONITORS" | dmenu -p "Choose a monitor")"
 
 cancel_change() {
 	notify-send "󰶐  Canceled Resolution Change"
@@ -29,6 +29,12 @@ if [ -z "$RATE" ]; then
 	cancel_change
 fi
 
+# change resolution
 xrandr --output "$MONITOR" --mode "$MODE" --refresh "$RATE"
+
+# update background
+feh --bg-fill "$HOME/.wallpaper"
+
+# notify
 notif="$(printf "󰍹  Changed Resolution of '$MONITOR' to '$MODE@$RATE'\n")"
 notify-send "$notif"

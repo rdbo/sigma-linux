@@ -3,7 +3,7 @@
 printf " ⏻ \t\n"
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
-	choice="$(printf "Lock Screen\nQuit\nPower Off\nReboot\n" | dmenu)"
+	choice="$(printf "Lock Screen\nQuit\nPower Off\nReboot\n" | dmenu -p "Choose an action")"
 
 	case "$choice" in
 		"Lock Screen") slock ;;

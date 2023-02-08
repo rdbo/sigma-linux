@@ -59,7 +59,7 @@ elif [ "$BLOCK_BUTTON" = "3" ]; then
 	for bat in $bat_list; do
 		dmenu_str="$bat\n$dmenu_str"
 	done
-	bat="$(printf "$dmenu_str" | dmenu)"
+	bat="$(printf "$dmenu_str" | dmenu -p "Choose a battery")"
 	if [ ! -z "$bat" ]; then
 		echo "$bat" > "$DATA_FILE"
 		notify-send "Battery Changed: $bat"
