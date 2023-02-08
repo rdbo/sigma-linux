@@ -9,7 +9,7 @@ if [ -f "$KBDLAYOUT_FILE" ]; then
 fi
 
 # update background
-feh --bg-fill "$HOME/Pictures/.wallpaper"
+feh --bg-fill "$HOME/.wallpaper"
 
 # start notification daemon
 dunst &
