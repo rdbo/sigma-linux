@@ -124,8 +124,9 @@ addapk mpv
 # Password Manager
 addapk gnupg pass
 
-## Browser
+## Web Browser
 # addapk firefox
+addapk surf
 
 ## Office Tools
 # addapk libreoffice
