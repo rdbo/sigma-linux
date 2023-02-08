@@ -43,7 +43,7 @@ addapk xf86-video-intel xf86-video-amdgpu xf86-video-vesa xf86-video-vboxvideo x
 addapk xf86-input-libinput xf86-input-evdev xf86-input-synaptics
 
 ## Xorg Tools
-addapk xrandr xsetroot setxkbmap xprop xclip
+addapk xrandr xsetroot setxkbmap xprop xclip xev
 
 ## Display Manager
 # addapk lightdm lightdm-gtk-greeter
@@ -134,6 +134,7 @@ addapk groff
 addapk sc-im
 
 ## PDF Viewer
+addapk zathura
 
 ## Graphics Tools
 # addapk gimp
@@ -141,8 +142,8 @@ addapk sc-im
 addapk imagemagick
 addapk ffmpeg
 
-## Password Manager
-# addapk keepassxc
+# IRC Chat
+addapk weechat
 
 # --------------------
 # Utilities
