@@ -7,7 +7,8 @@ static int heightfactor = 14; //one row of keys takes up 1/x of the screen heigh
 static int xspacing = 5;
 static int yspacing = 5;
 static const char *defaultfonts[] = {
-	"FiraCode Nerd Font:bold:size=18"
+	"FiraCode Nerd Font:bold:size=18",
+        "DejaVu Sans:size=18"
 };
 static const char *defaultcolors[SchemeLast][2] = {
 	/*     fg         bg       */

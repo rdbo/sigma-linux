@@ -1,7 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 static char *fontfallbacks[] = {
-    "FiraCode Nerd Font"
+        "FiraCode Nerd Font",
+        "DejaVu Sans"
 };
 #define NUMFONTSCALES 42
 #define FONTSZ(x) ((int)(10.0 * powf(1.1288, (x)))) /* x in [0, NUMFONTSCALES-1] */

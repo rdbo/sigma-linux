@@ -153,7 +153,7 @@ addapk mandoc ncurses file p7zip tar gzip xz
 # Misc
 
 ## Fonts
-# addapk font-ubuntu-mono-nerd
+addapk font-dejavu
 
 # --------------------
 # Show Packages
