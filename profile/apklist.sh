@@ -19,7 +19,10 @@ addapk ntfs-3g
 addapk sudo doas openssh
 
 # Setup Dependencies
-addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools
+addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools farbfeld
+
+# Library Dependencies
+addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev
 
 ## Development Tools
 # addapk bash gcc gdb make python3 perl tar gzip xz
@@ -41,9 +44,6 @@ addapk xf86-input-libinput xf86-input-evdev xf86-input-synaptics
 
 ## Xorg Tools
 addapk xrandr xsetroot setxkbmap xprop xclip
-
-# Xorg Libraries
-addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev
 
 ## Display Manager
 # addapk lightdm lightdm-gtk-greeter

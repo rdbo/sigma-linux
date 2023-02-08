@@ -27,6 +27,7 @@ build() {
 	make -C sigma-slock install DESTDIR="$rootfs"/ PREFIX=/usr
 	make -C sigma-st install DESTDIR="$rootfs"/ PREFIX=/usr
 	make -C sigma-svkbd install DESTDIR="$rootfs"/ PREFIX=/usr
+	make -C sigma-sent install DESTDIR="$rootfs"/ PREFIX=/usr
 	install -m 0755 sigma-dwmblocks-async/scripts/* "$rootfs"/usr/bin/
         find "$rootfs"/usr/share/man -type f -exec gzip {} \;
 
@@ -37,6 +38,7 @@ build() {
         make -C sigma-slock clean
         make -C sigma-st clean
         make -C sigma-svkbd clean
+	make -C sigma-sent clean
 }
 
 check() {
