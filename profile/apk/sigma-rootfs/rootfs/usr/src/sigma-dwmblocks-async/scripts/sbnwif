@@ -56,7 +56,7 @@ else
 fi
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
-	notif="$(printf "Interface  : $IFACE\nState  :     $IFACE_STATE\nIPv4 󰀂 :      $IPV4_ADDR\nIPv6 󰀂 :      $IPV6_ADDR")"
+	notif="$(printf "  Interface: $IFACE\n  State:     $IFACE_STATE\n󰀂  IPv4:      $IPV4_ADDR\n󰀂  IPv6:      $IPV6_ADDR")"
 	notify-send "$notif"
 elif [ "$BLOCK_BUTTON" = "3" ]; then
 	iface_list="$(ls /sys/class/net/)"
@@ -67,6 +67,6 @@ elif [ "$BLOCK_BUTTON" = "3" ]; then
 	iface="$(printf "$dmenu_str" | dmenu)"
 	if [ ! -z "$iface" ]; then
 		echo "$iface" > "$DATA_FILE"
-                notify-send "Interface Changed: $iface"
+                notify-send "  Interface Changed: $iface"
 	fi
 fi

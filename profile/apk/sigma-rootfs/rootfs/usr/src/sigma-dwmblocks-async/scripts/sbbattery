@@ -49,9 +49,9 @@ fi
 
 if [ "$BLOCK_BUTTON" = "1" ]; then
 	if [ -z "$BATTERY_CHARGE" ]; then
-		notify-send "Battery Not Found: $BATTERY"
+		notify-send "󰅙  Battery Not Found: $BATTERY"
 	else
-		notify-send "Battery Charge ($BATTERY) $BAT_ICON: ${BATTERY_CHARGE}%"
+		notify-send "$BAT_ICON Battery Charge ($BATTERY): ${BATTERY_CHARGE}%"
 	fi
 elif [ "$BLOCK_BUTTON" = "3" ]; then
 	bat_list="$(ls /sys/class/power_supply/ | grep "^BAT")"

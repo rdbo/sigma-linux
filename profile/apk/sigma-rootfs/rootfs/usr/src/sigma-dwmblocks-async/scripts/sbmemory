@@ -11,6 +11,6 @@ if [ "$BLOCK_BUTTON" = "1" ]; then
 	mem="$(free -h | grep -E '^Mem:.*')"
 	total="$(echo $mem | cut -d " " -f 2)"
 	used="$(echo $mem | cut -d " " -f 3)"
-	notif="$(printf "Used Memory  : ${used}\nTotal Memory  : ${total}\n")"
+	notif="$(printf "  Used Memory: ${used}\n  Total Memory: ${total}\n")"
 	notify-send "$notif"
 fi

@@ -5,6 +5,6 @@ if [ -z "$kbdlayout" ]; then
 	notify-send "   Keyboard layout unchanged"
 else
 	setxkbmap -layout "$kbdlayout"
-	notify-send "  Keyboard layout set to: $kbdlayout"
+	notify-send "   Keyboard layout set to: $kbdlayout"
 	echo "$kbdlayout" > "$HOME/.cache/sigma/kbdlayout"
 fi

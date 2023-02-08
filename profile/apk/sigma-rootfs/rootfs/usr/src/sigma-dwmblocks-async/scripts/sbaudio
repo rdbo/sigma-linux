@@ -19,10 +19,10 @@ fi
 # Increase/decrease volume
 if [ ! -z "$BLOCK_BUTTON" ]; then
 	case $BLOCK_BUTTON in
-		1) pactl set-$DEVNAME-mute $DEVICE toggle ; notify-send "Toggled $DEVNAME mute " ;;
-                3) st -c wmprompt -e pulsemixer & notify-send "Started 'pulsemixer'  " ;;
-		4) pactl set-$DEVNAME-volume $DEVICE +5% ; notify-send "Raised $DEVNAME volume by 5% ﱛ" ;;
-		5) pactl set-$DEVNAME-volume $DEVICE -5% ; notify-send "Lowered $DEVNAME volume by 5% ﱜ" ;;
+		1) pactl set-$DEVNAME-mute $DEVICE toggle ; notify-send " Toggled $DEVNAME mute" ;;
+                3) st -c wmprompt -e pulsemixer & notify-send "  Started 'pulsemixer'" ;;
+		4) pactl set-$DEVNAME-volume $DEVICE +5% ; notify-send "ﱛ Raised $DEVNAME volume by 5%" ;;
+		5) pactl set-$DEVNAME-volume $DEVICE -5% ; notify-send "ﱜ Lowered $DEVNAME volume by 5%" ;;
 	esac
 fi
 
