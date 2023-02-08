@@ -3,9 +3,11 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "FiraCode Nerd Font:size=10" };
+static const char dmenufont[]       = "FiraCode Nerd Font:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -27,10 +29,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-/*	{ "Gimp",     NULL,       NULL,       0,            1,           -1 }, */
-/*	{ "Firefox",  NULL,       NULL,       1 << 1,       0,           -1 }, */
-	{ "wmprompt", NULL,       NULL,       0,            1,           -1 },
+	/* class      instance    title           tags mask     isfloating   isterminal   noswallow   monitor */
+	{ "wmprompt", NULL,       NULL,           0,            1,           1,           1,          -1 },
+	{ "st",       NULL,       NULL,           0,            0,           1,           0,          -1 },
+	{ NULL,       NULL,       "Event Tester", 0,            0,           0,           1,          -1 },
 };
 
 /* layout(s) */
@@ -71,10 +73,10 @@ static const Layout layouts[] = {
 #define STATUSBAR "dwmblocks"
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_darkblue, "-nf", col_neongreen, "-sb", col_neongreen, "-sf", col_darkblue, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *slockcmd[] = { "slock", NULL };
-static const char *mancmd[] = { "st", "-c", "wmprompt", "-e", "man", "sigma-linux", NULL };
+static const char *mancmd[] = { "st", "-f", dmenufont, "-c", "wmprompt", "-e", "man", "sigma-linux", NULL };
 static const char *scrshtcmd[] = { "scrsht", NULL };
 static const char *filemancmd[] = { "xfe", NULL };
 static const char *kbdlayoutcmd[] = { "chkbdlayout", NULL };

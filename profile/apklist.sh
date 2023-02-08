@@ -22,7 +22,7 @@ addapk sudo doas openssh
 addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools farbfeld
 
 # Library Dependencies
-addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev
+addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev libxcb-dev
 
 ## Development Tools
 # addapk bash gcc gdb make python3 perl tar gzip xz
@@ -122,7 +122,7 @@ addapk feh nsxiv
 addapk mpv
 
 # Password Manager
-addapk gpg pass
+addapk gnupg pass
 
 ## Browser
 # addapk firefox
