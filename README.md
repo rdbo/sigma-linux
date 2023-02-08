@@ -21,8 +21,9 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - Download the ISO from the latest release
 - Burn the ISO into a USB drive or some device (run as root, use the proper device name): `dd if=alpine-sigma-edge-x86_64.iso of=/dev/sdX`
 - Boot into Sigma Linux and login as the user `root` with no password
-- Open a terminal with `Super + Enter` and run the command: `setup-sigma`
+- Open a terminal with `Super + Shift + Enter` and run the command: `setup-sigma`
 - Follow the installation steps and reboot
+**Note**: read the manual if necessary, by pressing `Super + Shift + M`.
 
 # Building (Docker)
 Install Docker (run as root):
@@ -43,7 +44,7 @@ With Docker installed and running, execute the `docker-env.sh` script:
 
 Start the build process:
 ```
-./build.sh
+./build.sh -l
 ```
 
 Leave the container:

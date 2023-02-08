@@ -40,7 +40,7 @@ addapk xf86-video-intel xf86-video-amdgpu xf86-video-vesa xf86-video-vboxvideo x
 addapk xf86-input-libinput xf86-input-evdev xf86-input-synaptics
 
 ## Xorg Tools
-addapk xrandr xsetroot setxkbmap xprop
+addapk xrandr xsetroot setxkbmap xprop xclip
 
 # Xorg Libraries
 addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev
@@ -118,25 +118,35 @@ addapk dunst
 ## Image Viewer
 addapk feh nsxiv
 
+# Audio/Video Player
+addapk mpv
+
+# Password Manager
+addapk gpg pass
+
 ## Browser
 # addapk firefox
 
 ## Office Tools
 # addapk libreoffice
-# addapk poppler poppler-utils
+addapk poppler poppler-utils
+addapk groff
+addapk sc-im
+
+## PDF Viewer
 
 ## Graphics Tools
 # addapk gimp
 # addapk inkscape
-# addapk imagemagick
-# addapk ffmpeg
+addapk imagemagick
+addapk ffmpeg
 
 ## Password Manager
 # addapk keepassxc
 
 # --------------------
 # Utilities
-addapk mandoc ncurses file
+addapk mandoc ncurses file p7zip tar gzip xz
 
 # --------------------
 # Misc
