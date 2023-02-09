@@ -13,10 +13,11 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_darkblue[]    = "#101a20";
+static const char col_darkblue2[]   = "#132a33";
 static const char col_neongreen[]   = "#00ffc8";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_neongreen, col_darkblue, col_darkblue },
+	[SchemeNorm] = { col_neongreen, col_darkblue, col_darkblue2 },
 	[SchemeSel]  = { col_darkblue, col_neongreen,  col_neongreen  },
 };
 
