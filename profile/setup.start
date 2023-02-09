@@ -3,6 +3,9 @@
 # copy default configs to root
 cp -r /etc/skel/. /root/
 
+# set setuid bit for slock
+chmod u+s /usr/bin/slock
+
 # disable local.d service
 rc-update del local.d default
 

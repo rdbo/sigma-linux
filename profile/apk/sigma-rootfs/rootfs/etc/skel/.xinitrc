@@ -17,5 +17,8 @@ dunst &
 # start topbar modules
 dwmblocks &
 
+# start audio server
+/usr/libexec/pipewire-launcher &
+
 # start window manager
 exec dwm

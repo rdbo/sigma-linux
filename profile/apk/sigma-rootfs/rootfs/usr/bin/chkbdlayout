@@ -1,6 +1,6 @@
 #!/bin/sh
 
-layouts="$(localectl list-x11-keymap-layouts)"
+layouts="$(ls /usr/share/X11/xkb/symbols/ | grep -E '^.{2}$')"
 kbdlayout="$(printf "$layouts" | dmenu -p "Choose your keyboard layout: ")"
 if [ -z "$kbdlayout" ]; then
 	notify-send "   Keyboard layout unchanged"
