@@ -1,5 +1,5 @@
 # Sigma Linux
-## 烈lite operating system
+## Elite operating system
 
 ![scrsht0](screenshots/scrsht0.png)
 ![scrsht1](screenshots/scrsht1.png)
