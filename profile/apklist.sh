@@ -25,7 +25,7 @@ addapk busybox openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btr
 addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev libxcb-dev
 
 ## Development Tools
-# addapk bash gcc gdb make python3 perl tar gzip xz
+addapk bash tcc mold make perl tar gzip xz
 
 ## Tools for building this distribuition
 # addapk git alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi
@@ -146,9 +146,15 @@ addapk ffmpeg
 # IRC Chat
 addapk weechat
 
+# Mail Client
+addapk neomutt
+
+# RSS Feed
+addapk newsboat
+
 # --------------------
 # Utilities
-addapk mandoc ncurses file p7zip tar gzip xz
+addapk mandoc ncurses file p7zip tar gzip xz wget curl
 
 # --------------------
 # Misc
