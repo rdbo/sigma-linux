@@ -77,6 +77,7 @@ static const char *termcmd[]  = { "st", NULL };
 static const char *slockcmd[] = { "slock", NULL };
 static const char *mancmd[] = { "st", "-c", "wmprompt", "-e", "man", "sigma-linux", NULL };
 static const char *scrshtcmd[] = { "scrsht", NULL };
+static const char *fullscrshtcmd[] = { "scrsht", "-f", NULL };
 static const char *filemancmd[] = { "xfe", NULL };
 static const char *kbdlayoutcmd[] = { "chkbdlayout", NULL };
 static const char *browsercmd[] = { "tabbed", "-c", "surf", "-e", NULL };
@@ -85,11 +86,12 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-        { MODKEY|ShiftMask,             XK_x,      spawn,          {.v = slockcmd } },
-        { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = mancmd } },
-        { MODKEY,                       XK_e,      spawn,          {.v = filemancmd } },
-        { MODKEY|ShiftMask,             XK_Escape, spawn,          {.v = kbdlayoutcmd } },
-        { MODKEY,                       XK_Print,  spawn,          {.v = scrshtcmd } },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = slockcmd } },
+	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = mancmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = filemancmd } },
+	{ MODKEY|ShiftMask,             XK_Escape, spawn,          {.v = kbdlayoutcmd } },
+	{ MODKEY,                       XK_Print,  spawn,          {.v = scrshtcmd } },
+	{ MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = fullscrshtcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus) 
