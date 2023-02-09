@@ -1,1 +1,3 @@
-/sbin/setup-alpine
+#!/bin/sh
+
+DEVDOPTS="udev" USEROPTS="-a -g audio,video,netdev,input" setup-alpine
