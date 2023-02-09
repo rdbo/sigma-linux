@@ -1,23 +1,48 @@
 # Sigma Linux
-## A Linux distribuition based on Alpine Linux
+## 烈lite operating system
 
-![screenshot-desktop](screenshots/screenshot-desktop.png)
-![screenshot-apps](screenshots/screenshot-apps.png)
-![screenshot-firefox](screenshots/screenshot-firefox.png)
-![screenshot-vim](screenshots/screenshot-vim.png)
+![scrsht0](screenshots/scrsht0.png)
+![scrsht1](screenshots/scrsht1.png)
+![scrsht2](screenshots/scrsht2.png)
+![scrsht3](screenshots/scrsht3.png)
 
 # License
 All the files in this repository follow the license in the file `LICENSE` present in this directory, unless explicitly said otherwise (e.g through a CREDITS or another LICENSE file)
 
 # Software
-- Display Manager: LightDM
-- Window Manager: BSPWM
-- Compositor: Picom
-- Status Bar: Polybar
-- Terminal: Alacritty
-- Browser: Firefox
+- Window Manager: dwm
+- Terminal: st
+- Text Editor: vim
+- Notification Daemon: dunst
+- Browser: surf
+- Audio/Video Player: mpv
+- Image Viewer: nsxiv
+- Spreadsheet Editor: sc-im
+- Slides Viewer: sent
+- PDF Viewer: zathura
+- Document Generator: groff
+- Screenshot Tool: maim
+- File Explorer: xfe
+- Password Manager: pass with gnupg
+- Image Editor: imagemagick
+- Multimedia: ffmpeg
+- IRC Chat: weechat
+- Mail Client: neomutt
+- RSS Feed: 
+- Audio Server: pipewire
+- Network Daemon: iwd
+- VPN Tools: wireguard, openvpn
+- Bluetooth Manager: bluez
+- Init System: openrc
+- Unix Tools: busybox
+- C Standard Library (libc): musl
+- C Compiler: tcc (Tiny C Compiler)
+- Linker: mold
 
 # Installing
+
+**Recommended: 2GB RAM**
+
 - Download the ISO from the latest release
 - Burn the ISO into a USB drive or some device (run as root, use the proper device name): `dd if=alpine-sigma-edge-x86_64.iso of=/dev/sdX`
 - Boot into Sigma Linux and login as the user `root` with no password
@@ -53,8 +78,10 @@ exit
 ```
 
 # Building (Manual)
-Use Alpine Linux.  
+Use Alpine Linux.
+
 Run the following commands as root.
+
 Install the required packages:
 ```
 apk update
