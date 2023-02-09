@@ -28,7 +28,7 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - Multimedia: ffmpeg
 - IRC Chat: weechat
 - Mail Client: neomutt
-- RSS Feed: 
+- RSS Feed: newsboat
 - Audio Server: pipewire
 - Network Daemon: iwd
 - VPN Tools: wireguard, openvpn
