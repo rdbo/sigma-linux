@@ -19,7 +19,7 @@ addapk ntfs-3g
 addapk sudo doas openssh
 
 # Setup Dependencies
-addapk busybox busybox-mdev-openrc openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools farbfeld
+addapk busybox busybox-mdev-openrc openssl sfdisk mdadm lvm2 cryptsetup blkid xfsprogs e2fsprogs btrfs-progs dosfstools farbfeld musl-dev
 
 # Library Dependencies
 addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev libxcb-dev
