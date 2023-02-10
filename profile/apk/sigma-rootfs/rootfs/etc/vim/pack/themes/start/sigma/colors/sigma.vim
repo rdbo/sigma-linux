@@ -31,7 +31,7 @@ hi! PmenuSel ctermfg=250
 hi! ErrorMsg ctermfg=210
 hi! Keyword ctermfg=111
 
-hi! Search ctermfg=233
+hi! Search ctermfg=0 ctermbg=6
 hi! MoreMsg ctermfg=111
 hi! WarningMsg ctermfg=215
 hi! TabLine ctermfg=250
@@ -42,7 +42,7 @@ hi! DiffAdd ctermbg=233
 hi! DiffChange ctermfg=233
 hi! DiffDelete ctermfg=233
 hi! DiffText ctermbg=210
-hi! MatchParen ctermbg=242
+hi! MatchParent ctermbg=242
 
 hi! NonText ctermfg=250
 hi! SpecialKey ctermfg=121
