@@ -11,7 +11,7 @@ syn match	cJCParamVoid	"\<void\>" contained
 syn match	cJCParamType	"\<\(\(const\|restrict\|volatile\|signed\|unsigned\|struct\|enum\)[ \t*]\+\)*\I\i*[ \t*]\+\I"he=e-1 contained containedin=cJCFor
 
 " Matchs for types in variables and function declarations
-syn match	cJCTypeInDecl	"^\s*\(\(inline\|const\|restrict\|extern\|GLOBAL\|static\|register\|auto\|volatile\|virtual\|signed\|unsigned\|struct\)[ \t*]\+\)*\I\i*\([ \t*]\+\(const\|restrict\|volatile\)\)*[ \t*]*" contained
+syn match	cJCTypeInDecl	"^\s*\(\(inline\|const\|restrict\|extern\|GLOBAL\|static\|register\|auto\|volatile\|virtual\|signed\|unsigned\|struct\)[ \t*]\+\)*\I\i*\([ \t*]\+\(const\|restrict\|volatile\)\)*[ \t*]\+" contained
 syn match	cJCDecl		"^\s*\(inline\s\+\)\=\(\I\i*[ \t*]\+\)\+\s*\I" contains=cJCTypeInDecl
 
 " Matches function declarations and definitions
@@ -43,11 +43,11 @@ syn match	cConditional	":\s*$"
 
 
 " Delete the keyword-based cType matching, it just gets in the way
-syn clear cType
+" syn clear cType
 
 " And finally the thing we wanted to do: highlight all the types using cType
 " highlight, not just the ones matching C keywords.
-hi link cJCType		cType
+hi link cJCType			cType
 hi link cJCParamType		cType
 hi link cJCTypeInDecl		cType
 hi link cJCTypeCast		cType
