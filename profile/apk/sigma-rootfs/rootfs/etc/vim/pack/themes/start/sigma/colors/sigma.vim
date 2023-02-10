@@ -18,7 +18,7 @@ hi! Todo ctermbg=none ctermfg=111 cterm=bold
 
 hi! Title ctermfg=33 cterm=bold
 hi! Cursor ctermbg=250
-hi! Normal ctermbg=258
+hi! Normal ctermbg=none
 hi! Visual ctermbg=25
 hi! EndOfBuffer ctermfg=248
 hi! LineNr ctermfg=6
@@ -48,10 +48,11 @@ hi! NonText ctermfg=250
 hi! SpecialKey ctermfg=121
 hi! Directory ctermfg=6
 
-hi! StatusLine ctermfg=232
+hi! StatusLine ctermfg=6 ctermbg=none cterm=bold
+hi! StatusLineNC ctermfg=6 ctermbg=none cterm=none
 
 hi! Folded ctermbg=234
 hi! FoldColumn ctermfg=111
 
-hi! WildMenu ctermbg=258
+hi! WildMenu ctermbg=none
 hi! VertSplit cterm=none ctermfg=6
