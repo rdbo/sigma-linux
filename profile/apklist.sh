@@ -130,7 +130,7 @@ addapk surf
 
 ## Office Tools
 # addapk libreoffice
-# addapk poppler poppler-utils
+addapk poppler poppler-utils
 addapk groff
 addapk sc-im
 
