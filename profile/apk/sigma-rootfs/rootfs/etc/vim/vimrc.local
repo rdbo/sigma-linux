@@ -24,4 +24,5 @@ filetype indent on
 colorscheme sigma
 
 let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.*\.swp']
 autocmd vimenter * if !argc() | NERDTree | endif
