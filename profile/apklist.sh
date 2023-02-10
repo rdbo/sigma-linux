@@ -25,7 +25,7 @@ addapk busybox busybox-mdev-openrc openssl sfdisk mdadm lvm2 cryptsetup blkid xf
 addapk libx11-dev libxft-dev libxinerama-dev libxrandr-dev imlib2-dev harfbuzz-dev freetype-dev libxtst-dev libxcb-dev
 
 ## Development Tools
-addapk bash tcc mold make perl tar gzip xz git
+addapk bash tcc mold make perl
 
 ## Tools for building this distribuition
 # addapk git alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools sudo mtools dosfstools grub-efi
@@ -153,14 +153,16 @@ addapk neomutt
 addapk newsboat
 
 # --------------------
-# Utilities
-addapk mandoc ncurses file p7zip tar gzip xz wget curl
-
-# --------------------
 # Misc
 
 ## Fonts
 addapk font-dejavu
+
+## Utilities
+addapk mandoc ncurses file p7zip tar gzip xz wget curl
+
+## Documentation
+addapk man-pages ntfs-3g-doc sudo-doc doas-doc openssh-doc busybox-doc openssl-doc lvm2-doc cryptsetup-doc xfsprogs-doc e2fsprogs-doc btrfs-progs-doc dosfstools-doc farbfeld-doc libx11-doc libxft-doc libxinerama-doc libxrandr-doc harfbuzz-doc freetype-doc libxtst-doc libxcb-doc bash-doc tcc-doc mold-doc make-doc git-doc dbus-doc xorg-server-doc eudev-doc xrandr-doc xsetroot-doc setxkbmap-doc xprop-doc xclip-doc xev-doc xkill-doc maim-doc pipewire-doc pulseaudio-ctl-doc wireguard-tools-doc openvpn-doc bluez-doc vim-doc xfe-doc dunst-doc nsxiv-doc mpv-doc gnupg-doc pass-doc surf-doc poppler-doc groff-doc sc-im-doc zathura-doc imagemagick-doc ffmpeg-doc weechat-doc neomutt-doc newsboat-doc mandoc-doc file-doc p7zip-doc tar-doc gzip-doc xz-doc wget-doc curl-doc
 
 # --------------------
 # Show Packages
