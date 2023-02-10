@@ -43,7 +43,7 @@ for arg in $@; do
     esac
 done
 
-export ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/$PROFILEARCH/alpine-minirootfs-3.16.2-$PROFILEARCH.tar.gz"
+export ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.17/releases/$PROFILEARCH/alpine-minirootfs-3.17.2-$PROFILEARCH.tar.gz"
 
 # show build info
 echo "---------------------"
@@ -89,5 +89,3 @@ cd "$OUTDIR"
 sha256sum *.iso > sha256sums
 cd "$BASEDIR"
 echo "[*] Output files at: $OUTDIR"
-
-
