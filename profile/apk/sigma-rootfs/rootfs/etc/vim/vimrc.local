@@ -1,4 +1,4 @@
-set rtp^=/etc/vim/pack/themes/start/vim-code-dark
+set rtp^=/etc/vim/pack/themes/start/sigma
 set rtp^=/etc/vim/pack/vendor/start/nerdtree
 set nocompatible
 set number
@@ -21,13 +21,7 @@ filetype on
 filetype plugin on
 filetype indent on
 
-syntax on
-
-colorscheme codedark
-
-hi CursorLine cterm=NONE
-hi CursorLineNr cterm=NONE term=bold ctermfg=49
-hi LineNr cterm=NONE ctermfg=49
+colorscheme sigma
 
 let NERDTreeShowHidden=1
 autocmd vimenter * if !argc() | NERDTree | endif
