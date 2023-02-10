@@ -42,7 +42,7 @@ hi! DiffAdd ctermbg=233
 hi! DiffChange ctermfg=233
 hi! DiffDelete ctermfg=233
 hi! DiffText ctermbg=210
-hi! MatchParent ctermbg=242
+hi! MatchParen ctermbg=36
 
 hi! NonText ctermfg=250
 hi! SpecialKey ctermfg=121
