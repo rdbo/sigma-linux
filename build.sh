@@ -3,18 +3,15 @@
 export PROFILENAME="sigma"
 export PROFILEVER="3.0"
 export PROFILEURL="https://github.com/rdbo/sigma-linux"
-export PROFILEARCH="x86_64"
+export PROFILEARCH="$(uname -m)"
 export BASEDIR="$(pwd)"
 export CACHEDIR="$BASEDIR/cache"
 export PROFILEDIR="$BASEDIR/profile"
 export APKDIR="$PROFILEDIR/apk"
 export OUTDIR="$BASEDIR/out"
-export UNIONFS_SIZE="2G"
 export APKLIST="$(sh $PROFILEDIR/apklist.sh)"
 export REPODIR="$PROFILEDIR/repo"
-export BUILD_CMD="sudo -E sh build-minirootfs.sh"
-export ROOTFS_APKS="alpine-base openrc busybox-initscripts busybox mdev-conf kbd-bkeymaps chrony dhcpcd e2fsprogs haveged network-extras openntpd openssl openssh tzdata wget"
-export INITFS_FEATURES="ata base bootchart cdrom ext4 mmc nvme raid scsi squashfs usb virtio simpledrm"
+export BUILD_CMD="sudo -E sh build-chroot.sh"
 export KERNEL_FLAVOR="lts"
 export ZSTD_LEVEL="22"
 export IGNORE_SIGMA_ROOTFS="no"
@@ -43,8 +40,6 @@ for arg in $@; do
     esac
 done
 
-export ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v3.17/releases/$PROFILEARCH/alpine-minirootfs-3.17.2-$PROFILEARCH.tar.gz"
-
 # show build info
 echo "---------------------"
 echo "- Build Information -"
@@ -62,7 +57,6 @@ echo "[*] Setting up directories..."
 mkdir -p "$CACHEDIR" "$OUTDIR"
 
 if [ "$IGNORE_SIGMA_ROOTFS" != "yes" ]; then
-    export ROOTFS_APKS="$ROOTFS_APKS sigma-rootfs"
     # create user directories
     for dir in Downloads Documents Pictures Videos Music; do
     	mkdir -p "$PROFILEDIR/apk/sigma-rootfs/rootfs/etc/skel/$dir"
