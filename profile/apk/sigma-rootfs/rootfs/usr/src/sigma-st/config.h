@@ -102,11 +102,11 @@ static const char *colorname[] = {
 	"yellow3",
 	"blue2",
 	"magenta3",
-        "#00ffc8",
+        "cyan",
 	"gray90",
 
 	/* 8 bright colors */
-	"gray50",
+	"#132a33",
 	"red",
 	"green",
 	"yellow",
@@ -127,7 +127,7 @@ static const char *colorname[] = {
  */
 unsigned int defaultfg = 7;
 unsigned int defaultbg = 0;
-unsigned int defaultcs = 6;
+unsigned int defaultcs = 7;
 static unsigned int defaultrcs = 0;
 
 /*
