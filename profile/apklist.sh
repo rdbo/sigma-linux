@@ -135,7 +135,7 @@ addapk groff
 addapk sc-im
 
 ## PDF Viewer
-addapk zathura
+addapk zathura zathura-pdf-mupdf
 
 ## Graphics Tools
 # addapk gimp
