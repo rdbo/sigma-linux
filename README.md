@@ -13,6 +13,7 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - Window Manager: dwm
 - Terminal: st
 - Text Editor: vim
+- Screen Locker: slock
 - Notification Daemon: dunst
 - Browser: surf
 - Audio/Video Player: mpv
@@ -29,6 +30,8 @@ All the files in this repository follow the license in the file `LICENSE` presen
 - IRC Chat: weechat
 - Mail Client: neomutt
 - RSS Feed: newsboat
+- Virtual Keyboard: svkbd
+- Audio Manager: pulsemixer
 - Audio Server: pipewire
 - Network Daemon: iwd
 - VPN Tools: wireguard, openvpn
