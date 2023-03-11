@@ -27,8 +27,8 @@ if [ ! -z "$BLOCK_BUTTON" ]; then
 fi
 
 VOL="$(pactl get-$DEVNAME-volume $DEVICE)"
-VOL_LEFT="$(echo $VOL | cut -d ' ' -f 5 | head -n 1)"
-VOL_RIGHT="$(echo $VOL | cut -d ' ' -f 12 | head -n 1)"
+VOL_LEFT="$(echo $VOL | head -n 1 | cut -d ' ' -f 5)"
+VOL_RIGHT="$(echo $VOL | head -n 1 | cut -d ' ' -f 12)"
 MUTED="$(pactl get-$DEVNAME-mute $DEVICE | cut -d ' ' -f 2)"
 
 if [ "$DEVNAME" = "sink" ]; then
@@ -45,10 +45,10 @@ else
 	fi
 fi
 
-if [ "$VOL_LEFT" = "$VOL_RIGHT" ]; then
+if [ "$VOL_LEFT" = "$VOL_RIGHT" ] || [ -z "$VOL_RIGHT" ]; then
 	VOL="$VOL_LEFT"
 else
-	VOL="L:$SINK_VOL_LEFT R:$SINK_VOL_RIGHT"
+	VOL="L:$VOL_LEFT R:$VOL_RIGHT"
 fi
 
 echo "${MOD_ICON_COLOR}$ICON ${MOD_TXT_COLOR}$VOL"
