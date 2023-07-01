@@ -104,7 +104,7 @@ addapk bluez
 # addapk polybar
 
 ## Text Editor
-addapk vim
+addapk vim helix
 
 # File Explorer
 addapk xfe
