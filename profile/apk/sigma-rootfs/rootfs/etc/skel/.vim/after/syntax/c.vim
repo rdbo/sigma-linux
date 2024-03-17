@@ -1,1 +1,0 @@
-/etc/vim/pack/syntax/c.vim
