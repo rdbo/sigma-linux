@@ -2,6 +2,11 @@
 
 set -e
 
+if [ "$(id -u)" != "0" ]; then
+	echo "[!] Run as root"
+	exit 1
+fi
+
 echo "[*] Sigma Linux Builder"
 
 echo "[*] Running config..."
