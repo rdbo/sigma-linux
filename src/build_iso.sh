@@ -13,6 +13,9 @@ cp "$KERNEL_DIR/arch/$TARGET_ARCH/boot/bzImage" "$ISO_DIR/vmlinuz"
 # cd "$KERNEL_DIR"
 # make INSTALL_MOD_PATH="$ISO_DIR" modules_install
 
+# Copy kernel config to ISO dir
+cp "$KERNEL_DIR/.config" "$ISO_DIR/config"
+
 # Copy initramfs to ISO dir
 cp "$INITRAMFS_PATH" "$ISO_DIR"
 
