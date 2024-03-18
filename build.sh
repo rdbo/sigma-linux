@@ -31,4 +31,8 @@ echo "[*] Building kernel..."
 echo "[*] Building busybox..."
 ./src/build_busybox.sh
 
+# Make initramfs
+echo "[*] Making initramfs..."
+./src/make_initramfs.sh
+
 echo "[*] Build finished successfully"

@@ -12,6 +12,8 @@ export KERNEL_DIR="$CACHE_DIR/linux"
 export BUSYBOX_GIT="https://git.busybox.net/busybox"
 export BUSYBOX_BRANCH="1_36_1"
 export BUSYBOX_DIR="$CACHE_DIR/busybox"
+export INITRD_DIR="$CACHE_DIR/initrd"
+export INITRAMFS_PATH="$CACHE_DIR/initramfs"
 
 echo "Config:"
 echo " - PROFILENAME: $PROFILENAME"
