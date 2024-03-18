@@ -10,6 +10,7 @@ cat <<- EOF > init
 #!/bin/sh
 
 dmesg -n 1
+mkdir -p /dev /proc /sys
 mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
