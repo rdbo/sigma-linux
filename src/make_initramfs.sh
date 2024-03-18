@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 mkdir -p "$INITRD_DIR"
 cd "$INITRD_DIR"
 
@@ -14,6 +16,11 @@ mount -t sysfs none /sys
 setsid cttyhack /bin/sh
 EOF
 chmod +x init
+
+# Install busybox
+mkdir -p bin usr/bin sbin usr/sbin
+cp "$BUSYBOX_DIR/busybox" "$INITRD_DIR/bin/busybox"
+chroot . /bin/busybox --install
 
 # Compress files into initramfs
 find . | cpio -R root:root -H newc -o | gzip > "$INITRAMFS_PATH"

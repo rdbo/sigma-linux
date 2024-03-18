@@ -35,4 +35,8 @@ echo "[*] Building busybox..."
 echo "[*] Making initramfs..."
 ./src/make_initramfs.sh
 
+# Build ISO
+echo "[*] Building ISO..."
+./src/build_iso.sh
+
 echo "[*] Build finished successfully"
