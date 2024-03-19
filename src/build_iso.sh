@@ -21,7 +21,14 @@ cp "$INITRAMFS_PATH" "$ISO_DIR"
 
 # Copy GRUB config to ISO dir
 mkdir -p "$ISO_DIR/boot/grub"
-cp "$SRC_DIR/grub.cfg" "$ISO_DIR/boot/grub/"
+cat <<- EOF > "$ISO_DIR/boot/grub/grub.cfg"
+menuentry "$SYSNAME" {
+	echo "Loading vmlinuz..."
+	linux /vmlinuz
+	echo "Loading initrd..."
+	initrd /initramfs
+}
+EOF
 
 # Build ISO
 grub-mkrescue "$ISO_DIR" -o "$ISO_PATH" -volid "$ISO_VOLID"

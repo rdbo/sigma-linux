@@ -9,6 +9,8 @@ cd "$INITRD_DIR"
 cat <<- EOF > init
 #!/bin/sh
 
+echo Running init script...
+
 dmesg -n 1
 mkdir -p /dev /proc /sys
 mount -t devtmpfs none /dev
