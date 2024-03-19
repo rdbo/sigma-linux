@@ -1,7 +1,5 @@
-alpine-base
 alpine-baselayout
 alpine-baselayout-data
-alpine-conf
 alpine-keys
 alpine-release
 apk-tools
