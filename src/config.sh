@@ -22,7 +22,7 @@ export SQUASHFS_DIR="$CACHE_DIR/squashfs"
 export SQUASHFS_PATH="$CACHE_DIR/rootfs.squashfs"
 export ISO_DIR="$CACHE_DIR/iso"
 export ISO_PATH="$CACHE_DIR/$PROFILENAME-linux.iso"
-export ISO_VOLID="sigma-linux"
+export ISO_VOLID="sigma-linux-cdrom"
 
 echo "Config:"
 echo " - PROFILENAME: $PROFILENAME"

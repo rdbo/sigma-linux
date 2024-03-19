@@ -18,7 +18,7 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 
 echo "Mounting cdrom at /cdrom..."
-cdromdev="\$(findfs LABEL="$ISO_VOLID" | head -n 1)"
+cdromdev="\$(findfs "LABEL=$ISO_VOLID" | head -n 1)"
 if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
 	echo "Failed to find CDROM device, spawning troubleshoot shell..."
 	exec /bin/sh
