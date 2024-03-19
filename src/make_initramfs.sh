@@ -19,7 +19,6 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 
 echo "Mounting cdrom at /cdrom..."
-
 for i in \$(seq 1 5); do
 	cdromdev="\$(findfs "LABEL=$ISO_VOLID" | head -n 1)"
 	if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
