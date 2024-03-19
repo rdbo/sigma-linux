@@ -1,3 +1,4 @@
+# alpine core packages
 alpine-base
 alpine-baselayout
 alpine-baselayout-data
@@ -12,3 +13,8 @@ musl
 openrc
 openssh
 openssl
+
+# custom packages
+iwd
+wget
+curl

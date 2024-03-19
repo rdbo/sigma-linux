@@ -3,7 +3,7 @@
 set -e
 
 mkdir -p "$SQUASHFS_DIR"
-pkgs="$(cat "$SRC_DIR/pkglist" | tr '\n' ' ')"
+pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
 # Initialize APK database
