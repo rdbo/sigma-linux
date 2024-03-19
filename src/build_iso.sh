@@ -24,4 +24,4 @@ mkdir -p "$ISO_DIR/boot/grub"
 cp "$SRC_DIR/grub.cfg" "$ISO_DIR/boot/grub/"
 
 # Build ISO
-grub-mkrescue "$ISO_DIR" -o "$ISO_PATH"
+grub-mkrescue "$ISO_DIR" -o "$ISO_PATH" -volid "$ISO_VOLID"
