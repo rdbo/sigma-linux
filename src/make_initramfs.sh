@@ -9,13 +9,15 @@ cd "$INITRD_DIR"
 cat <<- EOF > init
 #!/bin/sh
 
-echo Running init script...
-
 dmesg -n 1
+
+echo "Mounting pseudo filesystems..."
 mkdir -p /dev /proc /sys
 mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
+
+echo "Spawning shell (debug)..."
 setsid cttyhack /bin/sh
 EOF
 chmod +x init
