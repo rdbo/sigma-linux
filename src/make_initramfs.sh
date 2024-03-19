@@ -6,6 +6,7 @@ mkdir -p "$INITRD_DIR"
 cd "$INITRD_DIR"
 
 # Create init script
+# TODO: Look for better way of finding CDROM device
 cat <<- EOF > init
 #!/bin/sh
 
@@ -17,8 +18,21 @@ mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
 
+echo "Populating /dev..."
+mdev -s
+
 echo "Mounting cdrom at /cdrom..."
-cdromdev="\$(findfs "LABEL=$ISO_VOLID" | head -n 1)"
+
+for i in \$(seq 1 5); do
+	cdromdev="\$(findfs "LABEL=$ISO_VOLID" | head -n 1)"
+	if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
+		echo "Failed to find CDROM device, trying again..."
+		sleep 1
+	else
+		break
+	fi
+done
+
 if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
 	echo "Failed to find CDROM device, spawning troubleshoot shell..."
 	exec /bin/sh
