@@ -18,9 +18,6 @@ mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
 
-echo "Populating /dev..."
-mdev -s
-
 echo "Mounting cdrom at /cdrom..."
 
 for i in \$(seq 1 5); do
