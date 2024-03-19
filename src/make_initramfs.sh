@@ -26,7 +26,7 @@ mkdir -p /new_root
 mount /cdrom/rootfs.squashfs /new_root
 
 echo "Mounting pseudo filesystems for new root.."
-mkdir -p /dev /proc /new_root/sys
+mkdir -p /new_root/dev /new_root/proc /new_root/sys
 mount -t devtmpfs none /new_root/dev
 mount -t proc none /new_root/proc
 mount -t sysfs none /new_root/sys
