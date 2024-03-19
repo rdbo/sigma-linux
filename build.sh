@@ -40,6 +40,10 @@ echo "[*] Building busybox..."
 echo "[*] Making initramfs..."
 ./src/make_initramfs.sh
 
+# Make squashfs
+echo "[*] Making squashfs..."
+./src/make_squashfs.sh
+
 # Build ISO
 echo "[*] Building ISO..."
 ./src/build_iso.sh

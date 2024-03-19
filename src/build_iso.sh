@@ -21,6 +21,9 @@ cp "$KERNEL_DIR/.config" "$ISO_DIR/boot/config"
 # Copy initramfs to ISO dir
 cp "$INITRAMFS_PATH" "$ISO_DIR/boot/initramfs"
 
+# Copy squashfs to ISO dir
+cp "$SQUASHFS_PATH" "$ISO_DIR/rootfs.squashfs"
+
 # Copy GRUB config to ISO dir
 cat <<- EOF > "$ISO_DIR/boot/grub/grub.cfg"
 menuentry "$SYSNAME" {
