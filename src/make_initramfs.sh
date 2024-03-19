@@ -18,8 +18,14 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 
 echo "Mounting cdrom at /cdrom..."
+cdromdev="\$(findfs LABEL="$ISO_VOLID" | head -n 1)"
+if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
+	echo "Failed to find CDROM device, spawning troubleshoot shell..."
+	exec /bin/sh
+fi
+
 mkdir -p /cdrom
-mount /dev/sr0 /cdrom
+mount "\$cdromdev" /cdrom
 
 echo "Mounting squashfs at /new_root..."
 mkdir -p /new_root
