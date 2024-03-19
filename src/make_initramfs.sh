@@ -41,9 +41,13 @@ fi
 mkdir -p /cdrom
 mount "\$cdromdev" /cdrom
 
-echo "Mounting squashfs at /new_root..."
-mkdir -p /new_root
-mount /cdrom/rootfs.squashfs /new_root
+echo "Mounting squashfs at /live..."
+mkdir -p /live
+mount /cdrom/rootfs.squashfs /live
+
+echo "Mounting overlayfs at /new_root..."
+mkdir -p /upper /work /new_root
+mount -t overlay overlay -o lowerdir=/live,upperdir=/upper,workdir=/work /new_root
 
 echo "Mounting pseudo filesystems for new root.."
 mkdir -p /new_root/dev /new_root/proc /new_root/sys
