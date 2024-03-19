@@ -17,8 +17,24 @@ mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
 
-echo "Spawning shell (debug)..."
-setsid cttyhack /bin/sh
+echo "Mounting cdrom at /cdrom..."
+mkdir -p /cdrom
+mount /dev/sr0 /cdrom
+
+echo "Mounting squashfs at /new_root..."
+mkdir -p /new_root
+mount /cdrom/rootfs.squashfs /new_root
+
+echo "Mounting pseudo filesystems for new root.."
+mkdir -p /dev /proc /new_root/sys
+mount -t devtmpfs none /new_root/dev
+mount -t proc none /new_root/proc
+mount -t sysfs none /new_root/sys
+
+echo "Spawning shell (exit to continue init)..."
+/bin/sh
+
+exec switch_root /new_root /sbin/init
 EOF
 chmod +x init
 

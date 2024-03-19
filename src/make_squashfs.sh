@@ -7,7 +7,9 @@ pkgs="$(cat "$SRC_DIR/pkglist" | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
 # Initialize APK database
-apk add --initdb -p "$SQUASHFS_DIR"
+if [ ! -d "$SQUASHFS_DIR/etc/apk" ]; then
+	apk add --initdb -p "$SQUASHFS_DIR"
+fi
 
 apk add \
 	-p "$SQUASHFS_DIR" \
@@ -17,4 +19,5 @@ apk add \
 	$pkgs
 
 # Create squashfs
+rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
 mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH"
