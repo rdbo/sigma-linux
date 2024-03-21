@@ -16,6 +16,7 @@ apk add \
 	--allow-untrusted \
 	--no-cache \
 	--repositories-file="$REPOS_FILE" \
+	-X "$REPO_DIR/apk" \
 	$pkgs
 
 # Create squashfs

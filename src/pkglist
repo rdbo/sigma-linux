@@ -18,3 +18,6 @@ openssl
 iwd
 wget
 curl
+
+# sigma linux packages
+sigma-conf

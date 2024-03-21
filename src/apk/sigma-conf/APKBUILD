@@ -16,7 +16,6 @@ build() {
 }
 
 package() {
-	ls "$srcdir"
 	mkdir -p "$pkgdir"
 	cp -r "$srcdir/rootfs/." "$pkgdir/."
 }
