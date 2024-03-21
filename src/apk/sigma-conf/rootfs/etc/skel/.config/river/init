@@ -118,5 +118,5 @@ riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
 riverctl spawn 'mako'
 riverctl spawn 'yambar'
 riverctl spawn 'easyeffects --gapplication-service'
-riverctl spawn 'swww init'
-riverctl spawn "swww img \"$SIGMA_CONFIG_DIR/background\""
+swww init
+swww img "$SIGMA_CONFIG_DIR/background"
