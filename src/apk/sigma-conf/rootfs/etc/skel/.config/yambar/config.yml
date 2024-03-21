@@ -44,7 +44,7 @@ bar:
 
   right:
     - script:
-        path: /usr/local/bin/sigma-nwusage
+        path: /usr/bin/sigma-nwusage
         poll-interval: 1000
         content:
           map:
@@ -54,7 +54,7 @@ bar:
               string: { text: " {rx_speed}  {tx_speed}" }
             conditions: {  }
     - script:
-        path: /usr/local/bin/sigma-nwif
+        path: /usr/bin/sigma-nwif
         poll-interval: 1000
         content:
           map:
@@ -91,7 +91,7 @@ bar:
             default:
               string: { text: " {percent_used}%" }
     - script:
-        path: /usr/local/bin/sigma-battery
+        path: /usr/bin/sigma-battery
         poll-interval: 5000
         content:
           map:
