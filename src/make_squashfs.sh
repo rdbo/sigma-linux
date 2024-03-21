@@ -37,6 +37,28 @@ For more information about the distribution, see:
 
 EOF
 
+# Copy /etc/skel to /root (allows for logging in to the desktop environment as root on live boot)
+cp -r "$SQUASHFS_DIR/etc/skel/." "$SQUASHFS_DIR/root/."
+
+# Enable OpenRC services
+rc_add() {
+	# $1: service name
+	# $2: run level
+	chroot "$SQUASHFS_DIR" rc-update add "$1" "$2"
+}
+
+# NOTE: The 'udev' services are used for setting up /dev and doing things
+#       such as changing the ownership of certain devices (e.g /dev/dri/cardN).
+#       That behavior allows us to access devices (such as the GPU and the input
+#       devices) without root access.
+rc_add udev sysinit
+rc_add udev-trigger sysinit
+rc_add udev-settle sysinit
+rc_add udev-postmount default
+rc_add iwd default
+rc_add dbus default
+rc_add seatd default
+
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
 mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH"
