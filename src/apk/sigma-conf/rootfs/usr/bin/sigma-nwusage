@@ -1,0 +1,79 @@
+#!/bin/sh
+
+. sigma-common
+
+SYS_NWIF_DIR="/sys/class/net"
+NWUSAGE_DATA_FILE="$SIGMA_TMP_DIR/nwusage"
+RX_PREV_TOTAL="0"
+TX_PREV_TOTAL="0"
+
+# Data shared with the status bar
+RX_SPEED="0 B/s"
+TX_SPEED="0 B/s"
+RX_TOTAL="0"
+TX_TOTAL="0"
+
+# Convert bytes to highest unit
+function convert_bytes {
+	local bytes="$1"
+	local units="B KiB MiB GiB TiB PiB EiB ZiB YiB"
+	local i=1
+
+	while [ $bytes -ge 1024 ]; do
+		bytes="$(($bytes / 1024))"
+		i="$(($i + 1))"
+	done
+
+	local unit="$(echo $units | cut -d " " -f $i)"
+
+	printf "%s" "$bytes $unit"
+}
+
+# Restore previous RX/TX
+if [ -f "$NWUSAGE_DATA_FILE" ]; then
+	rx_prev="$(head -n 1 $NWUSAGE_DATA_FILE)"
+	tx_prev="$(tail -n 1 $NWUSAGE_DATA_FILE)"
+
+	if [ ! -z "$rx_prev" ]; then
+		RX_PREV_TOTAL="$rx_prev"
+	fi
+
+	if [ ! -z "$tx_prev" ]; then
+		TX_PREV_TOTAL="$tx_prev"
+	fi
+fi
+
+# Retrieve current RX/TX
+for iface in $SYS_NWIF_DIR/*; do
+	iface_state="$(cat $iface/operstate)"
+
+	# Skip interfaces that are down, or loopback
+	if [ "$iface_state" != "up" ]; then
+		continue
+	fi
+
+	iface_rx="$(cat ${iface}/statistics/rx_bytes)"
+	iface_tx="$(cat ${iface}/statistics/tx_bytes)"
+
+	RX_TOTAL="$(($RX_TOTAL + $iface_rx))"
+	TX_TOTAL="$(($TX_TOTAL + $iface_tx))"
+done
+
+# Calculate speeds
+diff_rx="$(($RX_TOTAL - $RX_PREV_TOTAL))"
+diff_tx="$(($TX_TOTAL - $TX_PREV_TOTAL))"
+RX_SPEED="$(convert_bytes "$diff_rx")/s"
+TX_SPEED="$(convert_bytes "$diff_tx")/s"
+
+# Update network usage cache
+printf "%s\n%s\n" "$RX_TOTAL" "$TX_TOTAL" > "$NWUSAGE_DATA_FILE"
+
+# Convert units for total RX/TX (better display on status bar or notifications)
+RX_TOTAL="$(convert_bytes "$RX_TOTAL")"
+TX_TOTAL="$(convert_bytes "$TX_TOTAL")"
+
+printf "%s\n" "rx_speed|string|$RX_SPEED"
+printf "%s\n" "tx_speed|string|$TX_SPEED"
+printf "%s\n" "rx|string|$RX_TOTAL"
+printf "%s\n" "tx|string|$TX_TOTAL"
+printf "\n"

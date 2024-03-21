@@ -1,0 +1,28 @@
+set rtp^=/etc/vim/pack/themes/start/sigma
+set rtp^=/etc/vim/pack/vendor/start/nerdtree
+set nocompatible
+set number
+set cursorline
+set ruler
+set autoindent
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+
+noremap <C-J> <C-W>j
+noremap <C-K> <C-W>k
+noremap <C-H> <C-W>h
+noremap <C-L> <C-W>l
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+filetype on
+filetype plugin on
+filetype indent on
+
+colorscheme sigma
+
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.*\.swp']
+autocmd vimenter * if !argc() | NERDTree | endif

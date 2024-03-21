@@ -1,0 +1,66 @@
+#!/bin/sh
+
+. sigma-common
+
+NWIF_FILE="$SIGMA_CONFIG_DIR/nwif"
+SYS_NWIF_DIR="/sys/class/net"
+
+# Data shared with status bar
+NWIF="none"
+PLUGGED="false"
+WIRELESS="false"
+UP="false"
+IPV4="none"
+IPV6="none"
+
+# Retrieve network interface name from cached file
+if [ -f "$NWIF_FILE" ]; then
+	nwif="$(cat "$NWIF_FILE")"
+	if [ ! -z "$nwif" ]; then
+		NWIF="$nwif"
+	fi
+else
+	nwif="$(ls "$SYS_NWIF_DIR" | head -n 1)"
+	if [ ! -z "$nwif" ]; then
+		NWIF="$nwif"
+		echo "$NWIF" > "$NWIF_FILE"
+	fi
+fi
+
+# Check if interface is plugged or not
+if [ ! -d "$SYS_NWIF_DIR/$NWIF" ]; then
+	PLUGGED="false"
+else
+	PLUGGED="true"
+
+	# Check if interface is wireless
+	if [ -d "$SYS_NWIF_DIR/$NWIF/wireless" ]; then
+		WIRELESS="true"
+	fi
+
+	# Check if interface is up
+	state="$(cat "$SYS_NWIF_DIR/$NWIF/operstate")"
+	if [ "$state" = "up" ]; then
+		UP="true"
+	fi
+
+	# Get IP addresses
+	ipv4="$(ip address show "$NWIF" | grep "inet " | head -n 1 | sed -E "s/\s+inet\s+//g" | cut -d " " -f 1)"
+	ipv6="$(ip address show "$NWIF" | grep "inet6 " | head -n 1 | sed -E "s/\s+inet6\s+//g" | cut -d " " -f 1)"
+
+	if [ ! -z "$ipv4" ]; then
+		IPV4="$ipv4"
+	fi
+
+	if [ ! -z "$ipv6" ]; then
+		IPV6="$ipv6"
+	fi
+fi
+
+printf "%s\n" "nwif|string|$NWIF"
+printf "%s\n" "plugged|bool|$PLUGGED"
+printf "%s\n" "wireless|bool|$WIRELESS"
+printf "%s\n" "up|bool|$UP"
+printf "%s\n" "ipv4|string|$IPV4"
+printf "%s\n" "ipv6|string|$IPV6"
+printf "\n"

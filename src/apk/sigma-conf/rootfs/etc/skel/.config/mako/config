@@ -1,0 +1,9 @@
+font=FiraCode Nerd Font Propo 10
+background-color=#101A20FF
+text-color=#00FFC8FF
+width=420
+height=128
+border-color=#00FFC8FF
+icons=0
+progress-color=#00FFC8FF
+default-timeout=3000

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+action="$(printf "Lock Screen\nQuit\nPower Off\nReboot\n" | sigma-dmenu -p "Choose an action")"
+
+case "$action" in
+	"Lock Screen") sigma-lock-screen;;
+	"Quit") riverctl exit;;
+	"Power Off") foot -a wmfloat sudo poweroff;;
+	"Reboot") foot -a wmfloat sudo reboot;;
+esac

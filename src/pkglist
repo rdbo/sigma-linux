@@ -15,9 +15,37 @@ openssh
 openssl
 
 # custom packages
-iwd
-wget
-curl
+## desktop
+river
+yambar
+fuzzel
+wlr-randr
+waylock
+slurp
+wl-clipboard
+libnotify
+grim
+wvkbd
+pipewire
+foot
+xwayland
+pulseaudio-utils
+dbus-x11
+font-fira-mono-nerd
+font-fira-code-nerd
+swww
+easyeffects
+mako
+pulsemixer
 
-# sigma linux packages
+## programs
+vim
+helix
+sc-im
+firefox
+pulseaudio-ctl
+nsxiv
+mpv
+
+# local packages
 sigma-conf

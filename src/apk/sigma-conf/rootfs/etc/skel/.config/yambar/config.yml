@@ -1,0 +1,228 @@
+bar:
+  height: 26
+  location: top
+  foreground: 00ffc8ff
+  background: 101a20ff
+  font: FiraCode Nerd Font:style=bold:size=12
+  margin: 0
+  right-margin: 6
+  spacing: 6
+
+  left:
+    - river:
+        anchors:
+          - base: &river_base
+              margin: 8
+              default: { string: { text: "{id}" } }
+              conditions: { }
+        content:
+          map:
+            on-click:
+              left: 'sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"'
+              right: 'sh -c "riverctl toggle-focused-tags $((1 << ({id} - 1)))"'
+          
+            conditions:
+              id > 9:
+                empty: {  }
+              state == focused:
+                map:
+                  <<: *river_base
+                  deco:
+                    underline:
+                      size: 5
+                      color: 00ffc8ff
+              occupied:
+                map:
+                  <<: *river_base
+
+  center:
+    - clock:
+        date-format: "%a, %d %b %Y -"
+        time-format: "%H:%M:%S"
+        content:
+          - string: { text: "{date} {time}" }
+
+  right:
+    - script:
+        path: /usr/local/bin/sigma-nwusage
+        poll-interval: 1000
+        content:
+          map:
+            on-click:
+              left: 'notify-send " Network Usage" " Total Downloads: {rx}\n Total Uploads: {tx}"'
+            default:
+              string: { text: " {rx_speed}  {tx_speed}" }
+            conditions: {  }
+    - script:
+        path: /usr/local/bin/sigma-nwif
+        poll-interval: 1000
+        content:
+          map:
+            on-click:
+              left: 'notify-send " Interface: {nwif}" " Plugged: {plugged}\n Up: {up}\n直 Wireless: {wireless}\n󱄙 IPv4: {ipv4}\n󱄙 IPv6: {ipv6}"'
+              right: "sh -c '. sigma-common; ls /sys/class/net | sigma-dmenu -p \"Select network interface...\" > \"$SIGMA_CONFIG_DIR/nwif\"'"
+            conditions:
+              ~plugged:
+                string: { text: "󰚦 {nwif}" }
+              up && ~wireless:
+                string: { text: " {nwif}" }
+              up && wireless:
+                string: { text: "直 {nwif}" }
+              ~up && ~wireless:
+                string: { text: " {nwif}" }
+              ~up && wireless:
+                string: { text: "睊 {nwif}" }
+    - cpu:
+        poll-interval: 1000
+        content:
+          map:
+            on-click:
+              left: 'notify-send " CPU Usage" " Total CPU usage: {cpu}%"'
+            conditions:
+              id < 0:
+                string: { text: " {cpu}%" }
+    - mem:
+        poll-interval: 1000
+        content:
+          map:
+            on-click:
+              left: 'notify-send " Memory Usage" "󰍛 Used memory: {used:mb}MB ({percent_used}%)\n󰍛 Available memory: {free:mb}MB ({percent_free}%)"'
+            conditions: {  }
+            default:
+              string: { text: " {percent_used}%" }
+    - script:
+        path: /usr/local/bin/sigma-battery
+        poll-interval: 5000
+        content:
+          map:
+            on-click:
+              left: 'notify-send "󰁹 Battery: {battery}" "󰂑 Charge: {charge}%\n󰠠 Charging: {charging}"'
+              right: "sh -c '. sigma-common; ls /sys/class/power_supply | grep \"^BAT\" | sigma-dmenu -p \"Select battery...\" > \"$SIGMA_CONFIG_DIR/battery\"'"
+            conditions:
+              ~plugged:
+                string: { text: '󱟨 {battery}' }
+              ~charging:
+                map:
+                  conditions:
+                      charge == 100:
+                        - string: { text: "󰁹 {charge}%" }
+                      charge >= 90:
+                        - string: { text: "󰂂 {charge}%" }
+                      charge >= 80:
+                        - string: { text: "󰂁 {charge}%" }
+                      charge >= 70:
+                        - string: { text: "󰂀 {charge}%" }
+                      charge >= 60:
+                        - string: { text: "󰁿 {charge}%" }
+                      charge >= 50:
+                        - string: { text: "󰁾 {charge}%" }
+                      charge >= 40:
+                        - string: { text: "󰁽 {charge}%" }
+                      charge >= 30:
+                        - string: { text: "󰁼 {charge}%" }
+                      charge >= 20:
+                        - string: { text: "󰁻 {charge}%" }
+                      charge >= 10:
+                        - string: { text: "󰁺 {charge}%" }
+                      charge >= 0:
+                        - string: { text: "󱃍 {charge}%" }
+              charging:
+                map:
+                  conditions:
+                      charge == 100:
+                        - string: { text: "󰂅 {charge}%" }
+                      charge >= 90:
+                        - string: { text: "󰂋 {charge}%" }
+                      charge >= 80:
+                        - string: { text: "󰂊 {charge}%" }
+                      charge >= 70:
+                        - string: { text: "󰢞 {charge}%" }
+                      charge >= 60:
+                        - string: { text: "󰂉 {charge}%" }
+                      charge >= 50:
+                        - string: { text: "󰢝 {charge}%" }
+                      charge >= 40:
+                        - string: { text: "󰂈 {charge}%" }
+                      charge >= 30:
+                        - string: { text: "󰂇 {charge}%" }
+                      charge >= 20:
+                        - string: { text: "󰂆 {charge}%" }
+                      charge >= 10:
+                        - string: { text: "󰢜 {charge}%" }
+                      charge >= 0:
+                        - string: { text: "󰢟 {charge}%" }
+    - pipewire:
+        content:
+          list:
+            on-click:
+              left: 'pactl set-{type}-mute "{name}" toggle'
+              middle: 'notify-send " Audio device" "{name}"'
+              right: 'foot -a wmfloat pulsemixer'
+              wheel-up: 'pactl set-{type}-volume "{name}" "+5%"'
+              wheel-down: 'pactl set-{type}-volume "{name}" "-5%"'
+            items:
+              - map:
+                  # NOTE: If the source comes before the sink, it could display poorly!
+                  conditions:
+                    type == "sink":
+                      map:
+                        conditions:
+                          muted:
+                            string: { text: "ﳌ {cubic_volume}% " }
+                        default:
+                          string: { text: " {cubic_volume}% " }
+                    type == "source":
+                      map:
+                        conditions:
+                          muted:
+                            string: { text: " {cubic_volume}%" }
+                        default:
+                          string: { text: " {cubic_volume}%" }
+    - label:
+        content:
+          map:
+            on-click:
+              left: "sigma-screenshot"
+            default:
+              string: { text: " " }
+            conditions: {  }
+    - label:
+        content:
+          map:
+            on-click:
+              left: 'sigma-toggle-vkbd'
+            default:
+              string: { text: "󰌌 " }
+            conditions: {  }
+    - label:
+        content:
+          map:
+            on-click:
+              left: 'sigma-change-kbdlayout'
+            default:
+              string: { text: " " }
+            conditions: {  }
+    - label:
+        content:
+          map:
+            on-click:
+              left: 'sigma-change-resolution'
+            default:
+              string: { text: "󰹑 " }
+            conditions: {  }
+    - label:
+        content:
+          map:
+            on-click:
+              left: "sh -c 'notify-send \" Started bluetoothctl\"; foot -a wmfloat bluetoothctl'"
+            default:
+              string: { text: "󰂯" }
+            conditions: {  }
+    - label:
+        content:
+          map:
+            on-click:
+              left: "sh -c 'notify-send \" Started power menu\"; sigma-power-menu'"
+            default:
+              string: { text: " " }
+            conditions: {  }

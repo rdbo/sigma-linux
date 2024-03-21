@@ -1,0 +1,51 @@
+#!/bin/sh
+
+. sigma-common
+
+BAT_FILE="$SIGMA_CONFIG_DIR/battery"
+SYS_BAT_DIR="/sys/class/power_supply"
+
+# Data shared with status bar
+BATTERY="none"
+PLUGGED="false"
+CHARGE="0"
+CHARGING="false"
+
+# Retrieve network interface name from cached file
+if [ -f "$BAT_FILE" ]; then
+	bat="$(cat "$BAT_FILE")"
+	if [ ! -z "$bat" ]; then
+		BATTERY="$bat"
+	fi
+else
+	bat="$(ls "$SYS_BAT_DIR/" | grep '^BAT' | head -n 1)"
+	if [ ! -z "$bat" ]; then
+		BATTERY="$bat"
+		echo "$BATTERY" > "$BAT_FILE"
+	fi
+fi
+
+# Check if interface is plugged or not
+if [ ! -d "$SYS_BAT_DIR/$BATTERY" ]; then
+	PLUGGED="false"
+else
+	PLUGGED="true"
+
+	# Get battery charge
+	charge="$(cat "$SYS_BAT_DIR/$BATTERY/capacity")"
+	if [ ! -z "$charge" ]; then
+		CHARGE="$charge"
+	fi
+
+	# Get battery status
+	status="$(cat "$SYS_BAT_DIR/$BATTERY/status")"
+	if [ "$status" = "Charging" ]; then
+		CHARGING="true"
+	fi
+fi
+
+printf "%s\n" "battery|string|$BATTERY"
+printf "%s\n" "plugged|bool|$PLUGGED"
+printf "%s\n" "charge|int|$CHARGE"
+printf "%s\n" "charging|bool|$CHARGING"
+printf "\n"
