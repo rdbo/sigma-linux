@@ -1,5 +1,6 @@
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_RUNTIME_DIR="$(mktemp -d)"
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+	export XDG_RUNTIME_DIR="/tmp/run-$USER"
 
-mkdir -p "$XDG_DATA_HOME" "$XDG_CONFIG_HOME"
+	rm -rf "$XDG_RUNTIME_DIR"
+	mkdir -m 700 -p "$XDG_RUNTIME_DIR"
+fi
