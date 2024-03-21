@@ -28,6 +28,14 @@ cp "$SQUASHFS_PATH" "$ISO_DIR/rootfs.squashfs"
 cp "$SRC_DIR/grub_wallpaper.png" "$ISO_DIR/boot/grub/wallpaper.png"
 
 # Copy GRUB config to ISO dir
+# NOTE: The vt.* kernel parameters are used for changing the virtual terminal (VT) theme
+# Sane defaults:
+# red: 1,222,57,255,0,118,44,204,128,255,0,255,0,255,0,255
+# green: 1,56,181,199,111,38,181,204,128,0,255,255,0,0,255,255
+# blue: 1,43,74,6,184,113,233,204,128,0,0,0,255,255,255,255
+vt_default_red="16,222,57,255,0,118,44,204,128,255,0,255,0,255,0,255"
+vt_default_green="26,56,181,199,111,38,181,204,128,0,255,255,0,0,255,255"
+vt_default_blue="32,43,74,6,184,113,233,204,128,0,0,0,255,255,255,255"
 cat <<- EOF > "$ISO_DIR/boot/grub/grub.cfg"
 set timeout=5
 
@@ -43,7 +51,7 @@ background_image /boot/grub/wallpaper.png
 
 menuentry "$SYSNAME" {
 	echo "Loading vmlinuz..."
-	linux /boot/vmlinuz
+	linux /boot/vmlinuz vt.color=0x03 vt.default_red=$vt_default_red vt.default_grn=$vt_default_green vt.default_blu=$vt_default_blue
 	echo "Loading initrd..."
 	initrd /boot/initramfs
 }
