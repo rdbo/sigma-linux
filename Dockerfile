@@ -10,7 +10,7 @@ RUN adduser -D build -G abuild
 RUN addgroup build wheel
 
 # Setup abuild for build user
-RUN echo "permit nopass :wheel" > /etc/doas.conf
+RUN echo "permit nopass keepenv :wheel" > /etc/doas.conf
 USER build
 RUN abuild-keygen -i -a -n
 

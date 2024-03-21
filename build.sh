@@ -40,6 +40,10 @@ echo "[*] Building busybox..."
 echo "[*] Making initramfs..."
 ./src/make_initramfs.sh
 
+# Build local repository
+echo "[*] Building local repository..."
+doas -u "$BUILD_USER" -- ./src/build_repo.sh
+
 # Make squashfs
 echo "[*] Making squashfs..."
 ./src/make_squashfs.sh
