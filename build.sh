@@ -28,6 +28,10 @@ else
 	./src/update_busybox.sh
 fi
 
+# Patch kernel boot logo
+echo "[*] Patching boot logo..."
+./src/patch_boot_logo.sh
+
 # Build kernel
 echo "[*] Building kernel..."
 ./src/build_kernel.sh
