@@ -119,4 +119,4 @@ riverctl spawn 'mako'
 riverctl spawn 'yambar'
 riverctl spawn 'easyeffects --gapplication-service'
 swww init
-swww img "$SIGMA_CONFIG_DIR/background"
+swww img -t none "$SIGMA_CONFIG_DIR/background"
