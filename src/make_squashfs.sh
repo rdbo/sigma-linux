@@ -60,6 +60,18 @@ rc_add() {
 	chroot "$SQUASHFS_DIR" rc-update add "$1" "$2"
 }
 
+rc_add devfs sysinit
+rc_add dmesg sysinit
+rc_add mdev sysinit
+rc_add hwdrivers sysinit
+# rc_add modloop sysinit # NOTE: Not working, but there doesn't seem to be harm done without it
+
+rc_add hwclock boot
+rc_add modules boot
+rc_add sysctl boot
+rc_add bootmisc boot
+rc_add syslog boot
+
 # NOTE: The 'udev' services are used for setting up /dev and doing things
 #       such as changing the ownership of certain devices (e.g /dev/dri/cardN).
 #       That behavior allows us to access devices (such as the GPU and the input
@@ -68,11 +80,12 @@ rc_add udev sysinit
 rc_add udev-trigger sysinit
 rc_add udev-settle sysinit
 rc_add udev-postmount default
-rc_add hostname default
+rc_add hostname boot
 rc_add networking default
 rc_add iwd default
 rc_add dbus default
 rc_add seatd default
+# rc_add bluetooth default # TODO: Add bluetooth
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
