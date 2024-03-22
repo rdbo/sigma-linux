@@ -8,6 +8,7 @@ busybox
 ca-certificates-bundle
 dhcpcd
 wpa_supplicant
+iwd
 doas
 musl
 openrc
