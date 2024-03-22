@@ -31,9 +31,13 @@ mkdir -p "$SQUASHFS_DIR/etc/apk"
 cp "$REPOS_FILE" "$SQUASHFS_DIR/etc/apk/repositories"
 
 # Overwrite package owned files
+cat <<- EOF > "$SQUASHFS_DIR/etc/issue"
+Welcome to Sigma Linux (made by rdbo)
+Kernel \r on an \m (\l)
+EOF
+
 cat <<- EOF > "$SQUASHFS_DIR/etc/motd"
 Welcome to Sigma Linux!
-Made by rdbo
 
 To install the system, run the following command: setup-sigma
 
