@@ -68,7 +68,7 @@ rc_add() {
 
 rc_add devfs sysinit
 rc_add dmesg sysinit
-# rc_add mdev sysinit # NOTE: Not working due to missing /proc/sys/kernel/hotplug, doesn't seem to be necessary
+rc_add mdev sysinit
 rc_add hwdrivers sysinit
 # rc_add modloop sysinit # NOTE: Not working, but there doesn't seem to be harm done without it
 
