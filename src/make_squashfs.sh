@@ -5,9 +5,11 @@ set -e
 mkdir -p "$SQUASHFS_DIR"
 
 # Install kernel modules
-cd "$KERNEL_DIR"
-make INSTALL_MOD_PATH="$SQUASHFS_DIR" modules_install
-cd "$ROOT_DIR"
+if [ ! -d "$SQUASHFS_DIR/lib/modules" ]; then
+	cd "$KERNEL_DIR"
+	make INSTALL_MOD_PATH="$SQUASHFS_DIR" modules_install
+	cd "$ROOT_DIR"
+fi
 
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
