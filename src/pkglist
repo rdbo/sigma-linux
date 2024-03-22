@@ -39,6 +39,7 @@ mako
 pulsemixer
 seatd
 eudev
+adwaita-icon-theme
 
 ## programs
 vim
