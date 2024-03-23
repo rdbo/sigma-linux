@@ -31,11 +31,9 @@ bar:
                     underline:
                       size: 5
                       color: 00ffc8ff
-              occupied:
+              id <= 9:
                 map:
                   <<: *river_base
-
-  center:
     - clock:
         date-format: "%a, %d %b %Y -"
         time-format: "%H:%M:%S"
