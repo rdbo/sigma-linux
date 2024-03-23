@@ -1,0 +1,60 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+# NOTE: This is based off the 'aports' APKBUILD
+# NOTE: This should not be used in the future, when the 'aports' package gets updated
+pkgname=sigma-river
+pkgver=0.3.0_git20240323
+pkgrel=0
+pkgdesc="Dynamic Tiling Wayland Compositor"
+url="https://codeberg.org/river/river"
+arch="x86_64 aarch64" # limited by zig aport
+license="GPL-3.0-only"
+makedepends="
+	libevdev-dev
+	libxkbcommon-dev
+	pixman-dev
+	scdoc
+	wayland-dev
+	wayland-protocols
+	wlroots-dev
+	zig
+	"
+depends="xwayland seatd"
+source="river.tar.gz"
+
+# We may want other than "baseline" for other targets, when enabled by zig
+case "$CARCH" in
+	aarch64|x86_64) cputarget=baseline ;;
+esac
+
+build() {
+	cd "$srcdir/river"
+	# This installs it to $builddir/out
+	DESTDIR="$builddir/out" zig build -Doptimize=ReleaseSafe -Dpie -Dxwayland --prefix /usr install \
+		${cputarget:+-Dcpu="$cputarget"}
+}
+
+check() {
+	cd "$srcdir/river"
+	zig build test
+}
+
+package() {
+	mkdir -p "$pkgdir"
+	cp -r out/* "$pkgdir"
+
+	# Fix location of pkgconfig files, must be fixed upstream
+	mkdir -p "$pkgdir"/usr/lib
+	mv "$pkgdir"/usr/share/pkgconfig "$pkgdir"/usr/lib
+
+	# Install example configuration
+	mkdir -p "$pkgdir/usr/share/doc/river/examples"
+	install -Dm0644 "$srcdir/river/example/init" -t "$pkgdir"/usr/share/doc/river/examples
+
+	# Compress documentation
+	find "$pkgdir"/usr/share/man -type f -exec gzip {} \;
+
+	# Remove dev files
+	rm -rf "$pkgdir"/usr/share/river-protocols
+	rm -rf "$pkgdir"/usr/lib/pkgconfig
+}

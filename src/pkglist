@@ -17,7 +17,6 @@ openssl
 
 # custom packages
 ## desktop
-river
 yambar
 fuzzel
 wlr-randr
@@ -52,4 +51,5 @@ nsxiv
 mpv
 
 # local packages
+sigma-river
 sigma-conf
