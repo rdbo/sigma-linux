@@ -47,6 +47,14 @@ seatd
 eudev
 adwaita-icon-theme
 neofetch
+mesa
+mesa-dri-gallium
+mesa-egl
+mesa-gl
+mesa-gles
+mesa-vulkan-ati
+mesa-vulkan-intel
+mesa-vulkan-swrast
 
 ## programs
 vim
