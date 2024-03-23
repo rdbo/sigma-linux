@@ -33,9 +33,15 @@ fi
 tar -czf river.tar.gz river
 abuild checksum
 
+# sigma-firacode-nerd
+cp -r "$APK_DIR/sigma-firacode-nerd/" "$APKTEMP_DIR/"
+
 # Build repository with the local APKs
 cd "$APKTEMP_DIR/sigma-conf"
 abuild -rf -P "$REPO_DIR"
 
 cd "$APKTEMP_DIR/sigma-river"
+abuild -rf -P "$REPO_DIR"
+
+cd "$APKTEMP_DIR/sigma-firacode-nerd"
 abuild -rf -P "$REPO_DIR"

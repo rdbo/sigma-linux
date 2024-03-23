@@ -1,0 +1,25 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-firacode-nerd"
+pkgver="1.0"
+pkgrel=0
+pkgdesc="Old version of FiraCode Nerd fonts with more symbols"
+url="https://github.com/rdbo/sigma-linux"
+arch="noarch"
+license="OFL-1.1"
+options="!check"
+source="firacode.tar.xz"
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/share/fonts"
+	cp -r "$srcdir/FiraCode" "$pkgdir/usr/share/fonts"
+}
+
+sha512sums="
+e3092a17e448b010a265a9c5fdeab84a95c3e632a1b7a81975369299a08b0de3f877967c162824d9dd24dfb3dd87f9d0e9f575f4b65dfc6446f67f156b9057e7  firacode.tar.xz
+"

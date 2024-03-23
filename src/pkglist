@@ -15,6 +15,13 @@ openrc
 openssh
 openssl
 
+# local packages
+sigma-river
+## NOTE: For some reason, the newer nerd fonts are missing some symbols used in Sigma Linux,
+##       so fallback firacode fonts will be used instead of the mainstream ones
+sigma-firacode-nerd
+sigma-conf
+
 # custom packages
 ## desktop
 yambar
@@ -31,8 +38,7 @@ foot
 xwayland
 pulseaudio-utils
 dbus-x11
-font-fira-mono-nerd
-font-fira-code-nerd
+font-ubuntu-nerd
 swww
 easyeffects
 mako
@@ -49,7 +55,3 @@ firefox
 pulseaudio-ctl
 nsxiv
 mpv
-
-# local packages
-sigma-river
-sigma-conf
