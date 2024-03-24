@@ -62,6 +62,12 @@ auto eth0
 iface eth0 inet dhcp
 EOF
 
+# Create default doas config
+cat <<- EOF > "$SQUASHFS_DIR/etc/doas.conf"
+permit persist :wheel
+permit nopass root
+EOF
+
 # Copy /etc/skel to /root (allows for logging in to the desktop environment as root on live boot)
 cp -r "$SQUASHFS_DIR/etc/skel/." "$SQUASHFS_DIR/root/."
 
