@@ -12,33 +12,52 @@ echo "[*] Sigma Linux Builder"
 echo "[*] Running config..."
 . ./src/config.sh
 
-# Fetch or update kernel
-echo "[*] Fetching/updating kernel..."
-if [ ! -d "$KERNEL_DIR" ]; then
-	./src/fetch_kernel.sh
+# Skip fetch/update if .config is found
+if [ ! -e "$KERNEL_DIR/.config" ]; then
+	# Fetch or update kernel
+	echo "[*] Fetching/updating kernel..."
+	if [ ! -d "$KERNEL_DIR" ]; then
+		./src/fetch_kernel.sh
+	else
+		./src/update_kernel.sh
+	fi
 else
-	./src/update_kernel.sh
+	echo "[*] Skipped updating kernel, file '$KERNEL_DIR/.config' exists"
 fi
 
 # Fetch or update busybox
-echo "[*] Fetching/updating busybox..."
-if [ ! -d "$BUSYBOX_DIR" ]; then
-	./src/fetch_busybox.sh
+if [ ! -e "$BUSYBOX_DIR/.config" ]; then
+	echo "[*] Fetching/updating busybox..."
+	if [ ! -d "$BUSYBOX_DIR" ]; then
+		./src/fetch_busybox.sh
+	else
+		./src/update_busybox.sh
+	fi
 else
-	./src/update_busybox.sh
+	echo "[*] Skipped updating busybox, file '$BUSYBOX_DIR/.config' exists"
 fi
 
-# Patch kernel boot logo
-echo "[*] Patching boot logo..."
-./src/patch_boot_logo.sh
+# Skip building kernel if .config is found
+if [ ! -e "$KERNEL_DIR/.config" ]; then
+	# Patch kernel boot logo
+	echo "[*] Patching boot logo..."
+	./src/patch_boot_logo.sh
 
-# Build kernel
-echo "[*] Building kernel..."
-./src/build_kernel.sh
+	# Build kernel
+	echo "[*] Building kernel..."
+	./src/build_kernel.sh
+else
+	echo "[*] Skipped building kernel, file '$KERNEL_DIR/.config' exists"
+fi
 
-# Build busybox
-echo "[*] Building busybox..."
-./src/build_busybox.sh
+# Skip building busybox if .config is found
+if [ ! -e "$BUSYBOX_DIR/.config" ]; then
+	# Build busybox
+	echo "[*] Building busybox..."
+	./src/build_busybox.sh
+else
+	echo "[*] Skipped building busybox, file '$BUSYBOX_DIR/.config' exists"
+fi
 
 # Make initramfs
 echo "[*] Making initramfs..."
