@@ -55,6 +55,8 @@ mesa-gles
 mesa-vulkan-ati
 mesa-vulkan-intel
 mesa-vulkan-swrast
+mandoc
+man-pages
 
 ## programs
 vim
