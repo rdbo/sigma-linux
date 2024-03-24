@@ -9,7 +9,7 @@ mkdir -p "$REPO_DIR" "$APKTEMP_DIR"
 # Get existing APKs in repo (if any)
 apklist="$(find cache/repo/ -name "*.apk" | sed 's|.*/||')"
 is_apk_indexed() {
-	printf "%s" "$apklist" | tr ' ' '\n' | grep "^$1-" > /dev/null
+	test -d "$APKTEMP_DIR/$1"
 	return $?
 }
 
