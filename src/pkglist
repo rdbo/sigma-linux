@@ -34,6 +34,9 @@ libnotify
 grim
 wvkbd
 pipewire
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
 foot
 xwayland
 pulseaudio-utils
