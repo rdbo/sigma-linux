@@ -19,7 +19,7 @@ riverctl default-layout rivertile
 # Cursor
 riverctl focus-follows-cursor always
 riverctl hide-cursor timeout 0
-riverctl hide-cursour when-typing disabled
+riverctl hide-cursor when-typing disabled
 riverctl set-cursor-warp disabled
 
 # Keyboard
@@ -35,7 +35,7 @@ if [ -f "$kbdlayout" ]; then
 fi
 
 # Filters
-riverctl float-filter-add app-id "wmfloat"
+riverctl rule-add -app-id "wmfloat" float
 
 # Keybindings
 
