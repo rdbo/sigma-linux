@@ -31,6 +31,13 @@ bar:
                     underline:
                       size: 5
                       color: 00ffc8ff
+              occupied:
+                map:
+                  <<: *river_base
+                  deco:
+                    underline:
+                      size: 5
+                      color: 132a33ff
               id <= 9:
                 map:
                   <<: *river_base
