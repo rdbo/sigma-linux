@@ -6,42 +6,58 @@ set -e
 
 mkdir -p "$REPO_DIR" "$APKTEMP_DIR"
 
+# Get existing APKs in repo (if any)
+apklist="$(find cache/repo/ -name "*.apk" | sed 's|.*/||')"
+is_apk_indexed() {
+	printf "%s" "$apklist" | tr ' ' '\n' | grep "^$1-" > /dev/null
+	return $?
+}
+
 # sigma-conf
-## Make temporary APK with compressed sources in the cache directory
-mkdir -p "$APKTEMP_DIR/sigma-conf/"
-cp "$APK_DIR/sigma-conf/APKBUILD" "$APKTEMP_DIR/sigma-conf/"
-cd "$APK_DIR/sigma-conf"
-tar -czf "$APKTEMP_DIR/sigma-conf/rootfs.tar.gz" rootfs
-cd "$APKTEMP_DIR/sigma-conf"
-abuild checksum
+if ! is_apk_indexed sigma-conf; then
+	# Make temporary APK with compressed sources in the cache directory
+	mkdir -p "$APKTEMP_DIR/sigma-conf/"
+	cp "$APK_DIR/sigma-conf/APKBUILD" "$APKTEMP_DIR/sigma-conf/"
+	cd "$APK_DIR/sigma-conf"
+	tar -czf "$APKTEMP_DIR/sigma-conf/rootfs.tar.gz" rootfs
+	cd "$APKTEMP_DIR/sigma-conf"
+	abuild checksum
+
+	# build apk and index it in the repository
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-conf', already indexed"
+fi
 
 # sigma-river
-mkdir -p "$APKTEMP_DIR/sigma-river/"
-cp "$APK_DIR/sigma-river/APKBUILD" "$APKTEMP_DIR/sigma-river/"
-cd "$APKTEMP_DIR/sigma-river"
-## clone repository and archive it
-if [ ! -d river ]; then
-	git clone --depth 1 https://codeberg.org/river/river river
-	cd river
-	git submodule update --init
-	cd ..
+if ! is_apk_indexed sigma-river; then
+	mkdir -p "$APKTEMP_DIR/sigma-river/"
+	cp "$APK_DIR/sigma-river/APKBUILD" "$APKTEMP_DIR/sigma-river/"
+	cd "$APKTEMP_DIR/sigma-river"
+	## clone repository and archive it
+	if [ ! -d river ]; then
+		git clone --depth 1 https://codeberg.org/river/river river
+		cd river
+		git submodule update --init
+		cd ..
+	else
+		cd river
+		git pull origin
+		cd ..
+	fi
+	tar -czf river.tar.gz river
+	abuild checksum
+
+	abuild -rf -P "$REPO_DIR"
 else
-	cd river
-	git pull origin
-	cd ..
+	echo "[*] Skipped building APK 'sigma-river', already indexed"
 fi
-tar -czf river.tar.gz river
-abuild checksum
 
 # sigma-firacode-nerd
-cp -r "$APK_DIR/sigma-firacode-nerd/" "$APKTEMP_DIR/"
-
-# Build repository with the local APKs
-cd "$APKTEMP_DIR/sigma-conf"
-abuild -rf -P "$REPO_DIR"
-
-cd "$APKTEMP_DIR/sigma-river"
-abuild -rf -P "$REPO_DIR"
-
-cd "$APKTEMP_DIR/sigma-firacode-nerd"
-abuild -rf -P "$REPO_DIR"
+if ! is_apk_indexed sigma-firacode-nerd; then
+	cp -r "$APK_DIR/sigma-firacode-nerd/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-firacode-nerd"
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-firacode-nerd', already indexed"
+fi
