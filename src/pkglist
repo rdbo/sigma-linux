@@ -63,6 +63,7 @@ mesa-vulkan-intel
 mesa-vulkan-swrast
 mandoc
 man-pages
+earlyoom
 
 ## lsp
 clang-extra-tools

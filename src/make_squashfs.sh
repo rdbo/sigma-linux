@@ -100,6 +100,7 @@ rc_add udev-settle sysinit
 rc_add udev-postmount default
 rc_add hostname boot
 rc_add networking default
+rc_add earlyoom default
 rc_add iwd default
 rc_add dbus default
 rc_add seatd default
