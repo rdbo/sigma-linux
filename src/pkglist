@@ -44,6 +44,7 @@ xwayland
 pulseaudio-utils
 dbus-x11
 font-ubuntu-nerd
+font-unifont
 swww
 easyeffects
 mako
