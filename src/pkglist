@@ -20,6 +20,7 @@ sigma-river
 ## NOTE: For some reason, the newer nerd fonts are missing some symbols used in Sigma Linux,
 ##       so fallback firacode fonts will be used instead of the mainstream ones
 sigma-firacode-nerd
+sigma-sent
 sigma-conf
 
 # custom packages

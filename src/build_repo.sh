@@ -61,3 +61,18 @@ if ! is_apk_indexed sigma-firacode-nerd; then
 else
 	echo "[*] Skipped building APK 'sigma-firacode-nerd', already indexed"
 fi
+
+# sigma-sent
+if ! is_apk_indexed sigma-sent; then
+	mkdir -p "$APKTEMP_DIR/sigma-sent/"
+	cp "$APK_DIR/sigma-sent/APKBUILD" "$APKTEMP_DIR/sigma-sent/"
+	cd "$APK_DIR/sigma-sent"
+	tar -czf "$APKTEMP_DIR/sigma-sent/sent.tar.gz" sent
+	cd "$APKTEMP_DIR/sigma-sent"
+	abuild checksum
+
+	# build apk and index it in the repository
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-sent', already indexed"
+fi
