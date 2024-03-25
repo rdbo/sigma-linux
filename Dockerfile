@@ -19,6 +19,10 @@ RUN echo "permit nopass keepenv :wheel" > /etc/doas.conf
 USER build
 RUN abuild-keygen -i -a -n
 
+# Fix for building helix
+RUN git config --global http.postBuffer 1048576000
+RUN git config --global http.version HTTP/1.1
+
 USER root
 
 WORKDIR /app

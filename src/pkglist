@@ -1,4 +1,4 @@
-# alpine core packages
+# Core Packages
 alpine-base
 alpine-baselayout
 alpine-baselayout-data
@@ -6,53 +6,85 @@ alpine-keys
 apk-tools
 busybox
 ca-certificates-bundle
-dhcpcd
-wpa_supplicant
-iwd
-doas
 musl
 openrc
-openssh
 openssl
 
-# local packages
-sigma-river
-## NOTE: For some reason, the newer nerd fonts are missing some symbols used in Sigma Linux,
-##       so fallback firacode fonts will be used instead of the mainstream ones
-sigma-firacode-nerd
-sigma-sent
-sigma-helix
+#--------------------------------#
+
+# System
+
+## Admin Tools
+doas openssh
+
+## Memory
+earlyoom zram-init
+
+## Network
+iwd wpa_supplicant dhcpcd openvpn wireguard-tools
+
+## Audio
+pipewire pipewire-pulse pipewire-alsa pipewire-jack
+pulsemixer easyeffects pulseaudio-ctl pulseaudio-utils
+
+## Docs
+mandoc man-pages
+
+## Configuration
 sigma-conf
 
-# custom packages
-## desktop
-yambar
-fuzzel
-wlr-randr
-waylock
-slurp
-wl-clipboard
-libnotify
-grim
-wvkbd
-pipewire
-pipewire-pulse
-pipewire-alsa
-pipewire-jack
+#--------------------------------#
+
+# Desktop Environment
+
+## Core
+xwayland seatd eudev
+
+## Fonts
+sigma-firacode-nerd font-ubuntu-nerd font-unifont
+
+## Desktop
+sigma-river # compositor
+yambar # status bar
+fuzzel # dmenu-like
+waylock # screen locker
+swww # wallpaper daemon
+
+## Terminal
 foot
-xwayland
-pulseaudio-utils
-dbus-x11
-font-ubuntu-nerd
-font-unifont
-swww
-easyeffects
+
+## Text Editing
+vim sigma-helix
+
+## Notifications
 mako
-pulsemixer
-seatd
-eudev
-adwaita-icon-theme
+libnotify
+
+## Screenshot
+grim
+slurp
+
+## Office
+sc-im
+sigma-sent
+
+## Multimedia
+mpv
+ffmpeg
+imagemagick
+nsxiv
+
+## Misc
+wl-clipboard
+wlr-randr
+dbus-x11
+wvkbd
 neofetch
+
+## Themes
+adwaita-icon-theme
+
+## GL/Rendering
 mesa
 mesa-dri-gallium
 mesa-egl
@@ -61,23 +93,16 @@ mesa-gles
 mesa-vulkan-ati
 mesa-vulkan-intel
 mesa-vulkan-swrast
-mandoc
-man-pages
-earlyoom
-zram-init
 
-## lsp
-clang-extra-tools
-py3-lsp-server
+#--------------------------------#
 
-## languages/compilers
+# Programming
+
+## Compilers/Interpreters
 python3
 gcc
 g++
 
-## programs
-vim
-sc-im
-pulseaudio-ctl
-nsxiv
-mpv
+## LSP
+clang-extra-tools
+py3-lsp-server
