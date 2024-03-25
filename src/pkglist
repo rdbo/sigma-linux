@@ -63,6 +63,15 @@ mesa-vulkan-swrast
 mandoc
 man-pages
 
+## lsp
+clang-extra-tools
+py3-lsp-server
+
+## languages/compilers
+python3
+gcc
+g++
+
 ## programs
 vim
 sc-im
