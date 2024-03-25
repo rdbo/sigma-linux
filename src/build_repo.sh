@@ -9,7 +9,7 @@ mkdir -p "$REPO_DIR" "$APKTEMP_DIR"
 # Get existing APKs in repo (if any)
 apklist="$(find cache/repo/ -name "*.apk" | sed 's|.*/||')"
 is_apk_indexed() {
-	test -d "$APKTEMP_DIR/$1"
+	printf "%s" "$apklist" | tr ' ' '\n' | grep "^$1-" > /dev/null
 	return $?
 }
 
@@ -75,4 +75,13 @@ if ! is_apk_indexed sigma-sent; then
 	abuild -rf -P "$REPO_DIR"
 else
 	echo "[*] Skipped building APK 'sigma-sent', already indexed"
+fi
+
+# sigma-helix
+if ! is_apk_indexed sigma-helix; then
+	cp -r "$APK_DIR/sigma-helix/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-helix"
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-helix', already indexed"
 fi
