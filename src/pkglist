@@ -64,6 +64,7 @@ mesa-vulkan-swrast
 mandoc
 man-pages
 earlyoom
+zram-init
 
 ## lsp
 clang-extra-tools

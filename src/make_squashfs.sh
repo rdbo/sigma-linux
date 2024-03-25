@@ -68,6 +68,20 @@ permit persist :wheel
 permit nopass root
 EOF
 
+# Modify zram-init config
+cat <<- EOF > "$SQUASHFS_DIR/etc/conf.d/zram-init"
+load_on_start="yes"
+unload_on_stop="yes"
+num_devices="1"
+
+type0="swap"
+flag0=
+size0=`LC_ALL=C free -m | awk '/^Mem:/{print int($2/2)}'` # 50% of memory reserved for zram
+maxs0=1
+algo0=zstd
+labl0=zram_swap
+EOF
+
 # Copy /etc/skel to /root (allows for logging in to the desktop environment as root on live boot)
 cp -r "$SQUASHFS_DIR/etc/skel/." "$SQUASHFS_DIR/root/."
 
@@ -99,6 +113,7 @@ rc_add udev-trigger sysinit
 rc_add udev-settle sysinit
 rc_add udev-postmount default
 rc_add hostname boot
+rc_add zram-init boot
 rc_add networking default
 rc_add earlyoom default
 rc_add iwd default
