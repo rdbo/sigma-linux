@@ -21,6 +21,7 @@ sigma-river
 ##       so fallback firacode fonts will be used instead of the mainstream ones
 sigma-firacode-nerd
 sigma-sent
+sigma-helix
 sigma-conf
 
 # custom packages
@@ -64,7 +65,6 @@ man-pages
 
 ## programs
 vim
-helix
 sc-im
 pulseaudio-ctl
 nsxiv

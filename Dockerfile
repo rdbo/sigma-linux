@@ -7,6 +7,8 @@ RUN apk update
 RUN apk add gcc openssl-dev elfutils-dev xorriso grub grub-efi grub-bios git gpg make musl-dev flex bison linux-headers perl mtools squashfs-tools alpine-sdk doas netpbm netpbm-extras
 # river dependencies
 RUN apk add libevdev-dev libxkbcommon-dev pixman-dev scdoc wayland-dev wayland-protocols wlroots-dev zig xwayland seatd
+# helix dependencies
+RUN apk add cargo
 
 # Create build user
 RUN adduser -D build -G abuild
