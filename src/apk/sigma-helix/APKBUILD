@@ -9,19 +9,20 @@ url="https://github.com/rdbo/sigma-linux"
 arch="all"
 license="MPL-2.0"
 makedepends="cargo"
-source="https://github.com/helix-editor/helix/archive/master/helix-master.tar.gz"
+_helix_commit="614a744d24e54225eae2ad0d27719b81c0cf9a4d"
+source="https://github.com/helix-editor/helix/archive/$_helix_commit/helix-$_helix_commit.tar.gz"
 
 build() {
-	cd "$srcdir/helix-master"
+	cd "$srcdir/helix-$_helix_commit"
 	cargo build --release
 }
 
 check() {
-	"$srcdir/helix-master/target/release/hx" --version > /dev/null
+	"$srcdir/helix-$_helix_commit/target/release/hx" --version > /dev/null
 }
 
 package() {
 	mkdir -p "$pkgdir/usr/share/helix"
-	install -D -m755 "$srcdir/helix-master/target/release/hx" -t "$pkgdir/usr/bin/"
-	cp -r "$srcdir/helix-master/runtime" "$pkgdir/usr/share/helix/"
+	install -D -m755 "$srcdir/helix-$_helix_commit/target/release/hx" -t "$pkgdir/usr/bin/"
+	cp -r "$srcdir/helix-$_helix_commit/runtime" "$pkgdir/usr/share/helix/"
 }
