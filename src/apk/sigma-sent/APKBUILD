@@ -21,6 +21,8 @@ check() {
 }
 
 package() {
-	mkdir -p "$pkgdir/usr/bin"
+	mkdir -p "$pkgdir/usr/bin" "$pkgdir/usr/share/man/man1"
 	cp "$srcdir/sent/sent" "$pkgdir/usr/bin/"
+	gzip "$srcdir/sent/sent.1"
+	cp "$srcdir/sent/sent.1.gz" "$pkgdir/usr/share/man/man1/"
 }
