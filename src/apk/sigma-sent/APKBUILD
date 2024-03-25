@@ -21,8 +21,7 @@ check() {
 }
 
 package() {
-	mkdir -p "$pkgdir/usr/bin" "$pkgdir/usr/share/man/man1"
-	cp "$srcdir/sent/sent" "$pkgdir/usr/bin/"
 	gzip "$srcdir/sent/sent.1"
-	cp "$srcdir/sent/sent.1.gz" "$pkgdir/usr/share/man/man1/"
+	install -D -m755 "$srcdir/sent/sent" -t "$pkgdir/usr/bin/"
+	install -D -m644 "$srcdir/sent/sent.1.gz" "$pkgdir/usr/share/man/man1/"
 }
