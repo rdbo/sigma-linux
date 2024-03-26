@@ -9,6 +9,8 @@ RUN apk add gcc openssl-dev elfutils-dev xorriso grub grub-efi grub-bios git gpg
 RUN apk add libevdev-dev libxkbcommon-dev pixman-dev scdoc wayland-dev wayland-protocols wlroots-dev zig xwayland seatd
 # helix dependencies
 RUN apk add cargo
+# suckless dependencies
+RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev
 
 # Create build user
 RUN adduser -D build -G abuild
