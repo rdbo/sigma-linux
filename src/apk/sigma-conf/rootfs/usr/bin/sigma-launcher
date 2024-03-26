@@ -12,7 +12,7 @@ for path in $path_dirs; do
 	fi
 done
 
-executables="$(printf "%s\n" "$binaries" | sed 's|.*/||g')"
+executables="$(printf "%s\n" "$binaries" | sed 's|.*/||g' | sort | uniq)"
 
 cmd="$(printf "%s\n" "$executables" | sigma-dmenu -p "Run: ")"
 
