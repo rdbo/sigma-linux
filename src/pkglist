@@ -38,7 +38,7 @@ sigma-conf
 # Desktop Environment
 
 ## Core
-xwayland seatd eudev
+xwayland seatd eudev xrdb
 
 ## Fonts
 sigma-firacode-nerd font-ubuntu-nerd font-unifont

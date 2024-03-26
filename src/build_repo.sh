@@ -79,14 +79,10 @@ fi
 
 # sigma-st
 if ! is_apk_indexed sigma-st; then
-	mkdir -p "$APKTEMP_DIR/sigma-st/"
-	cp "$APK_DIR/sigma-st/APKBUILD" "$APKTEMP_DIR/sigma-st/"
-	cd "$APK_DIR/sigma-st"
-	tar -czf "$APKTEMP_DIR/sigma-st/st.tar.gz" st
+	cp -r "$APK_DIR/sigma-st/" "$APKTEMP_DIR/"
 	cd "$APKTEMP_DIR/sigma-st"
 	abuild checksum
 
-	# build apk and index it in the repository
 	abuild -rf -P "$REPO_DIR"
 else
 	echo "[*] Skipped building APK 'sigma-st', already indexed"

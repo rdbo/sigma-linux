@@ -2,18 +2,20 @@
 # Maintainer: Rdbo <rdbodev@gmail.com>
 
 pkgname="sigma-st"
-pkgver="1.0"
+pkgver="1.0_git20240326"
 pkgrel=0
 pkgdesc="suckless st built for Sigma Linux"
 url="https://github.com/rdbo/sigma-linux"
 arch="all"
 license="MIT/X"
-depends="libx11 libxft harfbuzz fontconfig freetype"
-makedepends="libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev"
-source="st.tar.gz"
+depends="libx11 libxft harfbuzz fontconfig freetype gd glib"
+makedepends="libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev"
+_commit="69be8af7be9d656b9d9a35e22f555394737c30d1"
+source="https://github.com/rdbo/sigma-st/archive/$_commit/sigma-st-$_commit.tar.gz"
 options="!check"
 
 build() {
+	mv "$srcdir/sigma-st-$_commit" "$srcdir/st"
 	make -C "$srcdir/st"
 }
 

@@ -112,6 +112,9 @@ riverctl declare-mode passthrough
 riverctl map normal Super F11 enter-mode passthrough
 riverctl map passthrough Super F11 enter-mode normal
 
+# Setup Xresources
+xrdb "$HOME/.Xresources"
+
 # Start programs
 riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
 /usr/libexec/pipewire-launcher # Starts pipewire and waits for it to initialize
