@@ -1,4 +1,112 @@
 #!/bin/sh
 
-echo "Not yet implemented :("
-echo "Come back later"
+set -e
+
+# Helpers
+separator() {
+	echo
+	echo "--------------------------------"
+	echo
+}
+
+list_timezones() {
+	echo "$(cd /usr/share/zoneinfo && find * -type f | grep -v "\." | grep -E '^[A-Z]')"
+}
+
+list_disks() {
+	local disks="$(lsblk -p | grep -E 'disk\s+$' | cut -d ' ' -f 1)"
+
+	# Make sure that the disk device actually exists
+	for disk in $disks; do
+		if [ -b "$disk" ]; then
+			echo "$disk"
+		fi
+	done
+}
+
+# Setup
+echo "Sigma Linux Installer"
+echo "WARN: Changes made to the live OS will also be present in the installed one"
+
+separator
+
+## Change timezone
+timezones="$(list_timezones)"
+timezone=""
+while [ -z "$timezone" ]; do
+	read -p "select a timezone (? for list): " timezone
+	if [ "$timezone" = "?" ]; then
+		echo $timezones | tr ' ' '\n'
+		timezone=""
+	else
+		if ! echo "$timezones" | tr ' ' '\n' | grep -E "^$timezone\$" > /dev/null; then
+			echo "[!] invalid timezone"
+			timezone=""
+		fi
+	fi
+done
+rm -rf /etc/localtime
+ln -s /usr/share/zoneinfo/"$timezone" /etc/localtime
+
+separator
+
+## Change root password
+echo "change the root password"
+while ! passwd root; do
+	:
+done
+
+separator
+
+## Create new user
+while :; do
+	read -p "create new user? (enter username or 'n' skip): " username
+
+	if [ "$username" = "n" ]; then
+		break
+	fi
+
+	if adduser "$username"; then
+		# Add user to useful groups
+		groups="audio input seat video wheel"
+
+		for group in $groups; do
+			addgroup "$username" "$group"
+		done
+
+		break
+	fi
+done
+
+separator
+
+disks="$(list_disks)"
+disk=""
+while [ -z "$disk" ]; do
+	echo "available disks for install:"
+	list_disks | tr '\n' ' '
+	echo
+
+	read -p "select a disk for installation: " disk
+	if ! echo "$disks" | tr ' ' '\n' | grep -E "^$disk\$" > /dev/null; then
+		echo "[!] invalid disk"
+		disk=""
+	fi
+done
+
+separator
+
+echo "installing os..."
+
+while ! cryptsetup luksFormat --type luks2 "$disk"; do
+	:
+done
+
+echo "enter password again for installation"
+dmname="cryptsigma"
+
+while ! cryptsetup open "$disk" "$dmname"; do
+	:
+done
+
+
