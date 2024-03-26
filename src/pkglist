@@ -106,3 +106,6 @@ g++
 ## LSP
 clang-extra-tools
 py3-lsp-server
+
+## Build Systems
+make cmake
