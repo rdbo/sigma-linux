@@ -9,6 +9,7 @@ ca-certificates-bundle
 musl
 openrc
 openssl
+cryptsetup
 
 #--------------------------------#
 
