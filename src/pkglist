@@ -29,6 +29,7 @@ pulsemixer easyeffects pulseaudio-ctl pulseaudio-utils
 
 ## Docs
 mandoc man-pages
+busybox-doc
 
 ## Configuration
 sigma-conf
