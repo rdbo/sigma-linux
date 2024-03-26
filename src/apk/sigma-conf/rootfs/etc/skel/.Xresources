@@ -5,7 +5,7 @@ Xft.hintstyle:	hintslight
 Xft.rgba:		rgb
 Xft.lcdfilter:	lcddefault
 
-st.font: FiraCode Nerd Font:size=12
+st.font: FiraCode Nerd Font:size=10
 
 ! window padding
 st.borderpx: 0
@@ -41,8 +41,8 @@ st.alpha: 1.0
 *color13: #ce89df
 
 ! DarkCyan + Cyan
-*color6:  #6da4cd
-*color14: #67cbe7
+*color6:  #00cca0
+*color14: #00ffc8
 
 ! LightGrey + White
 *color7:  #b3b9b8

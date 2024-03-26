@@ -10,7 +10,7 @@ arch="all"
 license="MIT/X"
 depends="libx11 libxft harfbuzz fontconfig freetype gd glib"
 makedepends="libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev"
-_commit="69be8af7be9d656b9d9a35e22f555394737c30d1"
+_commit="63e1fd858ea1d2bca51f3ac4564c8a7f30b82344"
 source="https://github.com/rdbo/sigma-st/archive/$_commit/sigma-st-$_commit.tar.gz"
 options="!check"
 
