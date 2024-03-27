@@ -51,6 +51,10 @@ mount -t devtmpfs none /new_root/dev
 mount -t proc none /new_root/proc
 mount -t sysfs none /new_root/sys
 
+echo "Mounting readonly CDROM at /new_root/cdrom..."
+mkdir -p /new_root/cdrom
+mount -r "\$cdromdev" /new_root/cdrom
+
 # echo "Spawning shell (exit to continue init)..."
 # /bin/sh
 
