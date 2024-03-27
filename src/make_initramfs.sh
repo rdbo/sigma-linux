@@ -18,46 +18,69 @@ mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
 
-echo "Mounting cdrom at /cdrom..."
-for i in \$(seq 1 5); do
-	cdromdev="\$(findfs "LABEL=$ISO_VOLID" | head -n 1)"
-	if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
-		echo "Failed to find CDROM device, trying again..."
-		sleep 1
-	else
-		break
+if [ ! -z "\$sigmaroot" ]; then
+	# installed
+	echo "Mounting rootfs at /new_root..."
+	for i in \$(seq 1 5); do
+		rootdev="\$(findfs "\$sigmaroot" | head -n 1)"
+		if [ -z "\$rootdev" ] || [ ! -b "\$rootdev" ]; then
+			echo "Failed to find root device, trying again..."
+			sleep 1
+		else
+			break
+		fi
+	done
+
+	if [ -z "\$rootdev" ] || [ ! -b "\$rootdev" ]; then
+		echo "Failed to find root device, spawning troubleshoot shell..."
+		exec /bin/sh
 	fi
-done
 
-if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
-	echo "Failed to find CDROM device, spawning troubleshoot shell..."
-	exec /bin/sh
+	mkdir -p /new_root
+	mount "\$rootdev" /new_root
+else
+	# liveboot
+	echo "Mounting cdrom at /cdrom..."
+	for i in \$(seq 1 5); do
+		cdromdev="\$(findfs "LABEL=$ISO_VOLID" | head -n 1)"
+		if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
+			echo "Failed to find CDROM device, trying again..."
+			sleep 1
+		else
+			break
+		fi
+	done
+
+	if [ -z "\$cdromdev" ] || [ ! -b "\$cdromdev" ]; then
+		echo "Failed to find CDROM device, spawning troubleshoot shell..."
+		exec /bin/sh
+	fi
+
+	mkdir -p /cdrom
+	mount "\$cdromdev" /cdrom
+
+	echo "Mounting squashfs at /live..."
+	mkdir -p /live
+	mount /cdrom/rootfs.squashfs /live
+
+	echo "Mounting overlayfs at /new_root..."
+	mkdir -p /upper /work /new_root
+	mount -t overlay overlay -o lowerdir=/live,upperdir=/upper,workdir=/work /new_root
+
+	echo "Mounting readonly CDROM at /new_root/cdrom..."
+	mkdir -p /new_root/cdrom
+	mount -r "\$cdromdev" /new_root/cdrom
+
+	echo "Mounting squashfs at /new_root/squash..."
+	mkdir -p /new_root/squash
+	mount -r /new_root/cdrom/rootfs.squashfs /new_root/squash
 fi
-
-mkdir -p /cdrom
-mount "\$cdromdev" /cdrom
-
-echo "Mounting squashfs at /live..."
-mkdir -p /live
-mount /cdrom/rootfs.squashfs /live
-
-echo "Mounting overlayfs at /new_root..."
-mkdir -p /upper /work /new_root
-mount -t overlay overlay -o lowerdir=/live,upperdir=/upper,workdir=/work /new_root
 
 echo "Mounting pseudo filesystems for new root.."
 mkdir -p /new_root/dev /new_root/proc /new_root/sys
 mount -t devtmpfs none /new_root/dev
 mount -t proc none /new_root/proc
 mount -t sysfs none /new_root/sys
-
-echo "Mounting readonly CDROM at /new_root/cdrom..."
-mkdir -p /new_root/cdrom
-mount -r "\$cdromdev" /new_root/cdrom
-
-echo "Mounting squashfs at /new_root/squash..."
-mkdir -p /new_root/squash
-mount -r /new_root/cdrom/rootfs.squashfs /new_root/squash
 
 # echo "Spawning shell (exit to continue init)..."
 # /bin/sh

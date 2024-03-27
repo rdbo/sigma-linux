@@ -96,7 +96,8 @@ chroot "$newroot" grub-install --target=x86_64-efi --boot-directory=/boot --efi-
 cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/"
 # Patch GRUB config
 sed -i -E 's|/boot||g' "$newroot/boot/grub/grub.cfg"
-sed -i -E 's|linux /vmlinuz |linux /vmlinuz sigmaroot="LABEL=hello" |' "$newroot/boot/grub/grub.cfg"
+root_findfs="$(blkid "$disk"3 | cut -d ' ' -f 2 | sed 's/"//g')"
+sed -i -E "s|linux /vmlinuz |linux /vmlinuz sigmaroot=\"$root_findfs\" |" "$newroot/boot/grub/grub.cfg"
 cp /cdrom/boot/vmlinuz /cdrom/boot/config /cdrom/boot/initramfs "$newroot/boot/"
 
 echo "Unmounting partitions..."
