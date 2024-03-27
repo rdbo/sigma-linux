@@ -10,6 +10,11 @@ musl
 openrc
 openssl
 cryptsetup
+sfdisk
+lsblk
+grub
+grub-bios
+grub-efi
 
 #--------------------------------#
 
