@@ -26,87 +26,87 @@ list_disks() {
 
 # Setup
 echo "Sigma Linux Installer"
-echo "WARN: Changes made to the live OS will also be present in the installed one"
+echo "Welcome to the Sigma Linux Installer"
+echo "Follow the instructions to proceed with your installation"
 
 separator
 
-## Change timezone
-timezones="$(list_timezones)"
-timezone=""
-while [ -z "$timezone" ]; do
-	read -p "select a timezone (? for list): " timezone
-	if [ "$timezone" = "?" ]; then
-		echo $timezones | tr ' ' '\n'
-		timezone=""
-	else
-		if ! echo "$timezones" | tr ' ' '\n' | grep -E "^$timezone\$" > /dev/null; then
-			echo "[!] invalid timezone"
-			timezone=""
-		fi
-	fi
-done
-rm -rf /etc/localtime
-ln -s /usr/share/zoneinfo/"$timezone" /etc/localtime
+# Select disk to install OS
+echo "[*] DISK SETUP"
+echo
 
-separator
-
-## Change root password
-echo "change the root password"
-while ! passwd root; do
-	:
-done
-
-separator
-
-## Create new user
-while :; do
-	read -p "create new user? (enter username or 'n' skip): " username
-
-	if [ "$username" = "n" ]; then
-		break
-	fi
-
-	if adduser "$username"; then
-		# Add user to useful groups
-		groups="audio input seat video wheel"
-
-		for group in $groups; do
-			addgroup "$username" "$group"
-		done
-
-		break
-	fi
-done
-
-separator
-
+# TODO: Check if disk size is enough
 disks="$(list_disks)"
 disk=""
 while [ -z "$disk" ]; do
-	echo "available disks for install:"
+	echo "Available disks:"
 	list_disks | tr '\n' ' '
 	echo
+	echo
 
-	read -p "select a disk for installation: " disk
+	read -p "[p] Select a disk for installation: " disk
 	if ! echo "$disks" | tr ' ' '\n' | grep -E "^$disk\$" > /dev/null; then
-		echo "[!] invalid disk"
+		echo "[!] Invalid disk! Select another one."
+		usleep 500000
+		echo
 		disk=""
 	fi
 done
 
-separator
+echo
+echo "WARN: The disk '$disk' will be erased and the OS will be installed!"
+read -p "[p] Type 'YES' to continue (without quotes): " response
+if [ "$response" != "YES" ]; then
+	echo "Installation cancelled"
+	exit 0
+fi
 
-echo "installing os..."
+echo
 
-while ! cryptsetup luksFormat --type luks2 "$disk"; do
-	:
-done
+echo "Setting up partition table..."
+echo "label: gpt" | sfdisk -f "$disk"
+echo ", 512M, uefi" | sfdisk -f "$disk" # EFI
+echo ", 1G, linux" | sfdisk -a -f "$disk" # Boot
+echo ", , linux" | sfdisk -a -f "$disk" # RootFS
 
-echo "enter password again for installation"
-dmname="cryptsigma"
+echo "Formating partitions..."
+yes | mkfs.vfat "$disk"1
+yes | mkfs.ext2 "$disk"2
+yes | mkfs.ext4 "$disk"3
 
-while ! cryptsetup open "$disk" "$dmname"; do
-	:
-done
+echo "Mounting new root filesystem..."
+newroot="$(mktemp -d)"
+mount "$disk"3 "$newroot"
+mkdir -p "$newroot/boot"
+mount "$disk"2 "$newroot/boot"
+mkdir -p "$newroot/boot/efi"
+mount "$disk"1 "$newroot/boot/efi"
+echo "Mounted root filesystem at: $newroot"
 
+echo "Copying files..."
+cp -r /squash/. "$newroot/"
 
+echo "Mounting pseudo filesystems on new root..."
+mkdir -p "$newroot/dev" "$newroot/proc"
+mount -t devtmpfs none "$newroot/dev"
+mount -t proc proc "$newroot/proc"
+
+echo "Setting up boot..."
+chroot "$newroot" grub-install --target=x86_64-efi --boot-directory=/boot --efi-directory=/boot/efi --removable "$disk"
+cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/"
+cp /cdrom/boot/vmlinuz /cdrom/boot/config /cdrom/boot/initramfs "$newroot/boot/"
+
+echo "Unmounting partitions..."
+umount "$newroot/proc"
+umount "$newroot/dev"
+umount "$newroot/boot/efi"
+umount "$newroot/boot"
+umount "$newroot"
+
+echo "Cleaning up..."
+rm -rf "$newroot"
+
+echo "Syncing disks..."
+sync
+
+echo "Sigma Linux installed successfully!"
