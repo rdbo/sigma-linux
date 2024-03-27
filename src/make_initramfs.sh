@@ -55,6 +55,10 @@ echo "Mounting readonly CDROM at /new_root/cdrom..."
 mkdir -p /new_root/cdrom
 mount -r "\$cdromdev" /new_root/cdrom
 
+echo "Mounting squashfs at /new_root/squash..."
+mkdir -p /new_root/squash
+mount -r /new_root/cdrom/rootfs.squashfs /new_root/squash
+
 # echo "Spawning shell (exit to continue init)..."
 # /bin/sh
 
