@@ -15,6 +15,7 @@ lsblk
 grub
 grub-bios
 grub-efi
+efibootmgr
 
 #--------------------------------#
 
