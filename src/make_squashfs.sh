@@ -52,6 +52,8 @@ EOF
 mkdir -p "$SQUASHFS_DIR/etc"
 echo "$PROFILENAME" > "$SQUASHFS_DIR/etc/hostname"
 
+> "$SQUASHFS_DIR/etc/fstab"
+
 # Add default network interfaces configuration
 mkdir -p "$SQUASHFS_DIR/etc/network"
 cat <<- EOF > "$SQUASHFS_DIR/etc/network/interfaces"

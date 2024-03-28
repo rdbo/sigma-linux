@@ -24,6 +24,10 @@ list_disks() {
 	done
 }
 
+get_dev_id() {
+	blkid "$1" | cut -d ' ' -f 2 | sed 's/"//g'
+}
+
 # Setup
 echo "Sigma Linux Installer"
 echo "Welcome to the Sigma Linux Installer"
@@ -96,9 +100,19 @@ chroot "$newroot" grub-install --target=x86_64-efi --boot-directory=/boot --efi-
 cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/"
 # Patch GRUB config
 sed -i -E 's|/boot||g' "$newroot/boot/grub/grub.cfg"
-root_findfs="$(blkid "$disk"3 | cut -d ' ' -f 2 | sed 's/"//g')"
+root_findfs="$(get_dev_id "$disk"3)"
 sed -i -E "s|linux /vmlinuz |linux /vmlinuz sigmaroot=\"$root_findfs\" |" "$newroot/boot/grub/grub.cfg"
 cp /cdrom/boot/vmlinuz /cdrom/boot/config /cdrom/boot/initramfs "$newroot/boot/"
+
+echo "Setting up /etc/fstab..."
+boot_id="$(get_dev_id "$disk"2)"
+efi_id="$(get_dev_id "$disk"1)"
+
+cat <<- EOF > "$newroot/etc/fstab"
+# device	mountpoint	fstype	options		dump	fsck
+$boot_id	/boot		ext2	defaults	0	1
+$efi_id		/boot/efi	vfat	defaults	0	1
+EOF
 
 echo "Unmounting partitions..."
 umount "$newroot/proc"
