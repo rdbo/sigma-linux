@@ -125,4 +125,4 @@ rc_add seatd default
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
-mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH"
+mksquashfs -comp xz "$SQUASHFS_DIR" "$SQUASHFS_PATH"
