@@ -57,6 +57,9 @@ while [ -z "$disk" ]; do
 	fi
 done
 
+read -p "[p] Use full disk encryption? (y/n): " usefde
+usefde="$(printf "$usefde" | awk '{ print tolower($0) }')"
+
 echo
 echo "WARN: The disk '$disk' will be erased and the OS will be installed!"
 read -p "[p] Type 'YES' to continue (without quotes): " response
@@ -72,19 +75,38 @@ echo "label: gpt" | sfdisk -f "$disk"
 echo ", 512M, uefi" | sfdisk -f "$disk" # EFI
 echo ", 1G, linux" | sfdisk -a -f "$disk" # Boot
 echo ", , linux" | sfdisk -a -f "$disk" # RootFS
+efi_partition="${disk}1"
+boot_partition="${disk}2"
+root_partition="${disk}3"
 
 echo "Formating partitions..."
-yes | mkfs.vfat "$disk"1
-yes | mkfs.ext2 "$disk"2
-yes | mkfs.ext4 "$disk"3
+yes | mkfs.vfat "$efi_partition"
+yes | mkfs.ext2 "$boot_partition"
+if [ "$usefde" = "y" ]; then
+	while ! cryptsetup luksFormat --batch-mode --type luks2 --verify-passphrase "$root_partition"; do
+		:
+	done
+else
+	yes | mkfs.ext4 "$root_partition"
+fi
 
 echo "Mounting new root filesystem..."
 newroot="$(mktemp -d)"
-mount "$disk"3 "$newroot"
+if [ "$usefde" = "y" ]; then
+	luksdm="cryptsigma"
+	while ! cryptsetup luksOpen "$root_partition" "$luksdm"; do
+		:
+	done
+
+	yes | mkfs.ext4 "/dev/mapper/$luksdm"
+	mount "/dev/mapper/$luksdm" "$newroot"
+else
+	mount "$root_partition" "$newroot"
+fi
 mkdir -p "$newroot/boot"
-mount "$disk"2 "$newroot/boot"
+mount "$boot_partition" "$newroot/boot"
 mkdir -p "$newroot/boot/efi"
-mount "$disk"1 "$newroot/boot/efi"
+mount "$efi_partition" "$newroot/boot/efi"
 echo "Mounted root filesystem at: $newroot"
 
 echo "Copying files..."
@@ -100,13 +122,13 @@ chroot "$newroot" grub-install --target=x86_64-efi --boot-directory=/boot --efi-
 cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/"
 # Patch GRUB config
 sed -i -E 's|/boot||g' "$newroot/boot/grub/grub.cfg"
-root_findfs="$(get_dev_id "$disk"3)"
+root_findfs="$(get_dev_id "$root_partition")"
 sed -i -E "s|linux /vmlinuz |linux /vmlinuz sigmaroot=\"$root_findfs\" |" "$newroot/boot/grub/grub.cfg"
 cp /cdrom/boot/vmlinuz /cdrom/boot/config /cdrom/boot/initramfs "$newroot/boot/"
 
 echo "Setting up /etc/fstab..."
-boot_id="$(get_dev_id "$disk"2)"
-efi_id="$(get_dev_id "$disk"1)"
+boot_id="$(get_dev_id "$boot_partition")"
+efi_id="$(get_dev_id "$efi_partition")"
 
 cat <<- EOF > "$newroot/etc/fstab"
 # device	mountpoint	fstype	options		dump	fsck
@@ -120,6 +142,9 @@ umount "$newroot/dev"
 umount "$newroot/boot/efi"
 umount "$newroot/boot"
 umount "$newroot"
+if [ "$usefde" = "y" ]; then
+	cryptsetup luksClose "$luksdm"
+fi
 
 echo "Cleaning up..."
 rm -rf "$newroot"
