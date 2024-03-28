@@ -94,6 +94,7 @@ adwaita-icon-theme
 
 ## GL/Rendering
 mesa
+mesa-gbm
 mesa-dri-gallium
 mesa-egl
 mesa-gl

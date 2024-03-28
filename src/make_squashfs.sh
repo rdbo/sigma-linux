@@ -59,9 +59,6 @@ mkdir -p "$SQUASHFS_DIR/etc/network"
 cat <<- EOF > "$SQUASHFS_DIR/etc/network/interfaces"
 auto lo
 iface lo inet loopback
-
-auto eth0
-iface eth0 inet dhcp
 EOF
 
 # Create default doas config
