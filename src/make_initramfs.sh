@@ -106,6 +106,18 @@ mkdir -p bin usr/bin sbin usr/sbin
 cp "$BUSYBOX_DIR/busybox" "$INITRD_DIR/bin/busybox"
 chroot . /bin/busybox --install
 
+# Install cryptsetup
+if [ ! -d "$INITRD_DIR/etc/apk" ]; then
+	apk add --initdb -p "$INITRD_DIR"
+fi
+
+apk add \
+	-p "$INITRD_DIR" \
+	--allow-untrusted \
+	--no-cache \
+	--repositories-file="$REPOS_FILE" \
+	cryptsetup
+
 # Compress files into initramfs
 find . | cpio -R root:root -H newc -o | gzip > "$INITRAMFS_PATH"
 
