@@ -37,7 +37,19 @@ if [ ! -z "\$sigmaroot" ]; then
 	fi
 
 	mkdir -p /new_root
-	mount "\$rootdev" /new_root
+
+	if blkid "\$rootdev" | grep 'TYPE="crypto_LUKS"' > /dev/null; then
+		mkdir -p /run
+		cryptsetup luksOpen "\$rootdev" cryptsigma
+		if [ ! -b /dev/mapper/cryptsigma ]; then
+			echo "Failed to decrypt root device, spawning troubleshoot shell..."
+			exec /bin/sh
+		fi
+
+		mount /dev/mapper/cryptsigma /new_root
+	else
+		mount "\$rootdev" /new_root
+	fi
 else
 	# liveboot
 	echo "Mounting cdrom at /cdrom..."
