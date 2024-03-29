@@ -23,8 +23,8 @@ pciutils
 
 # System
 
-## Admin Tools
-doas openssh
+## Administration Tools
+doas openssh curl wget gpg
 
 ## Memory
 earlyoom zram-init
@@ -85,6 +85,9 @@ ffmpeg
 imagemagick
 nsxiv
 
+## Password Management
+keepassxc pass
+
 ## Misc
 wl-clipboard
 wlr-randr
@@ -108,7 +111,7 @@ mesa-vulkan-swrast
 
 #--------------------------------#
 
-# Programming
+# Development
 
 ## Compilers/Interpreters
 python3
@@ -121,3 +124,6 @@ py3-lsp-server
 
 ## Build Systems
 make cmake
+
+## Versioning
+git
