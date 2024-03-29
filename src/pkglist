@@ -34,7 +34,8 @@ iwd wpa_supplicant dhcpcd openvpn wireguard-tools
 
 ## Audio
 pipewire pipewire-pulse pipewire-alsa pipewire-jack
-pulsemixer easyeffects pulseaudio-ctl pulseaudio-utils
+pulsemixer pulseaudio-ctl pulseaudio-utils
+easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
 
 ## Docs
 mandoc man-pages
