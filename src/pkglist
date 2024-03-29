@@ -17,6 +17,7 @@ grub-bios
 grub-efi
 efibootmgr
 linux-firmware
+pciutils
 
 #--------------------------------#
 
