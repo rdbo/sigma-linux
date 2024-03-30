@@ -49,7 +49,7 @@ sigma-conf
 # Desktop Environment
 
 ## Core
-xwayland seatd eudev xrdb
+xwayland seatd eudev
 
 ## Fonts
 sigma-firacode-nerd font-ubuntu-nerd font-unifont
@@ -88,6 +88,9 @@ nsxiv
 ## Password Management
 keepassxc pass
 
+## Chat
+weechat
+
 ## Misc
 wl-clipboard
 wlr-randr
@@ -117,6 +120,7 @@ mesa-vulkan-swrast
 python3
 gcc
 g++
+perl
 
 ## LSP
 clang-extra-tools
@@ -127,3 +131,6 @@ make cmake
 
 ## Versioning
 git
+
+## Debuggers
+gdb
