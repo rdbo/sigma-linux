@@ -75,7 +75,7 @@ num_devices="1"
 
 type0="swap"
 flag0=
-size0=`LC_ALL=C free -m | awk '/^Mem:/{print int(\$2/2)}'` # 50% of memory reserved for zram
+size0=\`LC_ALL=C free -m | awk '/^Mem:/{print int(\$2/2)}'\` # 50% of memory reserved for zram
 maxs0=1
 algo0=zstd
 labl0=zram_swap
