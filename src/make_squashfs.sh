@@ -75,11 +75,17 @@ num_devices="1"
 
 type0="swap"
 flag0=
-size0=`LC_ALL=C free -m | awk '/^Mem:/{print int($2/2)}'` # 50% of memory reserved for zram
+size0=`LC_ALL=C free -m | awk '/^Mem:/{print int(\$2/2)}'` # 50% of memory reserved for zram
 maxs0=1
 algo0=zstd
 labl0=zram_swap
 EOF
+
+# Create common user directories in /etc/skel
+dirs="Downloads Documents Pictures Videos Music"
+for dir in $dirs; do
+	mkdir -p "$SQUASHFS_DIR/etc/skel/$dir"
+done
 
 # Copy /etc/skel to /root (allows for logging in to the desktop environment as root on live boot)
 cp -r "$SQUASHFS_DIR/etc/skel/." "$SQUASHFS_DIR/root/."
@@ -95,7 +101,7 @@ rc_add devfs sysinit
 rc_add dmesg sysinit
 rc_add mdev sysinit
 rc_add hwdrivers sysinit
-# rc_add modloop sysinit # NOTE: Not working, but there doesn't seem to be harm done without it
+# rc_add modloop sysinit # NOTE: Not necessary on Sigma Linux
 
 rc_add hwclock boot
 rc_add modules boot
