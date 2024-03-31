@@ -1,6 +1,5 @@
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-	export XDG_RUNTIME_DIR="/tmp/run-$USER"
+export XDG_RUNTIME_DIR="/tmp/run-$USER-$(id -u)"
 
-	rm -rf "$XDG_RUNTIME_DIR"
+if [ ! -d "$XDG_RUNTIME_DIR" ]; then
 	mkdir -m 700 -p "$XDG_RUNTIME_DIR"
 fi
