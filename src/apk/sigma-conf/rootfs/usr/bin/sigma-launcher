@@ -4,7 +4,7 @@ path_dirs="$(printf "%s\n" "$PATH" | tr ':' '\n')"
 binaries=""
 
 for path in $path_dirs; do
-	dirbins="$(find "$path" -type f -executable)"
+	dirbins="$(find "$path" -executable)"
 	if [ -z "$binaries" ]; then
 		binaries="$dirbins"
 	else
