@@ -27,8 +27,9 @@ pciutils
 doas openssh
 curl wget
 gpg
-patch
+patch entr
 7zip
+xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 
 ## Memory
 earlyoom zram-init
@@ -83,6 +84,15 @@ slurp
 ## Office
 sc-im
 sigma-sent
+groff
+poppler poppler-utils
+zathura zathura-pdf-mupdf
+
+## Mail
+neomutt
+
+## RSS
+newsboat
 
 ## Multimedia
 mpv
@@ -126,6 +136,9 @@ python3
 gcc
 g++
 perl
+
+## Linkers
+mold
 
 ## LSP
 clang-extra-tools
