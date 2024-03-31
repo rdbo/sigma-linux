@@ -24,7 +24,11 @@ pciutils
 # System
 
 ## Administration Tools
-doas openssh curl wget gpg patch
+doas openssh
+curl wget
+gpg
+patch
+7zip
 
 ## Memory
 earlyoom zram-init
