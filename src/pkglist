@@ -35,7 +35,7 @@ xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 earlyoom zram-init
 
 ## Network
-iwd wpa_supplicant dhcpcd openvpn wireguard-tools
+iwd wpa_supplicant dhcpcd openvpn wireguard-tools tshark
 
 ## Audio
 pipewire pipewire-pulse pipewire-alsa pipewire-jack
@@ -108,6 +108,9 @@ keepassxc pass
 
 ## Chat
 weechat
+
+## Monitoring
+wireshark
 
 ## Misc
 wl-clipboard
