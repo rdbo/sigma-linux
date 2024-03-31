@@ -42,6 +42,9 @@ pipewire pipewire-pulse pipewire-alsa pipewire-jack
 pulsemixer pulseaudio-ctl pulseaudio-utils
 easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
 
+## Bluetooth
+bluez
+
 ## Docs
 mandoc man-pages
 busybox-doc
