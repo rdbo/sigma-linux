@@ -118,6 +118,7 @@ wlr-randr
 dbus-x11
 wvkbd
 neofetch
+lxappearance
 
 ## Themes
 adwaita-icon-theme
