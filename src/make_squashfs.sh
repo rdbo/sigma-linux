@@ -124,7 +124,7 @@ rc_add earlyoom default
 rc_add iwd default
 rc_add dbus default
 rc_add seatd default
-# rc_add bluetooth default # TODO: Add bluetooth
+rc_add bluetooth default
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
