@@ -43,13 +43,14 @@ busybox-doc
 
 ## Configuration
 sigma-conf
+ncurses-terminfo
 
 #--------------------------------#
 
 # Desktop Environment
 
 ## Core
-xwayland seatd eudev
+xwayland seatd eudev xrdb
 
 ## Fonts
 sigma-firacode-nerd font-ubuntu-nerd font-unifont
@@ -62,7 +63,7 @@ waylock # screen locker
 swww # wallpaper daemon
 
 ## Terminal
-foot
+sigma-st foot
 
 ## Text Editing
 vim sigma-helix

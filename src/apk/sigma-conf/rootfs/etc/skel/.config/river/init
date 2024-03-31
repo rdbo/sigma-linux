@@ -102,7 +102,7 @@ riverctl map normal Super E spawn xfe # TODO: Look for Wayland file manager
 riverctl map normal Super P spawn 'sigma-launcher'
 riverctl map normal Super Print spawn 'sigma-screenshot'
 
-riverctl map normal Super+Shift Return spawn "ENV=$HOME/.profile foot"
+riverctl map normal Super+Shift Return spawn "ENV=$HOME/.profile st"
 riverctl map normal Super+Shift Escape spawn 'sigma-change-resolution'
 riverctl map normal Super+Shift Tab spawn 'sigma-change-kbdlayout'
 riverctl map normal Super+Shift X spawn 'sigma-lock-screen'

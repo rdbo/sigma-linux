@@ -1,0 +1,26 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-st"
+pkgver="1.0_git20240331"
+pkgrel=0
+pkgdesc="suckless st built for Sigma Linux"
+url="https://github.com/rdbo/sigma-linux"
+arch="all"
+license="MIT/X"
+depends="libx11 libxft harfbuzz fontconfig freetype gd glib" # NOTE: the terminfo is in the package ncurses-terminfo
+makedepends="libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev"
+_commit="51b67576d1eb56be900eb68be22a67e2c937778d"
+source="https://github.com/rdbo/sigma-st/archive/$_commit/sigma-st-$_commit.tar.gz"
+options="!check"
+
+build() {
+	mv "$srcdir/sigma-st-$_commit" "$srcdir/st"
+	make -C "$srcdir/st"
+}
+
+package() {
+	gzip "$srcdir/st/st.1"
+	install -D -m755 "$srcdir/st/st" -t "$pkgdir/usr/bin/"
+	install -D -m644 "$srcdir/st/st.1.gz" -t "$pkgdir/usr/share/man/man1/"
+}
