@@ -121,5 +121,6 @@ riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
 riverctl spawn 'mako'
 riverctl spawn 'yambar'
 riverctl spawn 'easyeffects --gapplication-service'
+riverctl spawn 'sigma-vkbd --hidden'
 swww init
 swww img -t none "$SIGMA_CONFIG_DIR/background"
