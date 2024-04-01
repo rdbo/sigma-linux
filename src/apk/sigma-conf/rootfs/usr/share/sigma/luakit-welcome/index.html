@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Sigma Linux</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "VT323";
+        background-color: #101a20;
+        color: #00ffc8;
+      }
+
+      #main-content {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 3.14em;
+        margin: 12px 0;
+      }
+
+      h2 {
+        margin: 8px 0;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      #title-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #content-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #content-box img {
+        height: 400px;
+        margin: 32px 0;
+      }
+
+      #help-box {
+        font-size: 1.8em;
+      }
+
+      #code-block {
+        background-color: black;
+        color: white;
+        padding: 4px 8px;
+        border: 2px solid #141414;
+        border-radius: 10px;
+        margin: 4px 0;
+      }
+
+      footer {
+        margin: 20px 0;
+        font-size: 1.5em;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="main-content">
+      <div id="title-box">
+        <h1>Welcome to Sigma Linux</h1>
+        <h2>Made by rdbo</h2>
+      </div>
+      <main id="content-box">
+        <img src="sigma-logo-min.svg"/>
+        <div id="help-box">
+          <p>Run the following command to get started</p>
+          <div id="code-block">
+            <p>:help</p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer>
+      <p>Copyright (C) Rdbo - 2024</p>
+    </footer>
+  </body>
+</html>
