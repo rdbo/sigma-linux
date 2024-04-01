@@ -1,0 +1,26 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-wvkbd"
+pkgver="0.14.4_git20240401"
+pkgrel=0
+pkgdesc="wvkbd built for Sigma Linux"
+url="https://github.com/rdbo/sigma-linux"
+arch="all"
+license="GPL-3.0"
+depends="libxkbcommon glib pango cairo"
+makedepends="fontconfig libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev musl-dev"
+_commit="337c966068bee6ab965a4fdc5a6746a6c7025c38"
+source="https://github.com/rdbo/sigma-wvkbd/archive/$_commit/sigma-wvkbd-$_commit.tar.gz"
+options="!check"
+
+build() {
+	mv "$srcdir/sigma-wvkbd-$_commit" "$srcdir/wvkbd"
+	make -C "$srcdir/wvkbd" all
+}
+
+package() {
+	gzip "$srcdir/wvkbd/wvkbd.1"
+	install -D -m755 "$srcdir/wvkbd/wvkbd-mobintl" -t "$pkgdir/usr/bin/"
+	install -D -m644 "$srcdir/wvkbd/wvkbd.1.gz" -t "$pkgdir/usr/share/man/man1/"
+}

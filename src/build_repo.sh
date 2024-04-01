@@ -107,3 +107,19 @@ if ! is_apk_indexed sigma-vt323; then
 else
 	echo "[*] Skipped building APK 'sigma-vt323', already indexed"
 fi
+
+# sigma-wvkbd
+_target_arch="$TARGET_ARCH"
+unset TARGET_ARCH # Fix for linker failing to build
+# TODO: Reconsider name for variable 'TARGET_ARCH'
+
+if ! is_apk_indexed sigma-wvkbd; then
+	cp -r "$APK_DIR/sigma-wvkbd/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-wvkbd"
+	abuild checksum
+
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-wvkbd', already indexed"
+fi
+TARGET_ARCH="$_target_arch"

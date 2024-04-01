@@ -24,6 +24,8 @@ RUN apk add libevdev-dev libxkbcommon-dev pixman-dev scdoc wayland-dev wayland-p
 RUN apk add cargo
 # suckless dependencies
 RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev
+# wvkbd dependencies
+RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev
 
 # Fix for building helix
 RUN git config --global http.postBuffer 1048576000
