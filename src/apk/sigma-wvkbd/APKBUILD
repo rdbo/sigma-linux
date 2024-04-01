@@ -10,7 +10,7 @@ arch="all"
 license="GPL-3.0"
 depends="libxkbcommon glib pango cairo"
 makedepends="fontconfig libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev musl-dev"
-_commit="337c966068bee6ab965a4fdc5a6746a6c7025c38"
+_commit="e98a32e426ef7b0cc0d977a0151be88eacb970a3"
 source="https://github.com/rdbo/sigma-wvkbd/archive/$_commit/sigma-wvkbd-$_commit.tar.gz"
 options="!check"
 
