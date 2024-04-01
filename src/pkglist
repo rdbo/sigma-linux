@@ -61,7 +61,8 @@ ncurses-terminfo
 xwayland seatd eudev xrdb
 
 ## Fonts
-sigma-firacode-nerd font-ubuntu-nerd font-unifont
+sigma-firacode-nerd sigma-vt323
+font-ubuntu-nerd font-unifont
 
 ## Desktop
 sigma-river # compositor

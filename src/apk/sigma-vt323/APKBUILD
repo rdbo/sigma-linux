@@ -1,0 +1,25 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-vt323"
+pkgver="1.0"
+pkgrel=0
+pkgdesc="VT323 font"
+url="https://github.com/rdbo/sigma-linux"
+arch="noarch"
+license="OFL-1.1"
+options="!check"
+source="VT323.tar.xz"
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/share/fonts"
+	cp -r "$srcdir/VT323" "$pkgdir/usr/share/fonts"
+}
+
+sha512sums="
+3491f0cce00d2c3aece7a9ed6d4bfb5fe00cbb38db293224ec4a1cbb772cd310354080d547f5e99263ad65c80d83ef50c85861f889e86b70adb9163a2cb4d1d9  VT323.tar.xz
+"

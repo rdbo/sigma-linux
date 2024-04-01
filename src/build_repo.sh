@@ -98,3 +98,12 @@ if ! is_apk_indexed sigma-st; then
 else
 	echo "[*] Skipped building APK 'sigma-st', already indexed"
 fi
+
+# sigma-vt323
+if ! is_apk_indexed sigma-vt323; then
+	cp -r "$APK_DIR/sigma-vt323/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-vt323"
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-vt323', already indexed"
+fi
