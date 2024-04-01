@@ -1,7 +1,7 @@
 # show logo
 echo
 printf "\033[1;36m"
-cat /usr/share/ascii/sigma
+cat /usr/share/sigma/ascii/sigma
 echo
 
 # setup vars
