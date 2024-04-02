@@ -17,7 +17,7 @@ riverctl border-color-urgent "0xFF9A30FF"
 riverctl default-layout rivertile
 
 # Cursor
-riverctl focus-follows-cursor always
+riverctl focus-follows-cursor normal
 riverctl hide-cursor timeout 0
 riverctl hide-cursor when-typing disabled
 riverctl set-cursor-warp disabled
