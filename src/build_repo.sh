@@ -123,3 +123,14 @@ else
 	echo "[*] Skipped building APK 'sigma-wvkbd', already indexed"
 fi
 TARGET_ARCH="$_target_arch"
+
+# sigma-hexedit
+if ! is_apk_indexed sigma-hexedit; then
+	cp -r "$APK_DIR/sigma-hexedit/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-hexedit"
+	abuild checksum
+
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-hexedit', already indexed"
+fi
