@@ -18,6 +18,7 @@ grub-efi
 efibootmgr
 linux-firmware
 pciutils
+alpine-sdk
 
 #--------------------------------#
 
