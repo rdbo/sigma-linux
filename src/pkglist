@@ -129,6 +129,7 @@ dbus-x11
 sigma-wvkbd
 neofetch
 lxappearance
+zenity
 
 ## Themes
 sigma-flat-remix-gtk
