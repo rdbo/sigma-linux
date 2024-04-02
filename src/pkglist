@@ -67,7 +67,7 @@ font-ubuntu-nerd font-unifont
 
 ## Desktop
 sigma-river # compositor
-yambar # status bar
+sigma-yambar sigma-yambar-doc # status bar
 fuzzel # dmenu-like
 waylock # screen locker
 swww # wallpaper daemon

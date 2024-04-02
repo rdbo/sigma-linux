@@ -28,6 +28,8 @@ RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-de
 RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev
 # hexedit dependencies
 RUN apk add autoconf ncurses-dev
+# yambar dependencies
+RUN apk add alsa-lib-dev bison eudev-dev fcft-dev flex json-c-dev libmpdclient-dev meson pipewire-dev pixman-dev scdoc tllist-dev wayland-dev wayland-protocols xcb-util-cursor-dev xcb-util-dev xcb-util-wm-dev yaml-dev font-dejavu
 
 # Fix for building helix
 RUN git config --global http.postBuffer 1048576000

@@ -134,3 +134,14 @@ if ! is_apk_indexed sigma-hexedit; then
 else
 	echo "[*] Skipped building APK 'sigma-hexedit', already indexed"
 fi
+
+# sigma-yambar
+if ! is_apk_indexed sigma-yambar; then
+	cp -r "$APK_DIR/sigma-yambar/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-yambar"
+	abuild checksum
+
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-yambar', already indexed"
+fi
