@@ -145,3 +145,12 @@ if ! is_apk_indexed sigma-yambar; then
 else
 	echo "[*] Skipped building APK 'sigma-yambar', already indexed"
 fi
+
+# sigma-flat-remix-gtk
+if ! is_apk_indexed sigma-flat-remix-gtk; then
+	cp -r "$APK_DIR/sigma-flat-remix-gtk/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-flat-remix-gtk"
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-flat-remix-gtk', already indexed"
+fi
