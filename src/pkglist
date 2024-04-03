@@ -79,9 +79,6 @@ sigma-st foot
 ## Text Editing
 vim sigma-helix
 
-## Hex Editor
-sigma-hexedit
-
 ## Browser
 luakit luakit-doc
 
@@ -117,6 +114,7 @@ imagemagick
 nsxiv
 gimp
 inkscape
+wf-recorder
 
 ## Password Management
 keepassxc pass
@@ -178,3 +176,25 @@ git
 
 ## Debuggers
 gdb
+
+#--------------------------------#
+
+# 1337 h@xx0r
+
+sigma-hexedit
+aircrack-ng
+nmap nmap-ncat
+rustscan
+ghidra
+zaproxy
+mitmproxy
+hashcat
+john
+hydra
+radare2
+exiftool
+sqlmap
+recon-ng
+bettercap
+socat
+arp-scan
