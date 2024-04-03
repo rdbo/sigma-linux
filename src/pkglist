@@ -31,6 +31,7 @@ gpg
 patch entr
 7zip
 xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
+yt-dlp
 
 ## Memory
 earlyoom zram-init
@@ -92,12 +93,16 @@ libnotify
 grim
 slurp
 
+## File Manager
+pcmanfm
+
 ## Office
 sc-im
 sigma-sent
 groff
 poppler poppler-utils
 zathura zathura-pdf-mupdf
+libreoffice libreoffice-gtk
 
 ## Mail
 neomutt
@@ -156,6 +161,7 @@ python3
 gcc
 g++
 perl
+openjdk8 openjdk21
 
 ## Linkers
 mold
