@@ -20,6 +20,9 @@ export PS1="$PS1\033[0;37m"
 # create sigma cache folder
 mkdir -p "$HOME/.cache/sigma"
 
+# setup gtk theme
+export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
+
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ]; then
 	exec dbus-launch river
