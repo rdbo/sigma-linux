@@ -33,6 +33,7 @@ patch entr
 xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 yt-dlp
 xz zstd zip unzip
+lighttpd
 
 ## Memory
 earlyoom zram-init
