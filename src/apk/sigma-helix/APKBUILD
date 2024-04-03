@@ -1,0 +1,28 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-helix"
+pkgver="23.10_git20240325"
+pkgrel=0
+pkgdesc="helix editor built for Sigma Linux"
+url="https://github.com/rdbo/sigma-linux"
+arch="all"
+license="MPL-2.0"
+makedepends="cargo"
+_helix_commit="614a744d24e54225eae2ad0d27719b81c0cf9a4d"
+source="https://github.com/helix-editor/helix/archive/$_helix_commit/helix-$_helix_commit.tar.gz"
+
+build() {
+	cd "$srcdir/helix-$_helix_commit"
+	cargo build --release
+}
+
+check() {
+	"$srcdir/helix-$_helix_commit/target/release/hx" --version > /dev/null
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/share/helix"
+	install -D -m755 "$srcdir/helix-$_helix_commit/target/release/hx" -t "$pkgdir/usr/bin/"
+	cp -r "$srcdir/helix-$_helix_commit/runtime" "$pkgdir/usr/share/helix/"
+}

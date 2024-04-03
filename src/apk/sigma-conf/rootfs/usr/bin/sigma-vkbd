@@ -1,0 +1,3 @@
+#!/bin/sh
+
+wvkbd-mobintl -L 280 --fn "FiraCode Nerd Font:style=Bold" --bg "132a33" --fg "101a20" --fg-sp "101a20" --text "00ffc8" --text-sp "00ffc8" $@

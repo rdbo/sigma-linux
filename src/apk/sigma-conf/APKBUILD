@@ -1,0 +1,21 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-conf"
+pkgver="1.0"
+pkgrel=0
+pkgdesc="Sigma Linux configuration files"
+url="https://github.com/rdbo/sigma-linux"
+arch="noarch"
+license="AGPL-3.0"
+options="!check"
+source="rootfs.tar.gz"
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir"
+	cp -r "$srcdir/rootfs/." "$pkgdir/."
+}

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+SCREENSHOT_DIR="$HOME/Pictures"
+
+if [ ! -d "$SCREENSHOT_DIR" ]; then
+	mkdir -p "$SCREENSHOT_DIR"
+fi
+
+notify-send "  Taking screenshot..." "󰒅 Select the area to be captured"
+
+geom="$(slurp)"
+if [ $? -ne 0 ]; then
+	notify-send "  Screenshot canceled"
+	exit 1
+fi
+
+scrsht_file="$(date +"%Y-%m-%d_%H-%M-%S").png"
+scrsht_path="$SCREENSHOT_DIR/$scrsht_file"
+grim -g "$geom" "$scrsht_path"
+wl-copy -t image/png < "$scrsht_path"
+
+notify-send "  Screenshot taken" "󰆏 Copied image to clipboard\n󱣪 Saved copy to \"$scrsht_path\""

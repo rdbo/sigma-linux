@@ -1,0 +1,43 @@
+#!/bin/sh
+
+notify-send '󰹑  Changing resolution...'
+
+function cancel {
+	notify-send '󰹑  Canceled resolution change'
+	exit 1
+}
+
+# Retrieve monitor list from 'randr' program
+monitors="$(wlr-randr | grep -E '^[^ ]' | cut -d ' ' -f 1)"
+
+# Pick monitor
+mon="$(printf "%s\n" "$monitors" | sigma-dmenu -p "Select a monitor...")"
+if [ $? -ne 0 ]; then
+	cancel
+fi
+
+# Retrieve 'randr' monitor information
+moninfo=$(wlr-randr | sed -n "/^$mon/,/^[^ ]/{//!p;}")
+
+# Retrieve resolution/mode list for the picked monitor
+resolutions=$(printf "%s\n" "$moninfo" | grep -E '^[ ]{4}' | awk -F ' ' '{ print $1 }' | uniq)
+
+# Pick resolution
+res="$(printf "%s\n" "$resolutions" | sigma-dmenu -p "Select a resolution...")"
+if [ $? -ne 0 ]; then
+	cancel
+fi
+
+# Retrieve refresh rates from the picked resolution
+rates=$(printf "%s\n" "$moninfo" | grep -E "^[ ]{4}$res" | awk -F ' ' '{ print $3 }')
+
+# Pick refresh rate
+rate="$(printf "%s\n" "$rates" | sigma-dmenu -p "Select a refresh rate...")"
+if [ $? -ne 0 ]; then
+	cancel
+fi
+
+# Change the resolution
+mode="${res}@${rate}"
+wlr-randr --output "$mon" --mode "$mode"
+notify-send "󰹑 Resolution changed" "󰍹 $mon: $mode"

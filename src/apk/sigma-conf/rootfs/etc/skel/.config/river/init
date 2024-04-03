@@ -1,0 +1,126 @@
+#!/bin/sh
+
+# River version: 0.2.6
+
+. sigma-common
+
+# Background
+riverctl background-color "0x101A20"
+
+# Border
+riverctl border-width 2
+riverctl border-color-focused "0x00FFC8FF"
+riverctl border-color-unfocused "0x132A33FF"
+riverctl border-color-urgent "0xFF9A30FF"
+
+# Layout
+riverctl default-layout rivertile
+
+# Cursor
+riverctl focus-follows-cursor normal
+riverctl hide-cursor timeout 0
+riverctl hide-cursor when-typing disabled
+riverctl set-cursor-warp disabled
+
+# Keyboard
+riverctl set-repeat 50 300
+
+kbdlayout="$SIGMA_CONFIG_DIR/kbdlayout" # This file is created by the 'sigma-change-kbdlayout' script
+if [ -f "$kbdlayout" ]; then
+  layout="$(cat "$kbdlayout")"
+  if [ ! -z "$layout" ]; then
+    # Restore previously selected keyboard layout
+    riverctl keyboard-layout "$layout"
+  fi
+fi
+
+# Filters
+riverctl rule-add -app-id "wmfloat" float
+
+# Keybindings
+
+## Terminate actions
+riverctl map normal Super+Shift Q exit # Quit window manager
+riverctl map normal Super+Shift C close # Close focused view
+
+## Change view focus
+riverctl map normal Super J focus-view next
+riverctl map normal Super K focus-view previous
+
+## Move focused view
+riverctl map normal Super+Shift J swap next
+riverctl map normal Super+Shift K swap previous
+riverctl map normal Super+Alt H move left 100
+riverctl map normal Super+Alt J move down 100
+riverctl map normal Super+Alt K move up 100
+riverctl map normal Super+Alt L move right 100
+riverctl map normal Super+Alt+Control H snap left
+riverctl map normal Super+Alt+Control J snap down
+riverctl map normal Super+Alt+Control K snap up
+riverctl map normal Super+Alt+Control L snap right
+riverctl map normal Super Return zoom
+riverctl map-pointer normal Super BTN_LEFT move-view
+
+## Resize focused view
+riverctl map normal Super+Alt+Shift H resize horizontal -100
+riverctl map normal Super+Alt+Shift J resize vertical 100
+riverctl map normal Super+Alt+Shift K resize vertical -100
+riverctl map normal Super+Alt+Shift L resize horizontal 100
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+## Change focused view type
+riverctl map-pointer normal Super BTN_MIDDLE toggle-float
+riverctl map normal Super Space toggle-float
+riverctl map normal Super F toggle-fullscreen
+
+## Tiling
+riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
+riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+riverctl map normal Super Up send-layout-cmd rivertile "main-location top"
+riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
+riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
+riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
+
+## Tags
+for i in $(seq 1 9); do
+    tags=$((1 << ($i - 1)))
+
+    riverctl map normal Super $i set-focused-tags $tags
+    riverctl map normal Super+Shift $i set-view-tags $tags
+    riverctl map normal Super+Control $i toggle-focused-tags $tags
+    riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+done
+
+all_tags=$(((1 << 32) - 1))
+riverctl map normal Super 0 set-focused-tags $all_tags
+riverctl map normal Super+Shift 0 set-view-tags $all_tags
+
+## Programs
+riverctl map normal Super E spawn xfe # TODO: Look for Wayland file manager
+riverctl map normal Super P spawn 'sigma-launcher'
+riverctl map normal Super Print spawn 'sigma-screenshot'
+
+riverctl map normal Super+Shift Return spawn "ENV=$HOME/.profile st"
+riverctl map normal Super+Shift Escape spawn 'sigma-change-resolution'
+riverctl map normal Super+Shift Tab spawn 'sigma-change-kbdlayout'
+riverctl map normal Super+Shift X spawn 'sigma-lock-screen'
+
+## Misc
+riverctl declare-mode passthrough
+riverctl map normal Super F11 enter-mode passthrough
+riverctl map passthrough Super F11 enter-mode normal
+
+# Setup Xresources
+xrdb "$HOME/.Xresources"
+
+# Start programs
+riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
+/usr/libexec/pipewire-launcher # Starts pipewire and waits for it to initialize
+riverctl spawn 'mako'
+riverctl spawn 'yambar'
+riverctl spawn 'easyeffects --gapplication-service'
+riverctl spawn 'sigma-vkbd --hidden'
+swww init
+swww img -t none "$SIGMA_CONFIG_DIR/background"

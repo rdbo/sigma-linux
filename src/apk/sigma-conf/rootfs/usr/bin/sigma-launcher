@@ -1,0 +1,19 @@
+#!/bin/sh
+
+path_dirs="$(printf "%s\n" "$PATH" | tr ':' '\n')"
+binaries=""
+
+for path in $path_dirs; do
+	dirbins="$(find "$path" -executable)"
+	if [ -z "$binaries" ]; then
+		binaries="$dirbins"
+	else
+		binaries="$(printf "${binaries}\n${dirbins}")"
+	fi
+done
+
+executables="$(printf "%s\n" "$binaries" | sed 's|.*/||g' | sort | uniq)"
+
+cmd="$(printf "%s\n" "$executables" | sigma-dmenu -p "Run: ")"
+
+$cmd &

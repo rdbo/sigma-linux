@@ -1,0 +1,3 @@
+#!/bin/sh
+
+waylock -init-color '0x101A20' -input-color '0x132A33' -fail-color '0x3B0000'

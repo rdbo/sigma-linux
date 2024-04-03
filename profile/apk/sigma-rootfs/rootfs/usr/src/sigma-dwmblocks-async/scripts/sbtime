@@ -1,8 +1,0 @@
-#!/bin/sh
-
-date +" %h %d, %H:%M:%S"
-
-if [ "$BLOCK_BUTTON" = "1" ]; then
-    notif=$(printf "  Date: $(date +"%A, %B %d %Y")\n  Time: $(date +"%H:%M:%S")\n")
-    notify-send "$notif"
-fi

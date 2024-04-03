@@ -1,0 +1,204 @@
+# Core Packages
+alpine-base
+alpine-baselayout
+alpine-baselayout-data
+alpine-keys
+apk-tools
+busybox
+ca-certificates-bundle
+musl
+openrc
+openssl
+cryptsetup
+sfdisk
+lsblk
+grub
+grub-bios
+grub-efi
+efibootmgr
+linux-firmware
+pciutils
+alpine-sdk
+
+#--------------------------------#
+
+# System
+
+## Administration Tools
+doas openssh
+curl wget
+gpg
+patch entr
+7zip
+xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
+yt-dlp
+xz zstd zip unzip
+lighttpd
+
+## Memory
+earlyoom zram-init
+
+## Network
+iwd wpa_supplicant dhcpcd openvpn wireguard-tools tshark
+
+## Audio
+pipewire pipewire-pulse pipewire-alsa pipewire-jack
+pulsemixer pulseaudio-ctl pulseaudio-utils
+easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
+
+## Bluetooth
+bluez
+
+## Docs
+mandoc man-pages
+busybox-doc
+
+## Configuration
+sigma-conf
+ncurses-terminfo
+
+#--------------------------------#
+
+# Desktop Environment
+
+## Core
+xwayland seatd eudev xrdb
+
+## Fonts
+sigma-firacode-nerd sigma-vt323
+font-ubuntu-nerd font-unifont
+
+## Desktop
+sigma-river # compositor
+sigma-yambar sigma-yambar-doc # status bar
+fuzzel # dmenu-like
+waylock # screen locker
+swww # wallpaper daemon
+
+## Terminal
+sigma-st foot
+
+## Text Editing
+vim sigma-helix
+
+## Browser
+luakit luakit-doc
+
+## Notifications
+mako
+libnotify
+
+## Screenshot
+grim
+slurp
+
+## File Manager
+pcmanfm
+
+## Office
+sc-im
+sigma-sent
+groff
+poppler poppler-utils
+zathura zathura-pdf-mupdf
+libreoffice libreoffice-gtk
+
+## Mail
+neomutt
+
+## RSS
+newsboat
+
+## Multimedia
+mpv
+ffmpeg
+imagemagick
+nsxiv
+gimp
+inkscape
+wf-recorder
+shotcut
+lmms
+
+## Password Management
+keepassxc pass
+
+## Chat
+weechat
+
+## Monitoring
+wireshark
+
+## Misc
+wl-clipboard
+wlr-randr
+dbus-x11
+sigma-wvkbd
+neofetch
+lxappearance
+zenity
+
+## Themes
+sigma-flat-remix-gtk
+adwaita-icon-theme
+papirus-icon-theme
+
+## GL/Rendering
+mesa
+mesa-gbm
+mesa-dri-gallium
+mesa-egl
+mesa-gl
+mesa-gles
+mesa-vulkan-ati
+mesa-vulkan-intel
+mesa-vulkan-swrast
+
+#--------------------------------#
+
+# Development
+
+## Compilers/Interpreters
+python3
+gcc
+g++
+perl
+openjdk8 openjdk21
+
+## Linkers
+mold
+
+## LSP
+clang-extra-tools
+py3-lsp-server
+
+## Build Systems
+make cmake
+
+## Versioning
+git
+
+## Debuggers
+gdb
+
+#--------------------------------#
+
+# 1337 h@xx0r
+
+sigma-hexedit
+aircrack-ng
+nmap nmap-ncat
+rustscan
+ghidra
+zaproxy
+mitmproxy
+hashcat
+john
+hydra
+radare2
+exiftool
+sqlmap
+recon-ng
+bettercap
+socat
+arp-scan

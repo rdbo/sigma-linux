@@ -1,0 +1,155 @@
+#!/bin/sh
+
+set -e
+
+# Helpers
+separator() {
+	echo
+	echo "--------------------------------"
+	echo
+}
+
+list_timezones() {
+	echo "$(cd /usr/share/zoneinfo && find * -type f | grep -v "\." | grep -E '^[A-Z]')"
+}
+
+list_disks() {
+	local disks="$(lsblk -p | grep -E 'disk\s+$' | cut -d ' ' -f 1)"
+
+	# Make sure that the disk device actually exists
+	for disk in $disks; do
+		if [ -b "$disk" ]; then
+			echo "$disk"
+		fi
+	done
+}
+
+get_dev_id() {
+	blkid "$1" | cut -d ' ' -f 2 | sed 's/"//g'
+}
+
+# Setup
+echo "Sigma Linux Installer"
+echo "Welcome to the Sigma Linux Installer"
+echo "Follow the instructions to proceed with your installation"
+
+separator
+
+# Select disk to install OS
+echo "[*] DISK SETUP"
+echo
+
+# TODO: Check if disk size is enough
+disks="$(list_disks)"
+disk=""
+while [ -z "$disk" ]; do
+	echo "Available disks:"
+	list_disks | tr '\n' ' '
+	echo
+	echo
+
+	read -p "[p] Select a disk for installation: " disk
+	if ! echo "$disks" | tr ' ' '\n' | grep -E "^$disk\$" > /dev/null; then
+		echo "[!] Invalid disk! Select another one."
+		usleep 500000
+		echo
+		disk=""
+	fi
+done
+
+read -p "[p] Use full disk encryption? (y/n): " usefde
+usefde="$(printf "$usefde" | awk '{ print tolower($0) }')"
+
+echo
+echo "WARN: The disk '$disk' will be erased and the OS will be installed!"
+read -p "[p] Type 'YES' to continue (without quotes): " response
+if [ "$response" != "YES" ]; then
+	echo "Installation cancelled"
+	exit 0
+fi
+
+echo
+
+echo "Setting up partition table..."
+echo "label: gpt" | sfdisk -f "$disk"
+echo ", 512M, uefi" | sfdisk -f "$disk" # EFI
+echo ", 1G, linux" | sfdisk -a -f "$disk" # Boot
+echo ", , linux" | sfdisk -a -f "$disk" # RootFS
+efi_partition="${disk}1"
+boot_partition="${disk}2"
+root_partition="${disk}3"
+
+echo "Formating partitions..."
+yes | mkfs.vfat "$efi_partition"
+yes | mkfs.ext2 "$boot_partition"
+if [ "$usefde" = "y" ]; then
+	while ! cryptsetup luksFormat --batch-mode --type luks2 --verify-passphrase "$root_partition"; do
+		:
+	done
+else
+	yes | mkfs.ext4 "$root_partition"
+fi
+
+echo "Mounting new root filesystem..."
+newroot="$(mktemp -d)"
+if [ "$usefde" = "y" ]; then
+	luksdm="cryptsigma"
+	while ! cryptsetup luksOpen "$root_partition" "$luksdm"; do
+		:
+	done
+
+	yes | mkfs.ext4 "/dev/mapper/$luksdm"
+	mount "/dev/mapper/$luksdm" "$newroot"
+else
+	mount "$root_partition" "$newroot"
+fi
+mkdir -p "$newroot/boot"
+mount "$boot_partition" "$newroot/boot"
+mkdir -p "$newroot/boot/efi"
+mount "$efi_partition" "$newroot/boot/efi"
+echo "Mounted root filesystem at: $newroot"
+
+echo "Copying files..."
+cp -r /squash/. "$newroot/"
+
+echo "Mounting pseudo filesystems on new root..."
+mkdir -p "$newroot/dev" "$newroot/proc"
+mount -t devtmpfs none "$newroot/dev"
+mount -t proc proc "$newroot/proc"
+
+echo "Setting up boot..."
+chroot "$newroot" grub-install --target=x86_64-efi --boot-directory=/boot --efi-directory=/boot/efi --removable "$disk"
+cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/"
+# Patch GRUB config
+sed -i -E 's|/boot||g' "$newroot/boot/grub/grub.cfg"
+root_findfs="$(get_dev_id "$root_partition")"
+sed -i -E "s|linux /vmlinuz |linux /vmlinuz sigmaroot=\"$root_findfs\" |" "$newroot/boot/grub/grub.cfg"
+cp /cdrom/boot/vmlinuz /cdrom/boot/config /cdrom/boot/initramfs "$newroot/boot/"
+
+echo "Setting up /etc/fstab..."
+boot_id="$(get_dev_id "$boot_partition")"
+efi_id="$(get_dev_id "$efi_partition")"
+
+cat <<- EOF > "$newroot/etc/fstab"
+# device	mountpoint	fstype	options		dump	fsck
+$boot_id	/boot		ext2	defaults	0	1
+$efi_id		/boot/efi	vfat	defaults	0	1
+EOF
+
+echo "Unmounting partitions..."
+umount "$newroot/proc"
+umount "$newroot/dev"
+umount "$newroot/boot/efi"
+umount "$newroot/boot"
+umount "$newroot"
+if [ "$usefde" = "y" ]; then
+	cryptsetup luksClose "$luksdm"
+fi
+
+echo "Cleaning up..."
+rm -rf "$newroot"
+
+echo "Syncing disks..."
+sync
+
+echo "Sigma Linux installed successfully!"

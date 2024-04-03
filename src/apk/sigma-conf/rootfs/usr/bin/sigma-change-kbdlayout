@@ -1,0 +1,21 @@
+#!/bin/sh
+
+. sigma-common
+
+KBD_LAYOUT_FILE="$SIGMA_CONFIG_DIR/kbdlayout"
+
+notify-send " Changing keyboard layout..." "󰗊 Select the new layout"
+
+# Get list of all XKB layouts
+xkb_layouts="$(ls /usr/share/X11/xkb/symbols/ | grep -E '^.{2}$')"
+
+layout="$(printf "$xkb_layouts\n" | sigma-dmenu -p "Select the keyboard layout...")"
+
+if [ -z "$layout" ]; then
+	notify-send "󰗊 Canceled keyboard layout change"
+	exit 1
+fi
+
+riverctl keyboard-layout "$layout"
+notify-send "󰗊 Keyboard layout changed to: $layout"
+printf "%s\n" "$layout" > "$KBD_LAYOUT_FILE"

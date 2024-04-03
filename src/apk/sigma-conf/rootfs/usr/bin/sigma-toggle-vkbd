@@ -1,0 +1,8 @@
+#!/bin/sh
+
+notify-send "󰌌 Toggled virtual keyboard"
+if ! pidof wvkbd-mobintl; then
+	sigma-vkbd
+else
+	pkill -SIGRTMIN wvkbd-mobintl
+fi
