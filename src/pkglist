@@ -35,6 +35,7 @@ xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 xz zstd zip unzip
 # lighttpd
 rsync
+diffutils
 
 ## Memory
 earlyoom zram-init
