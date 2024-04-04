@@ -31,15 +31,16 @@ gpg
 patch entr
 7zip
 xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
-yt-dlp
+# yt-dlp
 xz zstd zip unzip
-lighttpd
+# lighttpd
+rsync
 
 ## Memory
 earlyoom zram-init
 
 ## Network
-iwd wpa_supplicant dhcpcd openvpn wireguard-tools tshark
+iwd wpa_supplicant dhcpcd openvpn wireguard-tools
 
 ## Audio
 pipewire pipewire-pulse pipewire-alsa pipewire-jack
@@ -66,7 +67,7 @@ xwayland seatd eudev xrdb
 
 ## Fonts
 sigma-firacode-nerd sigma-vt323
-font-ubuntu-nerd font-unifont
+font-ubuntu-nerd font-noto
 
 ## Desktop
 sigma-river # compositor
@@ -101,24 +102,24 @@ sigma-sent
 groff
 poppler poppler-utils
 zathura zathura-pdf-mupdf
-libreoffice libreoffice-gtk
+# libreoffice libreoffice-gtk
 
 ## Mail
-neomutt
+# neomutt
 
 ## RSS
-newsboat
+# newsboat
 
 ## Multimedia
 mpv
 ffmpeg
 imagemagick
 nsxiv
-gimp
-inkscape
+# gimp
+# inkscape
 wf-recorder
-shotcut
-lmms
+# shotcut
+# lmms
 
 ## Password Management
 keepassxc pass
@@ -127,7 +128,7 @@ keepassxc pass
 weechat
 
 ## Monitoring
-wireshark
+# wireshark tshark
 
 ## Misc
 wl-clipboard
@@ -163,7 +164,7 @@ python3
 gcc
 g++
 perl
-openjdk8 openjdk21
+# openjdk8 openjdk21
 
 ## Linkers
 mold
@@ -186,19 +187,19 @@ gdb
 # 1337 h@xx0r
 
 sigma-hexedit
-aircrack-ng
-nmap nmap-ncat
-rustscan
-ghidra
-zaproxy
-mitmproxy
-hashcat
-john
-hydra
-radare2
-exiftool
-sqlmap
-recon-ng
-bettercap
-socat
-arp-scan
+# aircrack-ng
+# nmap nmap-ncat
+# rustscan
+# ghidra
+# zaproxy
+# mitmproxy
+# hashcat
+# john
+# hydra
+# radare2
+# exiftool
+# sqlmap
+# recon-ng
+# bettercap
+# socat
+# arp-scan
