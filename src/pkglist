@@ -67,7 +67,7 @@ xwayland seatd eudev xrdb
 
 ## Fonts
 sigma-firacode-nerd sigma-vt323
-font-ubuntu-nerd font-noto
+font-ubuntu-nerd font-noto-all
 
 ## Desktop
 sigma-river # compositor
