@@ -71,8 +71,8 @@ sigma-firacode-nerd sigma-vt323
 font-ubuntu-nerd font-noto-all
 
 ## Desktop
-sigma-river # compositor
-sigma-yambar sigma-yambar-doc # status bar
+river # compositor
+yambar yambar-doc # status bar
 fuzzel # dmenu-like
 waylock # screen locker
 swww # wallpaper daemon
@@ -187,7 +187,7 @@ gdb
 
 # 1337 h@xx0r
 
-sigma-hexedit
+hexedit
 # aircrack-ng
 # nmap nmap-ncat
 # rustscan
