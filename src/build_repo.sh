@@ -29,30 +29,6 @@ else
 	echo "[*] Skipped building APK 'sigma-conf', already indexed"
 fi
 
-# sigma-river
-if ! is_apk_indexed sigma-river; then
-	mkdir -p "$APKTEMP_DIR/sigma-river/"
-	cp "$APK_DIR/sigma-river/APKBUILD" "$APKTEMP_DIR/sigma-river/"
-	cd "$APKTEMP_DIR/sigma-river"
-	## clone repository and archive it
-	if [ ! -d river ]; then
-		git clone --depth 1 https://codeberg.org/river/river river
-		cd river
-		git submodule update --init
-		cd ..
-	else
-		cd river
-		git pull origin
-		cd ..
-	fi
-	tar -czf river.tar.gz river
-	abuild checksum
-
-	abuild -rf -P "$REPO_DIR"
-else
-	echo "[*] Skipped building APK 'sigma-river', already indexed"
-fi
-
 # sigma-firacode-nerd
 if ! is_apk_indexed sigma-firacode-nerd; then
 	cp -r "$APK_DIR/sigma-firacode-nerd/" "$APKTEMP_DIR/"
@@ -123,28 +99,6 @@ else
 	echo "[*] Skipped building APK 'sigma-wvkbd', already indexed"
 fi
 TARGET_ARCH="$_target_arch"
-
-# sigma-hexedit
-if ! is_apk_indexed sigma-hexedit; then
-	cp -r "$APK_DIR/sigma-hexedit/" "$APKTEMP_DIR/"
-	cd "$APKTEMP_DIR/sigma-hexedit"
-	abuild checksum
-
-	abuild -rf -P "$REPO_DIR"
-else
-	echo "[*] Skipped building APK 'sigma-hexedit', already indexed"
-fi
-
-# sigma-yambar
-if ! is_apk_indexed sigma-yambar; then
-	cp -r "$APK_DIR/sigma-yambar/" "$APKTEMP_DIR/"
-	cd "$APKTEMP_DIR/sigma-yambar"
-	abuild checksum
-
-	abuild -rf -P "$REPO_DIR"
-else
-	echo "[*] Skipped building APK 'sigma-yambar', already indexed"
-fi
 
 # sigma-flat-remix-gtk
 if ! is_apk_indexed sigma-flat-remix-gtk; then
