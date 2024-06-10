@@ -81,7 +81,7 @@ swww # wallpaper daemon
 sigma-st foot
 
 ## Text Editing
-vim sigma-helix
+vim helix tree-sitter-grammars
 
 ## Browser
 luakit luakit-doc

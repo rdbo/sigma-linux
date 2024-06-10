@@ -18,8 +18,6 @@ RUN git config --global http.postBuffer 1048576000
 RUN git config --global http.version HTTP/1.1
 USER root
 
-# helix dependencies
-RUN apk add cargo
 # suckless dependencies
 RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev
 # wvkbd dependencies
