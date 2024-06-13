@@ -111,6 +111,16 @@ if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 	apk add --initdb -p "$INITRD_DIR"
 fi
 
+# Copy Linux kernel modules
+kmods=$(cat "$INITRAMFS_MODS" | grep ^kernel | tr '\n' ' ' | xargs -0 printf "%s\n")
+for file in $kmods; do
+	directory=$(printf $file | awk -F '/' '{ $NF=""; print $0 }' | tr ' ' '/')
+
+	kernel_name="$(ls "$SQUASHFS_DIR/lib/modules/" | head -1)"
+	mkdir -p "$INITRD_DIR/lib/modules/$kernel_name/$directory"
+	cp -r "$SQUASHFS_DIR/lib/modules/$kernel_name/"$file "$INITRD_DIR/lib/modules/$kernel_name/$directory/"
+done
+
 apk add \
 	-p "$INITRD_DIR" \
 	--allow-untrusted \

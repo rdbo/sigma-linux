@@ -1,6 +1,6 @@
 # Base
 kernel/drivers/block/loop.ko*
-kernel/drivers/gpu/drm/tiny/simpledrm.ko*
+# kernel/drivers/gpu/drm/tiny/simpledrm.ko*
 kernel/fs/overlayfs
 
 # ATA
@@ -26,8 +26,8 @@ kernel/drivers/char/agp
 kernel/drivers/gpu
 kernel/drivers/i2c
 kernel/drivers/video
-kernel/arch/x86/video/fbdev.ko*
-kernel/drivers/gpu/drm/vc4/vc4.ko*
+# kernel/arch/x86/video/fbdev.ko*
+# kernel/drivers/gpu/drm/vc4/vc4.ko*
 
 # LVM
 kernel/drivers/md/dm-mod.ko*
@@ -35,8 +35,8 @@ kernel/drivers/md/dm-snapshot.ko*
 kernel/drivers/md/dm-cache.ko*
 kernel/drivers/md/dm-raid.ko*
 kernel/drivers/md/dm-thin-pool.ko*
-kernel/drivers/md/dm-mirror.ko
-kernel/drivers/md/dm-writecache.ko
+# kernel/drivers/md/dm-mirror.ko
+# kernel/drivers/md/dm-writecache.ko
 
 # NVME
 kernel/drivers/nvme
@@ -44,10 +44,10 @@ kernel/drivers/pci/controller/vmd.ko*
 
 # RAID
 kernel/drivers/md/raid*
-kernel/drivers/block/cciss*
-kernel/drivers/block/sx8*
-kernel/arch/*/crypto/crc32*
-kernel/crypto/crc32*
+# kernel/drivers/block/cciss*
+# kernel/drivers/block/sx8*
+# kernel/arch/*/crypto/crc32*
+# kernel/crypto/crc32*
 
 # SCSI
 kernel/drivers/scsi/*
@@ -69,7 +69,7 @@ kernel/drivers/hid/hid-lenovo.ko*
 kernel/drivers/hid/hid-logitech.ko*
 kernel/drivers/hid/hid-microsoft.ko*
 kernel/drivers/hid/hid-roccat.ko*
-kernel/drivers/hid/hid-semitek.ko*
+# kernel/drivers/hid/hid-semitek.ko*
 kernel/fs/fat
 kernel/fs/nls
 
