@@ -1,6 +1,6 @@
 # Base
 kernel/drivers/block/loop.ko*
-# kernel/drivers/gpu/drm/tiny/simpledrm.ko*
+kernel/drivers/gpu/drm/tiny/simpledrm.ko*
 kernel/fs/overlayfs
 
 # ATA
@@ -35,8 +35,8 @@ kernel/drivers/md/dm-snapshot.ko*
 kernel/drivers/md/dm-cache.ko*
 kernel/drivers/md/dm-raid.ko*
 kernel/drivers/md/dm-thin-pool.ko*
-# kernel/drivers/md/dm-mirror.ko
-# kernel/drivers/md/dm-writecache.ko
+kernel/drivers/md/dm-mirror.ko*
+kernel/drivers/md/dm-writecache.ko*
 
 # NVME
 kernel/drivers/nvme
