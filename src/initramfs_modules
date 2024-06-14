@@ -1,82 +1,89 @@
+# TODO: Handpick modules that will get added
+kernel
+
 # Base
-kernel/drivers/block/loop.ko*
-kernel/drivers/gpu/drm/tiny/simpledrm.ko*
-kernel/fs/overlayfs
+# kernel/drivers/block/loop.ko*
+# kernel/drivers/gpu/drm/tiny/simpledrm.ko*
+# kernel/fs/overlayfs
 
 # ATA
-kernel/drivers/ata/*.ko*
+# kernel/drivers/ata/*.ko*
 
 # CDROM
-kernel/drivers/cdrom
-kernel/fs/isofs
+# kernel/drivers/cdrom
+# kernel/fs/isofs
 
 # CryptSetup
-kernel/crypto/*
-kernel/arch/*/crypto/*
-kernel/drivers/md/dm-crypt.ko*
-kernel/drivers/md/dm-integrity.ko*
+# kernel/crypto/*
+# kernel/arch/*/crypto/*
+# kernel/drivers/md/dm-crypt.ko*
+# kernel/drivers/md/dm-integrity.ko*
 
 # Ext4
-kernel/arch/*/crypto/crc32*
-kernel/crypto/crc32*
-kernel/fs/ext4
+# kernel/arch/*/crypto/crc32*
+# kernel/crypto/crc32*
+# kernel/fs/ext4
 
 # KMS
-kernel/drivers/char/agp
-kernel/drivers/gpu
-kernel/drivers/i2c
-kernel/drivers/video
+# kernel/drivers/char/agp
+# kernel/drivers/gpu
+# kernel/drivers/i2c
+# kernel/drivers/video
 # kernel/arch/x86/video/fbdev.ko*
 # kernel/drivers/gpu/drm/vc4/vc4.ko*
 
 # LVM
-kernel/drivers/md/dm-mod.ko*
-kernel/drivers/md/dm-snapshot.ko*
-kernel/drivers/md/dm-cache.ko*
-kernel/drivers/md/dm-raid.ko*
-kernel/drivers/md/dm-thin-pool.ko*
-kernel/drivers/md/dm-mirror.ko*
-kernel/drivers/md/dm-writecache.ko*
+# kernel/drivers/md/dm-mod.ko*
+# kernel/drivers/md/dm-snapshot.ko*
+# kernel/drivers/md/dm-cache.ko*
+# kernel/drivers/md/dm-raid.ko*
+# kernel/drivers/md/dm-thin-pool.ko*
+# kernel/drivers/md/dm-mirror.ko*
+# kernel/drivers/md/dm-writecache.ko*
 
 # NVME
-kernel/drivers/nvme
-kernel/drivers/pci/controller/vmd.ko*
+# kernel/drivers/nvme
+# kernel/drivers/pci/controller/vmd.ko*
 
 # RAID
-kernel/drivers/md/raid*
+# kernel/drivers/md/raid*
 # kernel/drivers/block/cciss*
 # kernel/drivers/block/sx8*
 # kernel/arch/*/crypto/crc32*
 # kernel/crypto/crc32*
 
 # SCSI
-kernel/drivers/scsi/*
-kernel/drivers/message/fusion
+# kernel/drivers/scsi/*
+# kernel/drivers/block
+# kernel/drivers/scsi
+# kernel/drivers/message/fusion
 
 # SquashFS
-kernel/fs/squashfs
+# kernel/fs/squashfs
 
 # USB
-kernel/drivers/usb/host
-kernel/drivers/usb/storage
-kernel/drivers/hid/usbhid
-kernel/drivers/hid/hid-apple.ko*
-kernel/drivers/hid/hid-asus.ko*
-kernel/drivers/hid/hid-cherry.ko*
-kernel/drivers/hid/hid-cougar.ko*
-kernel/drivers/hid/hid-generic.ko*
-kernel/drivers/hid/hid-lenovo.ko*
-kernel/drivers/hid/hid-logitech.ko*
-kernel/drivers/hid/hid-microsoft.ko*
-kernel/drivers/hid/hid-roccat.ko*
+# kernel/drivers/usb
+# kernel/drivers/usb/host
+# kernel/drivers/usb/core
+# kernel/drivers/usb/storage
+# kernel/drivers/hid/usbhid
+# kernel/drivers/hid/hid-apple.ko*
+# kernel/drivers/hid/hid-asus.ko*
+# kernel/drivers/hid/hid-cherry.ko*
+# kernel/drivers/hid/hid-cougar.ko*
+# kernel/drivers/hid/hid-generic.ko*
+# kernel/drivers/hid/hid-lenovo.ko*
+# kernel/drivers/hid/hid-logitech.ko*
+# kernel/drivers/hid/hid-microsoft.ko*
+# kernel/drivers/hid/hid-roccat.ko*
 # kernel/drivers/hid/hid-semitek.ko*
-kernel/fs/fat
-kernel/fs/nls
+# kernel/fs/fat
+# kernel/fs/nls
 
 # VirtIO
-kernel/drivers/block/virtio*
-kernel/drivers/virtio
-kernel/drivers/net/virtio_net*
-kernel/drivers/char/virtio_console*
-kernel/fs/fuse/virtiofs*
-kernel/drivers/gpu/drm/virtio
+# kernel/drivers/block/virtio*
+# kernel/drivers/virtio
+# kernel/drivers/net/virtio_net*
+# kernel/drivers/char/virtio_console*
+# kernel/fs/fuse/virtiofs*
+# kernel/drivers/gpu/drm/virtio
