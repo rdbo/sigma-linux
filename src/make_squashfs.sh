@@ -4,29 +4,36 @@ set -e
 
 mkdir -p "$SQUASHFS_DIR"
 
-# Install kernel modules
+# Skip installing kernel modules if '/lib/modules' is set up
 if [ ! -d "$SQUASHFS_DIR/lib/modules" ]; then
+	# Install kernel modules
 	cd "$KERNEL_DIR"
 	make INSTALL_MOD_PATH="$SQUASHFS_DIR" modules_install
 	cd "$ROOT_DIR"
+else
+	echo "[*] Skipped installing kernel modules in squashfs, '/lib/modules' exists"
 fi
 
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
-# Initialize APK database
-if [ ! -d "$SQUASHFS_DIR/etc/apk" ]; then
-	apk add --initdb -p "$SQUASHFS_DIR"
-fi
 
-# Install packages
-apk add \
-	-p "$SQUASHFS_DIR" \
-	--allow-untrusted \
-	--no-cache \
-	--repositories-file="$REPOS_FILE" \
-	-X "$REPO_DIR/apk" \
-	$pkgs
+# Skip installing APKs if APK database is already set up
+if [ ! -d "$SQUASHFS_DIR/etc/apk" ]; then
+	# Initialize APK database
+	apk add --initdb -p "$SQUASHFS_DIR"
+
+	# Install packages
+	apk add \
+		-p "$SQUASHFS_DIR" \
+		--allow-untrusted \
+		--no-cache \
+		--repositories-file="$REPOS_FILE" \
+		-X "$REPO_DIR/apk" \
+		$pkgs
+else
+	echo "[*] Skipped installing APKs in SquashFS, '/etc/apk' exists"
+fi
 
 # Add repositories file to squashfs
 mkdir -p "$SQUASHFS_DIR/etc/apk"
