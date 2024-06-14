@@ -12,6 +12,11 @@ cat <<- EOF > init
 
 dmesg -n 1
 
+echo "Probing kernel modules..."
+for mod in \$(printf "\$sigmamodules" | tr ',' ' '); do
+	modprobe \$mod
+done
+
 echo "Mounting pseudo filesystems..."
 mkdir -p /dev /proc /sys
 mount -t devtmpfs none /dev
