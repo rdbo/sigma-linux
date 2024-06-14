@@ -109,6 +109,15 @@ chroot . /bin/busybox --install
 # Install cryptsetup
 if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 	apk add --initdb -p "$INITRD_DIR"
+
+	apk add \
+		-p "$INITRD_DIR" \
+		--allow-untrusted \
+		--no-cache \
+		--repositories-file="$REPOS_FILE" \
+		cryptsetup
+else
+	echo "[*] Skipped installing APKs in initramfs, '/etc/apk' exists"
 fi
 
 # Copy Linux kernel modules
@@ -124,13 +133,6 @@ for match in $kmods; do
 		cp -r "$SQUASHFS_DIR/lib/modules/$kernel_name/"$file "$INITRD_DIR/lib/modules/$kernel_name/$directory/"
 	done
 done
-
-apk add \
-	-p "$INITRD_DIR" \
-	--allow-untrusted \
-	--no-cache \
-	--repositories-file="$REPOS_FILE" \
-	cryptsetup
 
 # Compress files into initramfs
 find . | cpio -R root:root -H newc -o | gzip > "$INITRAMFS_PATH"
