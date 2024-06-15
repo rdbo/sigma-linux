@@ -139,7 +139,8 @@ for match in $kmods; do
 	done
 done
 
-cp "$SQUASHFS_DIR/lib/modules/$kernel_name/"modules* "$INITRD_DIR/lib/modules/$kernel_name/"
+# NOTE: The `/lib/modules/<kernel name>/modules.*` files can be heavy (>= 1MB), so they won't be copied
+# cp "$SQUASHFS_DIR/lib/modules/$kernel_name/"modules* "$INITRD_DIR/lib/modules/$kernel_name/"
 
 # Compress files into initramfs
 find . | cpio -R root:root -H newc -o | gzip > "$INITRAMFS_PATH"
