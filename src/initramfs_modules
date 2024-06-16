@@ -1,4 +1,5 @@
 # Device Drivers
+kernel/block
 kernel/drivers/block
 kernel/drivers/char
 kernel/drivers/video
