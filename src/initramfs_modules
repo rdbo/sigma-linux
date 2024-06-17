@@ -4,10 +4,10 @@ kernel/drivers/block
 kernel/drivers/char
 kernel/drivers/video
 kernel/drivers/i2c
+kernel/drivers/virtio
 
 # Video
-kernel/drivers/gpu/drm/tiny
-kernel/drivers/gpu/drm/virtio
+kernel/drivers/gpu
 
 # Storage
 kernel/drivers/ata
@@ -21,7 +21,6 @@ kernel/fs/isofs
 kernel/fs/squashfs
 kernel/fs/overlayfs
 kernel/fs/fat
-kernel/fs/nls
 kernel/fs/ext4
 
 # Crypto/Arch/Compress
@@ -39,6 +38,3 @@ kernel/drivers/usb/core
 kernel/drivers/usb/storage
 kernel/drivers/hid/usbhid
 kernel/drivers/hid/hid-generic.ko*
-
-# VirtIO
-kernel/drivers/virtio

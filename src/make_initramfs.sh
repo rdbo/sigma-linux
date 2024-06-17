@@ -12,16 +12,14 @@ cat <<- EOF > init
 
 dmesg -n 1
 
-echo "Probing available kernel modules..."
-for mod in \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*"); do
-	modprobe "\$mod" > /dev/null
-done
-
 echo "Mounting pseudo filesystems..."
 mkdir -p /dev /proc /sys
 mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
+
+echo "Probing available kernel modules..."
+modprobe -a \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*")
 
 if [ ! -z "\$sigmaroot" ]; then
 	# installed
