@@ -13,8 +13,8 @@ cat <<- EOF > init
 dmesg -n 1
 
 echo "Probing available kernel modules..."
-for mod in \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*" | sed 's|.*/||' | sed 's/\.ko.*//'); do
-	modprobe \$mod > /dev/null
+for mod in \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*"); do
+	modprobe "\$mod" > /dev/null
 done
 
 echo "Mounting pseudo filesystems..."
@@ -120,7 +120,7 @@ if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 		--allow-untrusted \
 		--no-cache \
 		--repositories-file="$REPOS_FILE" \
-		cryptsetup eudev lsblk
+		cryptsetup eudev lsblk kmod
 else
 	echo "[*] Skipped installing APKs in initramfs, '/etc/apk' exists"
 fi
