@@ -12,9 +12,9 @@ cat <<- EOF > init
 
 dmesg -n 1
 
-echo "Probing kernel modules..."
-for mod in \$(printf "\$sigmamodules" | tr ',' ' '); do
-	modprobe \$mod
+echo "Probing available kernel modules..."
+for mod in \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*" | sed 's|.*/||' | sed 's/\.ko.*//'); do
+	modprobe \$mod > /dev/null
 done
 
 echo "Mounting pseudo filesystems..."
