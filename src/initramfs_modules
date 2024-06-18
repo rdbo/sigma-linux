@@ -7,7 +7,11 @@ kernel/drivers/i2c
 kernel/drivers/virtio
 
 # Video
-kernel/drivers/gpu
+kernel/drivers/gpu/drm/*.ko*
+kernel/drivers/gpu/drm/tiny
+kernel/drivers/gpu/drm/display
+kernel/drivers/gpu/drm/virtio
+kernel/drivers/gpu/drm/ttm
 
 # Storage
 kernel/drivers/ata
