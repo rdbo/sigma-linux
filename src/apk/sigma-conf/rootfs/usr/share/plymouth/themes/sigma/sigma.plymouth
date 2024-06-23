@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Sigma Linux Splash
+Description=Splash screen for Sigma Linux
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/sigma
+ScriptFile=/usr/share/plymouth/themes/sigma/sigma.script
