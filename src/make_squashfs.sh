@@ -133,6 +133,8 @@ rc_add dbus default
 rc_add seatd default
 rc_add bluetooth default
 
+rc_add local default # used for start scripts
+
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
 mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH" -comp xz
