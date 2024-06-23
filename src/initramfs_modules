@@ -21,10 +21,12 @@ kernel/drivers/nvme
 kernel/drivers/pci
 
 # Filesystems
+kernel/fs/*.ko*
 kernel/fs/isofs
 kernel/fs/squashfs
 kernel/fs/overlayfs
 kernel/fs/fat
+kernel/fs/jbd2
 kernel/fs/ext4
 
 # Crypto/Arch/Compress

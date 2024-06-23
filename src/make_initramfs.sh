@@ -18,8 +18,12 @@ mount -t devtmpfs none /dev
 mount -t proc none /proc
 mount -t sysfs none /sys
 
-echo "Probing available kernel modules..."
-modprobe -a \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*")
+echo "Probing kernel modules..."
+if [ -z "\$sigmamodules" ]; then
+	modprobe -a \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*")
+else
+	modprobe -a \$(printf "\$sigmamodules" | tr ',' ' ')
+fi
 
 if [ ! -z "\$sigmaroot" ]; then
 	# installed
