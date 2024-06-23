@@ -21,6 +21,7 @@ pciutils
 alpine-sdk
 kmod
 plymouth
+plymouth-drm
 
 #--------------------------------#
 

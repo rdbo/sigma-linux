@@ -26,6 +26,11 @@ else
 	modprobe -a \$(printf "\$sigmamodules" | tr ',' ' ')
 fi
 
+echo "Starting plymouth..."
+plymouth-set-default-theme sigma # TODO: Avoid setting the default theme here
+plymouthd
+plymouth --show-splash
+
 if [ ! -z "\$sigmaroot" ]; then
 	# installed
 	echo "Mounting rootfs at /new_root..."
@@ -123,7 +128,7 @@ if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 		--allow-untrusted \
 		--no-cache \
 		--repositories-file="$REPOS_FILE" \
-		cryptsetup eudev lsblk kmod plymouth bash file
+		cryptsetup eudev lsblk kmod plymouth plymouth-drm bash file
 else
 	echo "[*] Skipped installing APKs in initramfs, '/etc/apk' exists"
 fi
