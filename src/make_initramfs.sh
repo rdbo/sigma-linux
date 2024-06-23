@@ -123,7 +123,7 @@ if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 		--allow-untrusted \
 		--no-cache \
 		--repositories-file="$REPOS_FILE" \
-		cryptsetup eudev lsblk kmod
+		cryptsetup eudev lsblk kmod plymouth bash file
 else
 	echo "[*] Skipped installing APKs in initramfs, '/etc/apk' exists"
 fi
@@ -141,6 +141,10 @@ for match in $kmods; do
 		cp -r "$SQUASHFS_DIR/lib/modules/$kernel_name/"$file "$INITRD_DIR/lib/modules/$kernel_name/$directory/"
 	done
 done
+
+# Copy plymouth files
+mkdir -p "$INITRD_DIR/usr/share/"
+cp -r "$SQUASHFS_DIR/usr/share/plymouth" "$INITRD_DIR/usr/share/"
 
 # NOTE: The `/lib/modules/<kernel name>/modules.*` files can be heavy (>= 1MB), so they won't be copied
 cp "$SQUASHFS_DIR/lib/modules/$kernel_name/"modules* "$INITRD_DIR/lib/modules/$kernel_name/"
