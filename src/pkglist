@@ -37,6 +37,7 @@ xz zstd zip unzip
 # lighttpd
 rsync
 diffutils
+tmux
 
 ## Memory
 earlyoom zram-init
@@ -55,6 +56,7 @@ bluez
 ## Docs
 mandoc man-pages
 busybox-doc
+tmux-doc
 
 ## Configuration
 sigma-conf
