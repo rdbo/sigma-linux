@@ -13,9 +13,10 @@ cat <<- EOF > init
 dmesg -n 1
 
 echo "Mounting pseudo filesystems..."
-mkdir -p /dev /dev/pts /proc /sys
+mkdir -p /dev /proc /sys
 mount -t devtmpfs none /dev
-mount -t devpts /dev/pts
+mkdir -p /dev/pts
+mount -t devpts none /dev/pts
 mount -t proc none /proc
 mount -t sysfs none /sys
 
