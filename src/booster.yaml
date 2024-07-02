@@ -1,0 +1,8 @@
+compression: xz
+mount_timeout: 60s
+universal: true
+strip: true
+
+vconsole: true
+enable_lvm: true
+enable_mdraid: true

@@ -17,7 +17,6 @@ fi
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
-
 # Skip installing APKs if APK database is already set up
 if [ ! -d "$SQUASHFS_DIR/etc/apk" ]; then
 	# Initialize APK database
@@ -134,6 +133,10 @@ rc_add seatd default
 rc_add bluetooth default
 
 rc_add local default # used for start scripts
+
+# Copy initramfs config file
+mkdir -p "$SQUASHFS_DIR/etc"
+cp "$SRC_DIR/booster.yaml" "$SQUASHFS_DIR/etc/"
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
