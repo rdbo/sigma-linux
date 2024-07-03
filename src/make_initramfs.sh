@@ -115,11 +115,6 @@ exec switch_root /new_root /sbin/init
 EOF
 chmod +x init
 
-# Install busybox
-mkdir -p bin usr/bin sbin usr/sbin
-cp "$BUSYBOX_DIR/busybox" "$INITRD_DIR/bin/busybox"
-chroot . /bin/busybox --install
-
 # Install initramfs helper packages
 if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 	apk add --initdb -p "$INITRD_DIR"
@@ -129,7 +124,7 @@ if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 		--allow-untrusted \
 		--no-cache \
 		--repositories-file="$REPOS_FILE" \
-		cryptsetup eudev lsblk kmod plymouth plymouth-drm bash file
+		busybox cryptsetup eudev lsblk kmod plymouth plymouth-drm bash file
 else
 	echo "[*] Skipped installing APKs in initramfs, '/etc/apk' exists"
 fi

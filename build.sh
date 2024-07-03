@@ -25,18 +25,6 @@ else
 	echo "[*] Skipped updating kernel, file '$KERNEL_DIR/.config' exists"
 fi
 
-# Fetch or update busybox
-if [ ! -e "$BUSYBOX_DIR/.config" ]; then
-	echo "[*] Fetching/updating busybox..."
-	if [ ! -d "$BUSYBOX_DIR" ]; then
-		./src/fetch_busybox.sh
-	else
-		./src/update_busybox.sh
-	fi
-else
-	echo "[*] Skipped updating busybox, file '$BUSYBOX_DIR/.config' exists"
-fi
-
 # Skip building kernel if .config is found
 if [ ! -e "$KERNEL_DIR/.config" ]; then
 	# Patch kernel boot logo
@@ -48,15 +36,6 @@ if [ ! -e "$KERNEL_DIR/.config" ]; then
 	./src/build_kernel.sh
 else
 	echo "[*] Skipped building kernel, file '$KERNEL_DIR/.config' exists"
-fi
-
-# Skip building busybox if .config is found
-if [ ! -e "$BUSYBOX_DIR/.config" ]; then
-	# Build busybox
-	echo "[*] Building busybox..."
-	./src/build_busybox.sh
-else
-	echo "[*] Skipped building busybox, file '$BUSYBOX_DIR/.config' exists"
 fi
 
 # Build local repository
