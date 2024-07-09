@@ -23,6 +23,8 @@ kmod
 plymouth
 plymouth-drm
 shadow
+dracut dracut-modules
+device-mapper open-iscsi dmraid lvm2 keyutils mdadm multipath-tools cifs-tools nvme-cli jq rpcbind nfs-utils # dracut deps
 
 #--------------------------------#
 
@@ -60,6 +62,7 @@ bluez
 mandoc man-pages
 busybox-doc
 tmux-doc
+dracut-doc
 
 ## Configuration
 sigma-conf
