@@ -17,6 +17,8 @@ sd_mod
 sr_mod
 cdrom
 nvme
+ehci_pci
+usb_storage
 virtio_blk virtio_pci
 
 # Filesystems
@@ -35,5 +37,4 @@ dm-raid
 hid_generic
 # atkbd # TODO: Enable this in kernel config
 usbhid
-usb_storage
 ohci_pci

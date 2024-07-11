@@ -20,6 +20,8 @@ mount -t devpts none /dev/pts
 mount -t proc none /proc
 mount -t sysfs none /sys
 
+/bin/sh
+
 echo "Probing kernel modules..."
 if [ -z "\$sigmamodules" ]; then
 	modprobe -a \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*")
@@ -27,10 +29,10 @@ else
 	modprobe -a \$(printf "\$sigmamodules" | tr ',' ' ')
 fi
 
-echo "Starting plymouth..."
-plymouth-set-default-theme sigma # TODO: Avoid setting the default theme here
-plymouthd
-plymouth --show-splash
+# echo "Starting plymouth..."
+# plymouth-set-default-theme sigma # TODO: Avoid setting the default theme here
+# plymouthd
+# plymouth --show-splash
 
 if [ ! -z "\$sigmaroot" ]; then
 	# installed
