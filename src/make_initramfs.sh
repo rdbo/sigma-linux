@@ -130,10 +130,24 @@ else
 fi
 
 # Copy Linux kernel modules
-kmods=$(cat "$INITRAMFS_MODS" | grep ^kernel | tr '\n' ' ' | xargs -0 printf "%s\n")
 kernel_name="$(ls "$SQUASHFS_DIR/lib/modules/" | head -1)"
+kmods=$(cat "$INITRAMFS_MODS" | grep ^kernel/ | tr '\n' ' ' | xargs -0 printf "%s\n")
 for match in $kmods; do
 	files="$(find "$SQUASHFS_DIR/lib/modules/$kernel_name/"$match)"
+	for file in $files; do
+		file="$(printf "$file" | sed "s|.*/lib/modules/$kernel_name/||")"
+		directory=$(printf $file | awk -F '/' '{ $NF=""; print $0 }' | tr ' ' '/')
+
+		mkdir -p "$INITRD_DIR/lib/modules/$kernel_name/$directory"
+		cp -r "$SQUASHFS_DIR/lib/modules/$kernel_name/"$file "$INITRD_DIR/lib/modules/$kernel_name/$directory/"
+	done
+done
+
+kmods=$(cat "$INITRAMFS_MODS" | grep -v ^kernel | sed 's/#.*//g' | tr '\n' ' ' | sed -E 's/\s+/ /g' | sed -E 's/^\s+//')
+for match in $kmods; do
+	# requires 'kmod' package
+	# TODO: stop when modprobe fails
+	files=$(chroot "$SQUASHFS_DIR" modprobe -S "$kernel_name" -D "$match" | sed -E 's/^insmod\s+//')
 	for file in $files; do
 		file="$(printf "$file" | sed "s|.*/lib/modules/$kernel_name/||")"
 		directory=$(printf $file | awk -F '/' '{ $NF=""; print $0 }' | tr ' ' '/')

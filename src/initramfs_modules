@@ -1,10 +1,5 @@
 # Device Drivers
-kernel/block
-kernel/drivers/block
-kernel/drivers/char
-kernel/drivers/video
-kernel/drivers/i2c
-kernel/drivers/virtio
+loop
 
 # Video
 kernel/drivers/gpu/drm/*.ko*
@@ -14,33 +9,31 @@ kernel/drivers/gpu/drm/virtio
 kernel/drivers/gpu/drm/ttm
 
 # Storage
-kernel/drivers/ata
-kernel/drivers/cdrom
-kernel/drivers/scsi
-kernel/drivers/nvme
-kernel/drivers/pci
+ahci
+ata_generic
+ata_piix
+scsi_mod
+sd_mod
+sr_mod
+cdrom
+nvme
+virtio_blk virtio_pci
 
 # Filesystems
-kernel/fs/*.ko*
-kernel/fs/isofs
-kernel/fs/squashfs
-kernel/fs/overlayfs
-kernel/fs/fat
-kernel/fs/jbd2
-kernel/fs/ext4
-
-# Crypto/Arch/Compress
-kernel/crypto
-kernel/arch
-kernel/lib
+isofs
+squashfs
+overlay
+fat
+ext4
 
 # RAID/DM/LVM
-kernel/drivers/md
+dm-mod
+dm-crypt
+dm-raid
 
-# USB
-kernel/drivers/usb
-kernel/drivers/usb/host
-kernel/drivers/usb/core
-kernel/drivers/usb/storage
-kernel/drivers/hid/usbhid
-kernel/drivers/hid/hid-generic.ko*
+# HID
+hid_generic
+# atkbd # TODO: Enable this in kernel config
+usbhid
+usb_storage
+ohci_pci
