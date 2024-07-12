@@ -11,7 +11,7 @@ kernel/drivers/gpu/drm/ttm
 # Storage
 ahci
 ata_generic
-kernel/drivers/ata/*.ko*
+ata_piix
 scsi_mod
 sd_mod
 sr_mod

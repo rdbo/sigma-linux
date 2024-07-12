@@ -148,8 +148,8 @@ done
 kmods=$(cat "$INITRAMFS_MODS" | grep -v ^kernel | sed 's/#.*//g' | tr '\n' ' ' | sed -E 's/\s+/ /g' | sed -E 's/^\s+//')
 for match in $kmods; do
 	# requires 'kmod' package
-	# TODO: stop when modprobe fails
-	files=$(chroot "$SQUASHFS_DIR" modprobe -S "$kernel_name" -D "$match" | sed -E 's/^insmod\s+//')
+	files=$(chroot "$SQUASHFS_DIR" modprobe -S "$kernel_name" -D "$match" | tr '\n' ',')
+	files=$(printf "$files" | tr ',' '\n' | grep '^insmod' | sed -E 's/^insmod\s+//')
 	for file in $files; do
 		file="$(printf "$file" | sed "s|.*/lib/modules/$kernel_name/||")"
 		directory=$(printf $file | awk -F '/' '{ $NF=""; print $0 }' | tr ' ' '/')
