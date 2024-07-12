@@ -20,14 +20,16 @@ mount -t devpts none /dev/pts
 mount -t proc none /proc
 mount -t sysfs none /sys
 
-/bin/sh
+# Read kernel command line params
+set -- $(cat /proc/cmdline)
 
 echo "Probing kernel modules..."
-if [ -z "\$sigmamodules" ]; then
-	modprobe -a \$(find /lib/modules/\$(uname -r)/kernel -type f -name "*.ko*")
-else
-	modprobe -a \$(printf "\$sigmamodules" | tr ',' ' ')
+probe_modules="$INITRAMFS_MODPROBE"
+if [ ! -z "\$modules" ]; then
+	probe_modules="\${probe_modules},\$modules"
 fi
+
+modprobe -a \$(printf "\$probe_modules" | tr ',' ' ')
 
 # echo "Starting plymouth..."
 # plymouth-set-default-theme sigma # TODO: Avoid setting the default theme here

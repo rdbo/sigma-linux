@@ -60,7 +60,7 @@ background_image /boot/grub/wallpaper.png
 
 menuentry "$SYSNAME" {
 	echo "Loading vmlinuz..."
-	linux /boot/vmlinuz vt.color=0x0B vt.default_red=$vt_default_red vt.default_grn=$vt_default_grn vt.default_blu=$vt_default_blu sigmamodules=$INITRAMFS_MODPROBE splash
+	linux /boot/vmlinuz vt.color=0x0B vt.default_red=$vt_default_red vt.default_grn=$vt_default_grn vt.default_blu=$vt_default_blu splash
 	echo "Loading initrd..."
 	initrd /boot/initramfs
 }
