@@ -20,8 +20,6 @@ linux-firmware
 pciutils
 alpine-sdk
 kmod
-plymouth
-plymouth-drm
 shadow
 
 #--------------------------------#

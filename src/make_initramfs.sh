@@ -31,11 +31,6 @@ fi
 
 modprobe -a \$(printf "\$probe_modules" | tr ',' ' ')
 
-# echo "Starting plymouth..."
-# plymouth-set-default-theme sigma # TODO: Avoid setting the default theme here
-# plymouthd
-# plymouth --show-splash
-
 if [ ! -z "\$sigmaroot" ]; then
 	# installed
 	echo "Mounting rootfs at /new_root..."
@@ -128,7 +123,7 @@ if [ ! -d "$INITRD_DIR/etc/apk" ]; then
 		--allow-untrusted \
 		--no-cache \
 		--repositories-file="$REPOS_FILE" \
-		busybox cryptsetup eudev lsblk kmod plymouth plymouth-drm bash file
+		busybox cryptsetup eudev lsblk kmod bash file
 else
 	echo "[*] Skipped installing APKs in initramfs, '/etc/apk' exists"
 fi
@@ -161,11 +156,7 @@ for match in $kmods; do
 	done
 done
 
-# Copy plymouth files
-mkdir -p "$INITRD_DIR/usr/share/"
-cp -r "$SQUASHFS_DIR/usr/share/plymouth" "$INITRD_DIR/usr/share/"
-
-# NOTE: The `/lib/modules/<kernel name>/modules.*` files can be heavy (>= 1MB), so they won't be copied
+# NOTE: The `/lib/modules/<kernel name>/modules.*` files can be heavy (>= 1MB), so maybe they shouldn't be copied
 cp "$SQUASHFS_DIR/lib/modules/$kernel_name/"modules* "$INITRD_DIR/lib/modules/$kernel_name/"
 
 # Compress files into initramfs
