@@ -27,10 +27,6 @@ fi
 
 # Skip building kernel if .config is found
 if [ ! -e "$KERNEL_DIR/.config" ]; then
-	# Patch kernel boot logo
-	echo "[*] Patching boot logo..."
-	./src/patch_boot_logo.sh
-
 	# Build kernel
 	echo "[*] Building kernel..."
 	./src/build_kernel.sh
