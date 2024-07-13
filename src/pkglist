@@ -75,7 +75,7 @@ sigma-firacode-nerd sigma-vt323
 font-ubuntu-nerd font-noto-all
 
 ## Desktop
-river # compositor
+river river-doc # compositor
 yambar yambar-doc # status bar
 fuzzel # dmenu-like
 waylock # screen locker
