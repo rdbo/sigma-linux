@@ -35,6 +35,5 @@ dm-raid
 
 # HID
 hid_generic
-# atkbd # TODO: Enable this in kernel config
 usbhid
 ohci_pci
