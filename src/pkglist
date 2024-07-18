@@ -143,6 +143,7 @@ sigma-wvkbd
 neofetch
 lxappearance
 zenity
+setxkbmap
 
 ## Themes
 sigma-flat-remix-gtk

@@ -16,6 +16,6 @@ if [ -z "$layout" ]; then
 	exit 1
 fi
 
-riverctl keyboard-layout "$layout"
+setxkbmap -layout "$layout"
 notify-send "󰗊 Keyboard layout changed to: $layout"
 printf "%s\n" "$layout" > "$KBD_LAYOUT_FILE"
