@@ -4,6 +4,17 @@
 
 KBD_LAYOUT_FILE="$SIGMA_CONFIG_DIR/kbdlayout"
 
+# Restore old keyboard layout
+if [ "$1" == "-r" ]; then
+	layout="$(cat "$KBD_LAYOUT_FILE")"
+	if [ ! -z "$layout" ]; then
+		setxkbmap -layout "$layout"
+	fi
+
+	exit 0
+fi
+
+
 notify-send " Changing keyboard layout..." "󰗊 Select the new layout"
 
 # Get list of all XKB layouts
