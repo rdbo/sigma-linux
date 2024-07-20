@@ -9,16 +9,10 @@ echo
 curtty="$(tty | grep tty)"
 
 # setup $PS1
-PS1='\033[1;36m烈\w'
-if [ "$(id -u)" = "0" ]; then
-	PS1="$PS1 # "
-else
-	PS1="$PS1 $ "
-fi
-export PS1="$PS1\033[0;37m"
+export PS1="\[\033[1;36m\]烈\u@\h:\w \$ \[\033[0;37m\]"
 
-# create sigma cache folder
-mkdir -p "$HOME/.cache/sigma"
+# aliases
+alias ls='ls --auto'
 
 # setup gtk theme
 export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
