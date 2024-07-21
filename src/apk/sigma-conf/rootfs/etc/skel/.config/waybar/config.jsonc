@@ -1,0 +1,37 @@
+{
+    "height": 26, // Waybar height (to be removed for auto height)
+    "spacing": 4, // Gaps between modules (4px)
+
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": [],
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "persistent-workspaces": {
+            "*": 10
+        }
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "{:%a, %d %B %Y - %H:%M:%S}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "format": {
+                "today": "<span color='#00ffc8'><b>{}</b></span>",
+                "days": "<span color='#eeeeee'>{}</span>",
+                "weekdays": "<span color='#00ffc8'><b>{}</b></span>",
+                "weeks": "<span color='#132a33'><b>{}</b></span>",
+                "months": "<span color='#00ffc8'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click": "mode",
+            "on-click-right": "mode",
+        }
+    }
+}

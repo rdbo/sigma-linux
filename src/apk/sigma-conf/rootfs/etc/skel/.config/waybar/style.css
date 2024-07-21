@@ -1,0 +1,45 @@
+* {
+    font-family: FiraCode Nerd Font Mono;
+}
+
+window#waybar {
+    background-color: #101a20;
+    color: #00ffc8;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+tooltip {
+    background-color: #101a20;
+    font-size: 12px;
+    border: 2px solid #132a33;
+}
+
+#workspaces {
+    margin: 0;
+}
+
+#workspaces button {
+    margin: 0;
+    padding: 0 4px;
+    color: #00ffc8;
+    border: 0;
+    border-radius: 0;
+}
+
+#workspaces button:hover {
+    background: inherit;
+    background-color: #132a33;
+}
+
+#workspaces button.focused {
+    background-color: #132a33;
+}
+
+#workspaces button.active {
+    box-shadow: inset 0 -4px #00ffc8;
+}
+
+#workspaces button.urgent {
+    color: orange;
+}
