@@ -39,6 +39,7 @@ xz zstd zip unzip
 rsync
 diffutils
 tmux
+jq
 
 ## Memory
 earlyoom zram-init
