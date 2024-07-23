@@ -36,7 +36,6 @@
     },
 
     "network": {
-        "interface": "wlan0",
         "interval": 5,
         "format": "",
         "format-linked": "",
