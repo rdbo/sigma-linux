@@ -71,7 +71,7 @@ ncurses-terminfo
 xwayland seatd eudev xrdb
 
 ## Fonts
-sigma-firacode-nerd sigma-vt323
+sigma-firacode-nerd sigma-vt323 sigma-material-symbols
 font-ubuntu-nerd font-noto-all
 
 ## Desktop

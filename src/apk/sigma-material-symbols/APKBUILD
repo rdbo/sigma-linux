@@ -1,0 +1,24 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="sigma-material-symbols"
+pkgver="1.0"
+pkgrel=0
+pkgdesc="Unreleased Material Symbols fonts from Google"
+url="https://github.com/rdbo/sigma-linux"
+arch="noarch"
+license="APACHE-2.0"
+options="!check"
+source="material-symbols.tar.xz"
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/share/fonts"
+	cp -r "$srcdir/Material-Symbols" "$pkgdir/usr/share/fonts"
+}
+sha512sums="
+c99dc71592c3aeacfbb65d1129e2c86b027716eb1fff066b661200d925ba217de288d4e562b85024fb01fc5a56f9cc190a93470c7908e0eab289af2ba6566c2b  material-symbols.tar.xz
+"

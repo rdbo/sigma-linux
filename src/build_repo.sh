@@ -38,6 +38,15 @@ else
 	echo "[*] Skipped building APK 'sigma-firacode-nerd', already indexed"
 fi
 
+# sigma-material-symbols
+if ! is_apk_indexed sigma-material-symbols; then
+	cp -r "$APK_DIR/sigma-material-symbols/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/sigma-material-symbols"
+	abuild -rf -P "$REPO_DIR"
+else
+	echo "[*] Skipped building APK 'sigma-material-symbols', already indexed"
+fi
+
 # sigma-sent
 if ! is_apk_indexed sigma-sent; then
 	mkdir -p "$APKTEMP_DIR/sigma-sent/"
