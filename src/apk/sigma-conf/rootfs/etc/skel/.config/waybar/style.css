@@ -1,12 +1,9 @@
-* {
-    font-family: FiraCode Nerd Font Mono;
-}
-
 window#waybar {
     background-color: #101a20;
     color: #00ffc8;
     font-size: 12px;
     font-weight: bold;
+    font-family: "FiraCode Nerd Font";
 }
 
 tooltip {
@@ -29,7 +26,12 @@ tooltip {
 
 #workspaces button:hover {
     background: inherit;
+    color: #00ffc8;
     background-color: #132a33;
+}
+
+#workspaces button.empty {
+    color: #007769;
 }
 
 #workspaces button.focused {
@@ -42,4 +44,13 @@ tooltip {
 
 #workspaces button.urgent {
     color: orange;
+}
+
+#network {
+    font-family: "Material Symbols Outlined";
+    font-size: 14px;
+}
+
+#network.ethernet {
+    margin-right: 4px;
 }

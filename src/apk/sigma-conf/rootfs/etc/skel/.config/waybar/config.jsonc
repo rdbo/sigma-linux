@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": [],
+    "modules-right": ["network"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -33,5 +33,16 @@
             "on-click": "mode",
             "on-click-right": "mode",
         }
+    },
+
+    "network": {
+        "interface": "wlan0",
+        "interval": 5,
+        "format": "",
+        "format-linked": "",
+        "format-ethernet": "<span font='FiraCode Nerd Font' font_size='medium'></span>",
+        "format-wifi": "{icon}",
+        "format-disconnected": "",
+        "format-icons": ["", "", "", "", ""]
     }
 }
