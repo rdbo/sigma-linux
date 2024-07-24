@@ -13,6 +13,7 @@ ESSID=""
 FREQ=""
 STRENGTH="0"
 UP="false"
+STATE="unplugged"
 IPV4="none"
 IPV6="none"
 
@@ -60,7 +61,11 @@ else
 
 	# Check if interface is up
 	state="$(cat "$SYS_NWIF_DIR/$NWIF/operstate")"
-	if [ "$state" = "up" ]; then
+	if [ ! -z "$state" ]; then
+		STATE="$state"
+	fi
+
+	if [ "$STATE" = "up" ]; then
 		UP="true"
 	fi
 
@@ -80,19 +85,12 @@ fi
 if [ "$1" = "waybar" ]; then
 	text=""
 	alt=""
-	tooltip=""
+	tooltip="<span color='#00ffc8'>iface</span>: $NWIF\\n<span color='#00ffc8'>state</span>: $STATE"
 	class=""
 	percentage=""
 
 	if [ "$PLUGGED" = "false" ]; then
-		text="󰚦"
-		if [ -z "$NWIF" ]; then
-			text="$text none"
-			tooltip="none: unplugged"
-		else
-			text="$text $NWIF"
-			tooltip="<span color='#00ffc8'><b>$NWIF</b></span>: unplugged"
-		fi
+		text="󰚦 $NWIF"
 	else
 		if [ "$WIRELESS" = "false" ]; then
 			if [ "$IPV4" != "none" ] || [ "$IPV6" != "none" ] && [ "$UP" = "true" ]; then
@@ -102,6 +100,8 @@ if [ "$1" = "waybar" ]; then
 			fi
 
 			text="$text <span rise='-1pt'>$NWIF</span>"
+			tooltip="${tooltip}\\n<span color='#00ffc8'>ipv4</span>:  $IPV4"
+			tooltip="${tooltip}\\n<span color='#00ffc8'>ipv6</span>:  $IPV6"
 		else
 			if  [ "$IPV4" = "none" ] && [ "$IPV6" = "none" ] || [ "$UP" == "false" ]; then
 				text="睊 <span rise='-1pt'>$NWIF</span>"
@@ -121,6 +121,12 @@ if [ "$1" = "waybar" ]; then
 				# PangoFormat can't align text...
 				text="${text}</span><span font_size='4pt'> </span><span rise='2pt'>$NWIF</span>"
 			fi
+
+			if [ ! -z "$ESSID" ]; then
+				tooltip="${tooltip}\\n<span color='#00ffc8'>essid</span>: $ESSID (${STRENGTH}%)"
+			fi
+			tooltip="${tooltip}\\n<span color='#00ffc8'>ipv4</span>:  $IPV4"
+			tooltip="${tooltip}\\n<span color='#00ffc8'>ipv6</span>:  $IPV6"
 		fi
 	fi
 
@@ -140,6 +146,7 @@ else
 	printf "%s\n" "freq|string|$FREQ"
 	printf "%s\n" "strength|string|$STRENGTH"
 	printf "%s\n" "up|bool|$UP"
+	printf "%s\n" "state|string|$STATE"
 	printf "%s\n" "ipv4|string|$IPV4"
 	printf "%s\n" "ipv6|string|$IPV6"
 	printf "\n"
