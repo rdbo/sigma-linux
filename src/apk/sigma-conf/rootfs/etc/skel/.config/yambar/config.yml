@@ -65,7 +65,7 @@ bar:
           map:
             on-click:
               left: 'notify-send " Interface: {nwif}" " Plugged: {plugged}\n Up: {up}\n直 Wireless: {wireless}\n󱄙 IPv4: {ipv4}\n󱄙 IPv6: {ipv6}"'
-              right: "sh -c '. sigma-common; ls /sys/class/net | sigma-dmenu -p \"Select network interface...\" > \"$SIGMA_CONFIG_DIR/nwif\"'"
+              right: "sigma-nwif choose"
             conditions:
               ~plugged:
                 string: { text: "󰚦 {nwif}" }

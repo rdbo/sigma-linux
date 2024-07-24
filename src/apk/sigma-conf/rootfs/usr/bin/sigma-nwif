@@ -16,6 +16,16 @@ UP="false"
 IPV4="none"
 IPV6="none"
 
+# Check if user is attempting to change the network
+if [ "$1" = "choose" ]; then
+	new_nwif="$(ls /sys/class/net | sigma-dmenu -p "Select network interface...")"
+	if [ ! -z "$new_nwif" ]; then
+		printf "%s" "$new_nwif" > "$SIGMA_CONFIG_DIR/nwif"
+		exit 0
+	fi
+	exit 1
+fi
+
 # Retrieve network interface name from cached file
 if [ -f "$NWIF_FILE" ]; then
 	nwif="$(cat "$NWIF_FILE")"
@@ -80,8 +90,8 @@ if [ "$1" = "waybar" ]; then
 			text="$text none"
 			tooltip="none: unplugged"
 		else
-			text="$text $nwif"
-			tooltip="<span color='#00ffc8'><b>$nwif</b></span>: unplugged"
+			text="$text $NWIF"
+			tooltip="<span color='#00ffc8'><b>$NWIF</b></span>: unplugged"
 		fi
 	else
 		if [ "$WIRELESS" = "false" ]; then

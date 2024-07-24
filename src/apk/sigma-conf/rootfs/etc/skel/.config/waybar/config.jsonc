@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network"],
+    "modules-right": ["custom/nwif"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -33,6 +33,14 @@
             "on-click": "mode",
             "on-click-right": "mode"
         }
+    },
+
+    "custom/nwif": {
+        "interval": 3,
+        "exec": "/home/user/sigma-nwif waybar",
+        "exec-on-event": false,
+        "return-type": "json",
+        "on-click-right": "sigma-nwif choose"
     },
 
     "network": {
