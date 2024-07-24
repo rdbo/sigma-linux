@@ -7,6 +7,7 @@ window#waybar {
 }
 
 tooltip {
+    font-family: "FiraCode Nerd Font";
     background-color: #101a20;
     font-size: 12px;
     border: 2px solid #132a33;

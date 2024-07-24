@@ -1,6 +1,6 @@
 {
-    "height": 26, // Waybar height (to be removed for auto height)
-    "spacing": 4, // Gaps between modules (4px)
+    "height": 26,
+    "spacing": 4,
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
@@ -31,17 +31,22 @@
         },
         "actions": {
             "on-click": "mode",
-            "on-click-right": "mode",
+            "on-click-right": "mode"
         }
     },
 
     "network": {
-        "interval": 5,
+        "interval": 3,
         "format": "",
         "format-linked": "",
         "format-ethernet": "<span font='FiraCode Nerd Font' font_size='medium'></span>",
         "format-wifi": "{icon}",
         "format-disconnected": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "<span color='#00ffc8' font_weight='bold'>{ifname}</span>: {ipaddr} via {gwaddr}",
+        "tooltip-format-linked": "<span color='#00ffc8' font_weight='bold'>{ifname}</span>: (no IP address)",
+        "tooltip-format-wifi": "<span color='#00ffc8' font_weight='bold'>{ifname}</span>: {ipaddr} | {essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "<span color='#00ffc8' font_weight='bold'>{ifname}</span>: {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "disconnected: interface not available",
     }
 }
