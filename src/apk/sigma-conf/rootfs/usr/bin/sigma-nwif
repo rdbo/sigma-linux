@@ -107,13 +107,13 @@ if [ "$1" = "waybar" ]; then
 				text="睊 <span rise='-1pt'>$NWIF</span>"
 			else
 				text="<span face='Material Symbols Outlined' font_size='large'>"
-				if [ $STRENGTH -le 10 ]; then
+				if [ $STRENGTH -le 5 ]; then
 					text="${text}"
-				elif [ $STRENGTH -lt 30 ]; then
+				elif [ $STRENGTH -le 25 ]; then
 					text="${text}"
-				elif [ $STRENGTH -lt 50 ]; then
+				elif [ $STRENGTH -le 50 ]; then
 					text="${text}"
-				elif [ $STRENGTH -lt 80 ]; then
+				elif [ $STRENGTH -le 75 ]; then
 					text="${text}"
 				elif [ $STRENGTH -le 100 ]; then
 					text="${text}"
