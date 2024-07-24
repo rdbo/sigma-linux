@@ -9,6 +9,9 @@ SYS_NWIF_DIR="/sys/class/net"
 NWIF="none"
 PLUGGED="false"
 WIRELESS="false"
+ESSID=""
+FREQ=""
+STRENGTH="0"
 UP="false"
 IPV4="none"
 IPV6="none"
@@ -36,6 +39,13 @@ else
 	# Check if interface is wireless
 	if [ -d "$SYS_NWIF_DIR/$NWIF/wireless" ]; then
 		WIRELESS="true"
+		ESSID="$(iwgetid -r "$NWIF")"
+		FREQ="$(iwgetid -r -f "$NWIF" | xargs printf "%.3s")"
+
+		quality="$(iwconfig wlan0 | grep Quality | sed 's/.*Quality=//g' | sed -E 's/\s.*//g')"
+		if [ ! -z "$quality" ]; then
+			STRENGTH="$(perl -e "print int($quality * 100)")"
+		fi
 	fi
 
 	# Check if interface is up
@@ -57,10 +67,70 @@ else
 	fi
 fi
 
-printf "%s\n" "nwif|string|$NWIF"
-printf "%s\n" "plugged|bool|$PLUGGED"
-printf "%s\n" "wireless|bool|$WIRELESS"
-printf "%s\n" "up|bool|$UP"
-printf "%s\n" "ipv4|string|$IPV4"
-printf "%s\n" "ipv6|string|$IPV6"
-printf "\n"
+if [ "$1" = "waybar" ]; then
+	text=""
+	alt=""
+	tooltip=""
+	class=""
+	percentage=""
+
+	if [ "$PLUGGED" = "false" ]; then
+		text="󰚦"
+		if [ -z "$NWIF" ]; then
+			text="$text none"
+			tooltip="none: unplugged"
+		else
+			text="$text $nwif"
+			tooltip="<span color='#00ffc8'><b>$nwif</b></span>: unplugged"
+		fi
+	else
+		if [ "$WIRELESS" = "false" ]; then
+			if [ "$IPV4" != "none" ] || [ "$IPV6" != "none" ] && [ "$UP" = "true" ]; then
+				text=""
+			else
+				text=""
+			fi
+
+			text="$text <span rise='-1pt'>$NWIF</span>"
+		else
+			if  [ "$IPV4" = "none" ] && [ "$IPV6" = "none" ] || [ "$UP" == "false" ]; then
+				text="睊 <span rise='-1pt'>$NWIF</span>"
+			else
+				text="<span face='Material Symbols Outlined' font_size='large'>"
+				if [ $STRENGTH -le 10 ]; then
+					text="${text}"
+				elif [ $STRENGTH -lt 30 ]; then
+					text="${text}"
+				elif [ $STRENGTH -lt 50 ]; then
+					text="${text}"
+				elif [ $STRENGTH -lt 80 ]; then
+					text="${text}"
+				elif [ $STRENGTH -le 100 ]; then
+					text="${text}"
+				fi
+				# PangoFormat can't align text...
+				text="${text}</span><span font_size='4pt'> </span><span rise='2pt'>$NWIF</span>"
+			fi
+		fi
+	fi
+
+	# NOTE: Waybar disallows using '\n' on the JSON output
+	printf "{"
+	printf '    "text": "%s",' "$text"
+	printf '    "alt": "%s",' "$alt"
+	printf '    "tooltip": "%s",' "$tooltip"
+	printf '    "class": "%s",' "$class"
+	printf '    "percentage": "%s"' "$percentage"
+	printf "}"
+else
+	printf "%s\n" "nwif|string|$NWIF"
+	printf "%s\n" "plugged|bool|$PLUGGED"
+	printf "%s\n" "wireless|bool|$WIRELESS"
+	printf "%s\n" "essid|string|$ESSID"
+	printf "%s\n" "freq|string|$FREQ"
+	printf "%s\n" "strength|string|$STRENGTH"
+	printf "%s\n" "up|bool|$UP"
+	printf "%s\n" "ipv4|string|$IPV4"
+	printf "%s\n" "ipv6|string|$IPV6"
+	printf "\n"
+fi
