@@ -1,10 +1,10 @@
 {
     "height": 26,
-    "spacing": 4,
+    "spacing": 12,
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwif"],
+    "modules-right": ["custom/nwusage", "custom/nwif"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -33,6 +33,13 @@
             "on-click": "mode",
             "on-click-right": "mode"
         }
+    },
+
+    "custom/nwusage": {
+        "interval": 1,
+        "exec": "sigma-nwusage waybar",
+        "exec-on-event": false,
+        "return-type": "json"
     },
 
     "custom/nwif": {
