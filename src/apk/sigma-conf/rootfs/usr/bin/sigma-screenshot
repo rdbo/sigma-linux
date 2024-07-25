@@ -6,7 +6,12 @@ if [ ! -d "$SCREENSHOT_DIR" ]; then
 	mkdir -p "$SCREENSHOT_DIR"
 fi
 
-notify-send "  Taking screenshot..." "󰒅 Select the area to be captured"
+delay="$1"
+if [ -z "$delay" ]; then
+	delay="0"
+fi
+
+notify-send "  Taking screenshot..." "󰒅 Select the area to be captured\n󱦟 Delay: $delay seconds"
 
 geom="$(slurp)"
 if [ $? -ne 0 ]; then
@@ -16,6 +21,7 @@ fi
 
 scrsht_file="$(date +"%Y-%m-%d_%H-%M-%S").png"
 scrsht_path="$SCREENSHOT_DIR/$scrsht_file"
+sleep "$delay"
 grim -g "$geom" "$scrsht_path"
 wl-copy -t image/png < "$scrsht_path"
 
