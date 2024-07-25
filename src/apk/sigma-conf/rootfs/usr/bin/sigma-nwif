@@ -60,9 +60,12 @@ else
 	fi
 
 	# Check if interface is up
-	state="$(cat "$SYS_NWIF_DIR/$NWIF/operstate")"
-	if [ ! -z "$state" ]; then
-		STATE="$state"
+	# (the `cat` will fail if it's not)
+	carrier="$(cat "$SYS_NWIF_DIR/$NWIF/carrier" 2>/dev/null)"
+	if [ $? ] && [ "$carrier" = "1" ]; then
+		STATE="up"
+	else
+		STATE="down"
 	fi
 
 	if [ "$STATE" = "up" ]; then
@@ -106,7 +109,7 @@ if [ "$1" = "waybar" ]; then
 			if  [ "$IPV4" = "none" ] && [ "$IPV6" = "none" ] || [ "$UP" == "false" ]; then
 				text="睊 <span rise='-1pt'>$NWIF</span>"
 			else
-				text="<span face='Material Symbols Outlined' font_size='large'>"
+				text="<span face='Material Symbols Outlined' font_size='large' font_weight='normal'>"
 				if [ $STRENGTH -le 5 ]; then
 					text="${text}"
 				elif [ $STRENGTH -le 25 ]; then
