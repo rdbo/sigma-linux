@@ -37,9 +37,10 @@
 
     "custom/nwif": {
         "interval": 3,
-        "exec": "/home/user/sigma-nwif waybar",
+        "exec": "sigma-nwif waybar",
         "exec-on-event": false,
         "return-type": "json",
+        "on-click": "sigma-nwif choose",
         "on-click-right": "sigma-nwif choose"
     },
 
