@@ -73,6 +73,13 @@ RX_TOTAL="$(convert_bytes "$RX_TOTAL")"
 TX_TOTAL="$(convert_bytes "$TX_TOTAL")"
 
 if [ "$1" = "waybar" ]; then
+	# Align contents by making a table and then grabbing the rows
+	# The table header can define a minimum size
+	# text="$(printf "1|123456789|1|123456789|1\n|$RX_SPEED||$TX_SPEED| " | column -s "|" -t -R "2,4" | tail -1)"
+	# text="$(printf "1|1234|12345|1|1234|12345\n|$(printf "%s" "$RX_SPEED" | tr ' ' '|')||$(printf "%s" "$TX_SPEED" | tr ' ' '|')" | column -s "|" -t -R "2,5" | tail -1)"
+	# text="$(printf "1234567890|1234567890|1\n $RX_SPEED| $TX_SPEED| " | column -s "|" -t | tail -1)"
+	# text="$(printf "12345678901|12345678901\n $RX_SPEED| $TX_SPEED" | column -s "|" -t -R "0" | tail -1)"
+
 	text=" $RX_SPEED  $TX_SPEED"
 	alt=""
 	tooltip="<span color='#00ffc8'>downloads</span>: $RX_TOTAL\\n<span color='#00ffc8'>uploads</span>:   $TX_TOTAL"
