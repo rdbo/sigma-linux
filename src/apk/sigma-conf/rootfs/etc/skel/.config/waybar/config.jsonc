@@ -40,7 +40,7 @@
         "exec": "sigma-nwif waybar",
         "exec-on-event": false,
         "return-type": "json",
-        "on-click": "sigma-nwif choose",
+        "on-click": "sigma-nwif manage",
         "on-click-right": "sigma-nwif choose"
     },
 

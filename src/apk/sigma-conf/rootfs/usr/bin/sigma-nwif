@@ -85,7 +85,34 @@ else
 	fi
 fi
 
-if [ "$1" = "waybar" ]; then
+if [ "$1" = "manage" ]; then
+	action_connect="Connect to a network"
+	action_dhcp="Get a new IPv4 lease (DHCP)"
+	action_dhcp6="Get a new IPv6 lease (DHCP)"
+	actions="$(printf "$action_connect\n$action_dhcp\n$action_dhcp6")"
+	action="$(printf "$actions" | sigma-dmenu -p "Select an action...")"
+
+	if [ "$action" = "$action_connect" ]; then
+		notify-send "Starting 'iwctl'..."
+		foot -a "wmfloat" -e "iwctl"
+	elif [ "$action" = "$action_dhcp" ]; then
+		if udhcpc -q -i "$NWIF"; then
+			notify-send " Successfully acquired new IPv4 lease"
+		else
+			notify-send " Failed to get new IPv4 lease"
+		fi
+	elif [ "$action" = "$action_dhcp6" ]; then
+		if udhcpc6 -q -i "$NWIF"; then
+			notify-send " Successfully acquired new IPv6 lease"
+		else
+			notify-send " Failed to get new IPv6 lease"
+		fi
+	else
+		exit 1
+	fi
+
+	exit 0
+elif [ "$1" = "waybar" ]; then
 	text=""
 	alt=""
 	tooltip="<span color='#00ffc8'>iface</span>: $NWIF\\n<span color='#00ffc8'>state</span>: $STATE"
