@@ -8,8 +8,9 @@ CPU_USAGE=""
 # Get information from a single CPU line of `/proc/stat`
 cpuinfo() {
 	local stat="$1"
-	local work_time="$(echo "$stat" | awk -F ' ' '{ print $2 + $3 + $6 + $7 + $8 + $9 + $10 }')"
-	local idle_time="$(echo "$stat" | awk -F ' ' '{ print $4 + $5 }')"
+	# Guest time is already counted in user time, so we don't sum it
+	local work_time="$(echo "$stat" | awk -F ' ' '{ print $2 + $3 + $4 + $7 + $8 + $9 }')"
+	local idle_time="$(echo "$stat" | awk -F ' ' '{ print $5 + $6 }')"
 	local total_time="$(($work_time + $idle_time))"
 
 	echo "$work_time $idle_time $total_time"
