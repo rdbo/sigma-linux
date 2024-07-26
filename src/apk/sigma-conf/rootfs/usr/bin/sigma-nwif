@@ -136,7 +136,7 @@ elif [ "$1" = "waybar" ]; then
 			if  [ "$IPV4" = "none" ] && [ "$IPV6" = "none" ] || [ "$UP" == "false" ]; then
 				text="睊 <span rise='-1pt'>$NWIF</span>"
 			else
-				text="<span face='Material Symbols Outlined' font_size='large' font_weight='normal'>"
+				text="<span face='Material Symbols Outlined' font_size='large' font_weight='normal' rise='1pt'>"
 				if [ $STRENGTH -le 5 ]; then
 					text="${text}"
 				elif [ $STRENGTH -le 25 ]; then
@@ -149,7 +149,7 @@ elif [ "$1" = "waybar" ]; then
 					text="${text}"
 				fi
 				# PangoFormat can't align text...
-				text="${text}</span><span font_size='4pt'> </span><span rise='2pt'>$NWIF</span>"
+				text="${text}</span><span font_size='4pt'> </span><span rise='3pt'>$NWIF</span>"
 			fi
 
 			if [ ! -z "$ESSID" ]; then

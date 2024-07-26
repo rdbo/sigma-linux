@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "cpu"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -49,6 +49,11 @@
         "return-type": "json",
         "on-click": "sigma-nwif manage",
         "on-click-right": "sigma-nwif choose"
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": "<span font_size='xx-small'> </span>{usage}%"
     },
 
     "network": {
