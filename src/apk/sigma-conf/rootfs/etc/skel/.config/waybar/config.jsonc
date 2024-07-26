@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif", "cpu"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -51,9 +51,22 @@
         "on-click-right": "sigma-nwif choose"
     },
 
+    "custom/cpu": {
+        "interval": 1,
+        "exec": "sigma-cpu waybar",
+        "exec-on-event": false,
+        "return-type": "json"
+    },
+
     "cpu": {
-        "interval": 5,
+        "interval": 1,
         "format": "<span font_size='xx-small'> </span>{usage}%"
+    },
+
+    "memory": {
+        "format": " {used}%",
+        "tooltip": true,
+        "tooltip-format": "used: {used:0.1f} GiB"
     },
 
     "network": {

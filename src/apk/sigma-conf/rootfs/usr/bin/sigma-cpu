@@ -1,0 +1,89 @@
+#!/bin/sh
+
+. sigma-common
+
+CPUSTAT_CACHE="$SIGMA_TMP_DIR/cpustat"
+CPU_USAGE=""
+
+# Get information from a single CPU line of `/proc/stat`
+cpuinfo() {
+	local stat="$1"
+	local work_time="$(echo "$stat" | awk -F ' ' '{ print $2 + $3 + $6 + $7 + $8 + $9 + $10 }')"
+	local idle_time="$(echo "$stat" | awk -F ' ' '{ print $4 + $5 }')"
+	local total_time="$(($work_time + $idle_time))"
+
+	echo "$work_time $idle_time $total_time"
+
+	return 0
+}
+
+cpustat() {
+	cat /proc/stat | grep "^cpu"
+}
+
+if [ ! -f "$CPUSTAT_CACHE" ]; then
+	cpustat > "$CPUSTAT_CACHE"
+fi
+
+curstat="$(cpustat)"
+oldstat="$(cat "$CPUSTAT_CACHE")"
+cpus="$(echo "$curstat" | sed -E 's/\s.*//g')"
+
+# Calculate usage percent since last run
+for cpu in $cpus; do
+	stat="$(echo "$curstat" | grep "^$cpu ")"
+	info="$(cpuinfo "$stat")"
+	work="$(echo "$info" | cut -d ' ' -f 1)"
+	idle="$(echo "$info" | cut -d ' ' -f 2)"
+	total="$(echo "$info" | cut -d ' ' -f 3)"
+
+	stat="$(echo "$oldstat" | grep "^$cpu ")"
+	oldinfo="$(cpuinfo "$stat")"
+	oldwork="$(echo "$oldinfo" | cut -d ' ' -f 1)"
+	oldidle="$(echo "$oldinfo" | cut -d ' ' -f 2)"
+	oldtotal="$(echo "$oldinfo" | cut -d ' ' -f 3)"
+
+	work_percent="$((($work - $oldwork) * 100 / ($total - $oldtotal)))"
+
+	CPU_USAGE="$CPU_USAGE ${cpu}:${work_percent}"
+done
+
+printf "%s" "$curstat" > "$CPUSTAT_CACHE"
+
+if [ "$1" = "waybar" ]; then
+	text=""
+	alt=""
+	tooltip=""
+	class=""
+	percentage=""
+
+	for usage in $CPU_USAGE; do
+		cpu="$(echo "$usage" | cut -d ':' -f 1)"
+		usage_perc="$(echo "$usage" | cut -d ':' -f 2)"
+
+		if [ "$cpu" = "cpu" ]; then
+			text="<span font_size='xx-small'> </span>${usage_perc}%"
+		fi
+
+		if [ ! -z "$tooltip" ]; then
+			tooltip="$tooltip\\n"
+		fi
+
+		cpu_len="$(printf "%s" "$cpu" | wc -c)"
+		tooltip="${tooltip}<span color='#00ffc8'>$cpu</span>: "
+		# Add padding
+		if [ $cpu_len -lt 5 ]; then
+			spaces="$((5 - $cpu_len))"
+			tooltip="${tooltip}$(printf "%${spaces}s")"
+		fi
+		tooltip="${tooltip}${usage_perc}%"
+	done
+
+	printf "{"
+	printf '    "text": "%s",' "$text"
+	printf '    "alt": "%s",' "$alt"
+	printf '    "tooltip": "%s",' "$tooltip"
+	printf '    "class": "%s",' "$class"
+	printf '    "percentage": "%s"' "$percentage"
+	printf "}"
+fi
