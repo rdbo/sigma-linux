@@ -53,7 +53,7 @@ else
 		ESSID="$(iwgetid -r "$NWIF")"
 		FREQ="$(iwgetid -r -f "$NWIF" | xargs printf "%.3s")"
 
-		quality="$(iwconfig wlan0 | grep Quality | sed 's/.*Quality=//g' | sed -E 's/\s.*//g')"
+		quality="$(iwconfig "$NWIF" | grep Quality | sed 's/.*Quality=//g' | sed -E 's/\s.*//g')"
 		if [ ! -z "$quality" ]; then
 			STRENGTH="$(perl -e "print int($quality * 100)")"
 		fi
