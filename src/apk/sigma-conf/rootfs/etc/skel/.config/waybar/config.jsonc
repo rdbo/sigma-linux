@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -58,13 +58,20 @@
         "return-type": "json"
     },
 
+    "custom/memory": {
+        "interval": 1,
+        "exec": "sigma-memory waybar",
+        "exec-on-event": false,
+        "return-type": "json"
+    },
+
     "cpu": {
         "interval": 1,
         "format": "<span font_size='xx-small'> </span>{usage}%"
     },
 
     "memory": {
-        "format": " {used}%",
+        "format": " {used:0.1f}",
         "tooltip": true,
         "tooltip-format": "used: {used:0.1f} GiB"
     },

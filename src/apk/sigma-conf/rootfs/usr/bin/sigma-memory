@@ -1,0 +1,26 @@
+#!/bin/sh
+
+. sigma-common
+
+TOTAL_MEM="$(free -h | grep "^Mem:" | awk -F ' ' '{ print $2 }')"
+USED_MEM="$(free -h | grep "^Mem:" | awk -F ' ' '{ print $3 }')"
+USED_MEM_PERC="$(free | grep "^Mem:" | awk -F ' ' '{ printf "%.0f", $3 / $2 * 100 }')"
+TOTAL_SWAP="$(free -h | grep "^Swap:" | awk -F ' ' '{ print $2 }')"
+USED_SWAP="$(free -h | grep "^Swap:" | awk -F ' ' '{ print $3 }')"
+USED_SWAP_PERC="$(free | grep "^Swap:" | awk -F ' ' '{ printf "%.0f", $3 / $2 * 100 }')"
+
+if [ "$1" = "waybar" ]; then
+	text=" ${USED_MEM_PERC}%"
+	alt=""
+	tooltip="<span color='#00ffc8'>mem</span>:  $USED_MEM<span color='#0099BB'><b>/</b></span>$TOTAL_MEM\n<span color='#00ffc8'>swap</span>: $USED_SWAP<span color='#0099BB'><b>/</b></span>$TOTAL_SWAP"
+	class=""
+	percentage=""
+
+	printf "{"
+	printf '    "text": "%s",' "$text"
+	printf '    "alt": "%s",' "$alt"
+	printf '    "tooltip": "%s",' "$tooltip"
+	printf '    "class": "%s",' "$class"
+	printf '    "percentage": "%s"' "$percentage"
+	printf "}"
+fi
