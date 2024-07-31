@@ -44,8 +44,55 @@ else
 	fi
 fi
 
-printf "%s\n" "battery|string|$BATTERY"
-printf "%s\n" "plugged|bool|$PLUGGED"
-printf "%s\n" "charge|int|$CHARGE"
-printf "%s\n" "charging|bool|$CHARGING"
-printf "\n"
+if [ "$1" = "waybar" ]; then
+	text=""
+	alt=""
+	tooltip="<span color='#00ffc8'>iface</span>: $NWIF\\n<span color='#00ffc8'>state</span>: $STATE"
+	class=""
+	percentage=""
+
+	if [ "$PLUGGED" = "true" ]; then
+		if [ $CHARGE -lt 10 ]; then
+			text="󱃍"
+		elif [ $CHARGE -lt 20 ]; then
+			text="󰁺"
+		elif [ $CHARGE -lt 30 ]; then
+			text="󰁻"
+		elif [ $CHARGE -lt 40 ]; then
+			text="󰁼"
+		elif [ $CHARGE -lt 50 ]; then
+			text="󰁽"
+		elif [ $CHARGE -lt 60 ]; then
+			text="󰁾"
+		elif [ $CHARGE -lt 70 ]; then
+			text="󰁿"
+		elif [ $CHARGE -lt 80 ]; then
+			text="󰂀"
+		elif [ $CHARGE -lt 90 ]; then
+			text="󰂁"
+		elif [ $CHARGE -lt 100 ]; then
+			text="󰂂"
+		elif [ $CHARGE -eq 100 ]; then
+			text="󰁹"
+		fi
+
+		text="$text<span font_size='xx-small'> </span>${CHARGE}%"
+	else
+		text="󱟨<span font_size='xx-small'> </span>$BATTERY"
+	fi
+
+	printf "{"
+	printf '    "text": "%s",' "$text"
+	printf '    "alt": "%s",' "$alt"
+	printf '    "tooltip": "%s",' "$tooltip"
+	printf '    "class": "%s",' "$class"
+	printf '    "percentage": "%s"' "$percentage"
+	printf "}"
+
+else
+	printf "%s\n" "battery|string|$BATTERY"
+	printf "%s\n" "plugged|bool|$PLUGGED"
+	printf "%s\n" "charge|int|$CHARGE"
+	printf "%s\n" "charging|bool|$CHARGING"
+	printf "\n"
+fi

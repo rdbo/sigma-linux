@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -61,6 +61,13 @@
     "custom/memory": {
         "interval": 1,
         "exec": "sigma-memory waybar",
+        "exec-on-event": false,
+        "return-type": "json"
+    },
+
+    "custom/battery": {
+        "interval": 1,
+        "exec": "sigma-battery waybar",
         "exec-on-event": false,
         "return-type": "json"
     },
