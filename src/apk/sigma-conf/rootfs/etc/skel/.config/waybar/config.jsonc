@@ -69,7 +69,9 @@
         "interval": 1,
         "exec": "sigma-battery waybar",
         "exec-on-event": false,
-        "return-type": "json"
+        "return-type": "json",
+        "on-click": "sigma-battery choose",
+        "on-click-right": "sigma-battery choose"
     },
 
     "cpu": {

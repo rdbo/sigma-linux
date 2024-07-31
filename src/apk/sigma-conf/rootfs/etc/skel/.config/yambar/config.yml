@@ -102,7 +102,7 @@ bar:
           map:
             on-click:
               left: 'notify-send "󰁹 Battery: {battery}" "󰂑 Charge: {charge}%\n󰠠 Charging: {charging}"'
-              right: "sh -c '. sigma-common; ls /sys/class/power_supply | grep \"^BAT\" | sigma-dmenu -p \"Select battery...\" > \"$SIGMA_CONFIG_DIR/battery\"'"
+              right: "sigma-battery choose"
             conditions:
               ~plugged:
                 string: { text: '󱟨 {battery}' }
