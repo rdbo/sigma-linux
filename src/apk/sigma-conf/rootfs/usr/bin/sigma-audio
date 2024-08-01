@@ -1,0 +1,62 @@
+#!/bin/sh
+
+DEVICE_KIND="$1"
+DEVICE=""
+VOL_LEFT=""
+VOL_RIGHT=""
+MUTED=""
+
+if [ "$DEVICE_KIND" != "sink" ] && [ "$DEVICE_KIND" != "source" ]; then
+	echo "usage: sigma-audio [sink | source] [ waybar | toggle | +N% | -N% ]"
+	exit 1
+fi
+
+DEVICE="$(pactl get-default-$DEVICE_KIND 2>/dev/null)"
+if [ $? -ne 0 ] || [ -z "$DEVICE" ] ; then
+	exit 1
+fi
+
+vol="$(pactl get-$DEVICE_KIND-volume "$DEVICE")"
+VOL_LEFT="$(echo $vol | head -n 1 | cut -d ' ' -f 5)"
+VOL_RIGHT="$(echo $vol | head -n 1 | cut -d ' ' -f 12)"
+MUTED="$(pactl get-$DEVICE_KIND-mute "$DEVICE" | cut -d ' ' -f 2)"
+
+if [ "$2" = "waybar" ]; then
+	text=""
+	alt=""
+	tooltip="<span color='#00ffc8'>device</span>: $DEVICE"
+	class=""
+	percentage=""
+
+	if [ "$DEVICE_KIND" = "sink" ]; then
+		if [ "$MUTED" = "yes" ]; then
+			text="&#8206;ﳌ&#8206;" # for some reason, we have to un-reverse the text when using this icon
+		else
+			text=""
+		fi
+	else
+		if [ "$MUTED" = "yes" ]; then
+			text=""
+		else
+			text=""
+		fi
+	fi
+
+	if [ "$VOL_LEFT" = "$VOL_RIGHT" ]; then
+		text="$text<span font_size='xx-small'> </span>$VOL_LEFT"
+	else
+		text="$text<span font_size='xx-small'> </span>L:$VOL_LEFT<span font_size='xx-small'> </span>R:$VOL_RIGHT"
+	fi
+
+	printf "{"
+	printf '    "text": "%s",' "$text"
+	printf '    "alt": "%s",' "$alt"
+	printf '    "tooltip": "%s",' "$tooltip"
+	printf '    "class": "%s",' "$class"
+	printf '    "percentage": "%s"' "$percentage"
+	printf "}"
+elif [ "$2" = "toggle" ]; then
+	pactl set-$DEVICE_KIND-mute "$DEVICE" toggle
+elif [ ! -z "$2" ]; then
+	pactl set-$DEVICE_KIND-volume "$DEVICE" "$2"
+fi

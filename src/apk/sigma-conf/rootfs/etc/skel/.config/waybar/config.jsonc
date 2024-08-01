@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery", "custom/audio#sink", "custom/audio#source"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -72,6 +72,32 @@
         "return-type": "json",
         "on-click": "sigma-battery choose",
         "on-click-right": "sigma-battery choose"
+    },
+
+    "custom/audio#sink": {
+        "interval": 1,
+        "exec": "sigma-audio sink waybar",
+        "exec-on-event": true,
+        "return-type": "json",
+        "on-click": "sigma-audio sink toggle; pkill -RTMIN+1 waybar",
+        "on-click-right": "foot -a wmfloat pulsemixer",
+        "on-scroll-up": "sigma-audio sink +5%; pkill -RTMIN+1 waybar",
+        "on-scroll-down": "sigma-audio sink -5%; pkill -RTMIN+1 waybar",
+        "smooth-scrolling-threshold": 1,
+        "signal": 1
+    },
+
+    "custom/audio#source": {
+        "interval": 1,
+        "exec": "sigma-audio source waybar",
+        "exec-on-event": true,
+        "return-type": "json",
+        "on-click": "sigma-audio source toggle; pkill -RTMIN+2 waybar",
+        "on-click-right": "foot -a wmfloat pulsemixer",
+        "on-scroll-up": "sigma-audio source +5%; pkill -RTMIN+2 waybar",
+        "on-scroll-down": "sigma-audio source -5%; pkill -RTMIN+2 waybar",
+        "smooth-scrolling-threshold": 1,
+        "signal": 2
     },
 
     "cpu": {
