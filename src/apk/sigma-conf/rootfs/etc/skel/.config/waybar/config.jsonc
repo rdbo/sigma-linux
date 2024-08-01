@@ -4,7 +4,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery", "custom/audio#sink", "custom/audio#source"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery", "custom/audio#sink", "custom/audio#source", "custom/vkbd"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -98,6 +98,14 @@
         "on-scroll-down": "sigma-audio source -5%; pkill -RTMIN+2 waybar",
         "smooth-scrolling-threshold": 1,
         "signal": 2
+    },
+
+    "custom/vkbd": {
+        "interval": "once",
+        "exec": "printf '%s' '{ \"text\": \"󰌌 \" }'",
+        "exec-on-event": false,
+        "return-type": "json",
+        "on-click": "sigma-toggle-vkbd"
     },
 
     "cpu": {
