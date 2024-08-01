@@ -1,6 +1,6 @@
 {
     "height": 26,
-    "spacing": 12,
+    "spacing": 10,
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
