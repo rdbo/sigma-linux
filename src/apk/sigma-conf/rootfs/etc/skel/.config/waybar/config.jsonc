@@ -102,7 +102,7 @@
 
     "custom/vkbd": {
         "interval": "once",
-        "exec": "printf '%s' '{ \"text\": \"󰌌 \" }'",
+        "exec": "printf '%s' '{ \"text\": \"󰌌 \", \"tooltip\": \"toggle virtual keyboard\" }'",
         "exec-on-event": false,
         "return-type": "json",
         "on-click": "sigma-toggle-vkbd"
