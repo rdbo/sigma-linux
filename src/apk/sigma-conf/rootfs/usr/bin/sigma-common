@@ -1,6 +1,6 @@
 #!/bin/sh
 
 SIGMA_CONFIG_DIR="$HOME/.config/sigma"
-SIGMA_TMP_DIR="$HOME/.cache/sigma"
+SIGMA_TMP_DIR="/tmp/sigma-$(id -u)"
 
 mkdir -p "$SIGMA_CONFIG_DIR" "$SIGMA_TMP_DIR"
