@@ -10,7 +10,7 @@ arch="all"
 license="MIT/X"
 depends="libx11 libxft harfbuzz fontconfig freetype gd glib" # NOTE: the terminfo is in the package ncurses-terminfo
 makedepends="libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev"
-_commit="51b67576d1eb56be900eb68be22a67e2c937778d"
+_commit="491d868fd145f76e6093489439d81f5e15aaf254"
 source="https://github.com/rdbo/sigma-st/archive/$_commit/sigma-st-$_commit.tar.gz"
 options="!check"
 
