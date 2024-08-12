@@ -1,0 +1,70 @@
+# Editor
+
+editor = 'hx'
+
+# Cursor
+
+cursor = '▇'
+blinking-cursor = false
+hide-cursor-when-typing = false
+
+# Use fork
+
+use-fork = false # Must be false in order to use 
+
+# Confirm before exiting Rio
+
+confirm-before-quit = false
+
+# Window configuration
+
+[window]
+opacity = 0.9
+blur = true
+
+# Renderer
+
+[renderer]
+performance = "Low"
+backend = "Automatic"
+disable-unfocused-render = false
+level = 1
+
+# Fonts
+
+[fonts]
+size = 14
+family = "FiraCode Nerd Font Mono"
+
+# Scroll
+
+[scroll]
+multiplier = 1.0
+divider = 1.0
+
+# Navigation
+
+[navigation]
+mode = "BottomTab"
+clickable = true
+use-current-path = true
+
+# Colors
+
+[colors]
+background = '#101A20'
+foreground = '#EEEEEE'
+green = '#0BA95B'
+red = '#ED203D'
+blue = '#12B5E5'
+yellow = '#FCBA28'
+cyan = '#00FFC8'
+cursor = '#EEEEEE'
+
+tabs = '#132A33'
+tabs-active = '#00FFC8'
+selection-foreground = '#141414'
+selection-background = '#EEEEEE'
+light-cyan = '#00FFC8'
+
+# Bindings
