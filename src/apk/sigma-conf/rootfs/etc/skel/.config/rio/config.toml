@@ -68,3 +68,9 @@ selection-background = '#EEEEEE'
 light-cyan = '#00FFC8'
 
 # Bindings
+
+[bindings]
+keys = [
+  { key = "pageup", with = "control", action = "SelectPrevTab" },
+  { key = "pagedown", with = "control", action = "SelectNextTab" },
+]
