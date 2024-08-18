@@ -1,6 +1,8 @@
 # Editor
 
-editor = 'hx'
+[editor]
+program = "hx"
+args = []
 
 # Cursor
 
