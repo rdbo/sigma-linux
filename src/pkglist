@@ -77,14 +77,14 @@ sigma-firacode-nerd sigma-vt323 sigma-material-symbols
 font-ubuntu-nerd font-noto-all
 
 ## Desktop
-river river-doc # compositor
-yambar yambar-doc # status bar
+hyprland hyprland-doc # compositor
+waybar waybar-doc # status bar
 fuzzel # dmenu-like
-waylock # screen locker
+swaylock # screen locker
 swww # wallpaper daemon
 
 ## Terminal
-sigma-st foot
+rio foot
 
 ## Text Editing
 vim helix tree-sitter-grammars
@@ -100,8 +100,8 @@ libnotify
 grim
 slurp
 
-## File Manager
-pcmanfm
+## File Managent
+yazi dragon-drop
 
 ## Office
 sc-im
