@@ -91,7 +91,7 @@ riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
 ## Programs
-riverctl map normal Super E spawn xfe # TODO: Look for Wayland file manager
+riverctl map normal Super E spawn 'sigma-filemgr'
 riverctl map normal Super P spawn 'sigma-launcher'
 riverctl map normal Super Print spawn 'sigma-screenshot'
 
