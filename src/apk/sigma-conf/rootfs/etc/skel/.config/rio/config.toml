@@ -12,6 +12,11 @@ use-fork = false # Must be false in order to use
 
 confirm-before-quit = false
 
+# Keyboard
+
+[keyboard]
+use-kitty-keyboard-protocol = false
+
 # Editor
 
 [editor]
