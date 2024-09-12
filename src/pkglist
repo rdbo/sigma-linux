@@ -16,6 +16,7 @@ grub
 grub-bios
 grub-efi
 efibootmgr
+linux-edge
 # linux-firmware
 pciutils
 # alpine-sdk

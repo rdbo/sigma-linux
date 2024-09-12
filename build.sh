@@ -26,7 +26,7 @@ else
 fi
 
 # Make ISO
-# echo "[*] Making ISO..."
-# ./src/make_iso.sh
+echo "[*] Making ISO..."
+./src/make_iso.sh
 
 echo "[*] Build finished successfully"
