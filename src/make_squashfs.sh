@@ -2,7 +2,14 @@
 
 set -e
 
-mkdir -p "$SQUASHFS_DIR"
+mkdir -p "$SQUASHFS_DIR" "$SQUASHFS_DIR/boot"
+
+# NOTE: We have to make sure that the 'linux-*' package is in the SquashFS's
+#       `/etc/apk`. But we don't want the squashfs to store `/boot` either.
+#       To fix that, we mount a temporary boot directory where the Linux kernel
+#       files and whatnot will be installed, and before making the final squashfs,
+#       we unmount it.
+mount --rbind "$BOOT_DIR" "$SQUASHFS_DIR/boot"
 
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
@@ -124,6 +131,10 @@ rc_add seatd default
 rc_add bluetooth default
 
 rc_add local default # used for start scripts
+
+# Unmount temporary boot
+umount "$SQUASHFS_DIR/boot"
+rm -rf "$SQUASHFS_DIR/boot"
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
