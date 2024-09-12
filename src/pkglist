@@ -23,6 +23,7 @@ pciutils
 # alpine-sdk
 kmod
 shadow
+device-mapper-static
 
 #--------------------------------#
 
