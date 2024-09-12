@@ -3,6 +3,7 @@
 set -e
 
 mkdir -p "$SQUASHFS_DIR" "$SQUASHFS_DIR/boot"
+mkdir -p "$BOOT_DIR"
 
 # NOTE: We have to make sure that the 'linux-*' package is in the SquashFS's
 #       `/etc/apk`. But we don't want the squashfs to store `/boot` either.
