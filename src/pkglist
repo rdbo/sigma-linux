@@ -42,6 +42,7 @@ curl wget
 # diffutils
 # tmux
 # jq
+# ripgrep
 # wireless-tools
 
 ## Memory
