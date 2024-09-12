@@ -70,7 +70,8 @@ ncurses-terminfo
 # Desktop Environment
 
 ## Core
-# xwayland seatd eudev xrdb
+seatd eudev
+# xwayland xrdb
 
 ## Fonts
 # sigma-firacode-nerd sigma-vt323 sigma-material-symbols
