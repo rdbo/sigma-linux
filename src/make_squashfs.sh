@@ -129,12 +129,12 @@ rc_add earlyoom default
 rc_add iwd default
 rc_add dbus default
 rc_add seatd default
-rc_add bluetooth default
+# rc_add bluetooth default
 
 rc_add local default # used for start scripts
 
 # Unmount temporary boot
-umount "$SQUASHFS_DIR/boot"
+umount -R "$SQUASHFS_DIR/boot"
 rm -rf "$SQUASHFS_DIR/boot"
 
 # Create squashfs
