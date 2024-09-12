@@ -41,9 +41,10 @@ curl wget
 # rsync
 # diffutils
 # tmux
-# jq
+jq
 # ripgrep
 # wireless-tools
+nvme-cli
 
 ## Memory
 earlyoom zram-init
@@ -63,6 +64,7 @@ iwd wpa_supplicant dhcpcd openvpn wireguard-tools
 # mandoc man-pages
 # busybox-doc
 # tmux-doc
+# dracut-doc
 
 ## Configuration
 sigma-conf

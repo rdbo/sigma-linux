@@ -137,6 +137,9 @@ rc_add local default # used for start scripts
 umount -R "$SQUASHFS_DIR/boot"
 rm -rf "$SQUASHFS_DIR/boot"
 
+# Copy dracut config
+cp "$SRC_DIR/dracut.conf" "$SQUASHFS_DIR/etc/"
+
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
 mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH" -comp xz
