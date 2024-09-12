@@ -25,8 +25,8 @@ else
 	echo "[*] Skipped making squashfs, file '$SQUASHFS_PATH' exists"
 fi
 
-# Build ISO
-echo "[*] Building ISO..."
-./src/build_iso.sh
+# Make ISO
+echo "[*] Making ISO..."
+./src/make_iso.sh
 
 echo "[*] Build finished successfully"
