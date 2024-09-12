@@ -16,7 +16,7 @@ grub
 grub-bios
 grub-efi
 efibootmgr
-linux-firmware
+# linux-firmware
 pciutils
 alpine-sdk
 kmod
@@ -29,18 +29,18 @@ shadow
 ## Administration Tools
 doas openssh
 curl wget
-gpg
-patch entr
-7zip
-xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
+# gpg
+# patch entr
+# 7zip
+# xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 # yt-dlp
-xz zstd zip unzip
+# xz zstd zip unzip
 # lighttpd
-rsync
-diffutils
-tmux
-jq
-wireless-tools
+# rsync
+# diffutils
+# tmux
+# jq
+# wireless-tools
 
 ## Memory
 earlyoom zram-init
@@ -49,17 +49,17 @@ earlyoom zram-init
 iwd wpa_supplicant dhcpcd openvpn wireguard-tools
 
 ## Audio
-pipewire pipewire-pulse pipewire-alsa pipewire-jack
-pulsemixer pulseaudio-ctl pulseaudio-utils
-easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
+# pipewire pipewire-pulse pipewire-alsa pipewire-jack
+# pulsemixer pulseaudio-ctl pulseaudio-utils
+# easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
 
 ## Bluetooth
-bluez
+# bluez
 
 ## Docs
-mandoc man-pages
-busybox-doc
-tmux-doc
+# mandoc man-pages
+# busybox-doc
+# tmux-doc
 
 ## Configuration
 sigma-conf
@@ -70,45 +70,45 @@ ncurses-terminfo
 # Desktop Environment
 
 ## Core
-xwayland seatd eudev xrdb
+# xwayland seatd eudev xrdb
 
 ## Fonts
-sigma-firacode-nerd sigma-vt323 sigma-material-symbols
-font-ubuntu-nerd font-noto-all
+# sigma-firacode-nerd sigma-vt323 sigma-material-symbols
+# font-ubuntu-nerd font-noto-all
 
 ## Desktop
-hyprland hyprland-doc # compositor
-waybar waybar-doc # status bar
-fuzzel # dmenu-like
-swaylock # screen locker
-swww # wallpaper daemon
+# hyprland hyprland-doc # compositor
+# waybar waybar-doc # status bar
+# fuzzel # dmenu-like
+# swaylock # screen locker
+# swww # wallpaper daemon
 
 ## Terminal
-rio foot
+# rio foot
 
 ## Text Editing
-vim helix tree-sitter-grammars
+# vim helix tree-sitter-grammars
 
 ## Browser
-luakit luakit-doc
+# luakit luakit-doc
 
 ## Notifications
-mako
-libnotify
+# mako
+# libnotify
 
 ## Screenshot
-grim
-slurp
+# grim
+# slurp
 
 ## File Managent
-yazi dragon-drop
+# yazi dragon-drop
 
 ## Office
-sc-im
-sigma-sent
-groff
-poppler poppler-utils
-zathura zathura-pdf-mupdf
+# sc-im
+# sigma-sent
+# groff
+# poppler poppler-utils
+# zathura zathura-pdf-mupdf
 # libreoffice libreoffice-gtk
 
 ## Mail
@@ -118,39 +118,39 @@ zathura zathura-pdf-mupdf
 # newsboat
 
 ## Multimedia
-mpv
-ffmpeg
-imagemagick
-nsxiv
+# mpv
+# ffmpeg
+# imagemagick
+# nsxiv
 # gimp
 # inkscape
-wf-recorder
+# wf-recorder
 # shotcut
 # lmms
 
 ## Password Management
-keepassxc pass
+# keepassxc pass
 
 ## Chat
-weechat
+# weechat
 
 ## Monitoring
 # wireshark tshark
 
 ## Misc
-wl-clipboard
-wlr-randr
-dbus-x11
-sigma-wvkbd
-neofetch
-lxappearance
-zenity
-setxkbmap
+# wl-clipboard
+# wlr-randr
+# dbus-x11
+# sigma-wvkbd
+# neofetch
+# lxappearance
+# zenity
+# setxkbmap
 
 ## Themes
-sigma-flat-remix-gtk
-adwaita-icon-theme
-papirus-icon-theme
+# sigma-flat-remix-gtk
+# adwaita-icon-theme
+# papirus-icon-theme
 
 ## GL/Rendering
 mesa
@@ -168,33 +168,33 @@ mesa-vulkan-swrast
 # Development
 
 ## Compilers/Interpreters
-python3
-gcc
-g++
-perl
+# python3
+# gcc
+# g++
+# perl
 # openjdk8 openjdk21
 
 ## Linkers
-mold
+# mold
 
 ## LSP
-clang-extra-tools
-py3-lsp-server
+# clang-extra-tools
+# py3-lsp-server
 
 ## Build Systems
-make cmake
+# make cmake
 
 ## Versioning
-git
+# git
 
 ## Debuggers
-gdb
+# gdb
 
 #--------------------------------#
 
 # 1337 h@xx0r
 
-hexedit
+# hexedit
 # aircrack-ng
 # nmap nmap-ncat
 # rustscan
