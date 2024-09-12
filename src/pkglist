@@ -18,7 +18,7 @@ grub-efi
 efibootmgr
 # linux-firmware
 pciutils
-alpine-sdk
+# alpine-sdk
 kmod
 shadow
 
