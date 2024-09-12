@@ -4,16 +4,6 @@ set -e
 
 mkdir -p "$SQUASHFS_DIR"
 
-# Skip installing kernel modules if '/lib/modules' is set up
-if [ ! -d "$SQUASHFS_DIR/lib/modules" ]; then
-	# Install kernel modules
-	cd "$KERNEL_DIR"
-	make INSTALL_MOD_PATH="$SQUASHFS_DIR" modules_install
-	cd "$ROOT_DIR"
-else
-	echo "[*] Skipped installing kernel modules in squashfs, '/lib/modules' exists"
-fi
-
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
