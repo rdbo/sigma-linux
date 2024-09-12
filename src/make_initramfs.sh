@@ -3,4 +3,4 @@
 set -e
 
 kernel_version="$(ls "$SQUASHFS_DIR/lib/modules" | head -n 1)"
-dracut --kver "$kernel_version" -r "$SQUASHFS_DIR" "$INITRAMFS_PATH"
+dracut --force --kver "$kernel_version" -r "$SQUASHFS_DIR" "$INITRAMFS_PATH"

@@ -9,6 +9,9 @@ mkdir -p "$ISO_DIR/boot/grub"
 # Copy boot files to ISO dir
 cp -r "$BOOT_DIR/." "$ISO_DIR/boot/."
 
+# Make backup of original vmlinuz used in the ISO
+cp "$BOOT_DIR/vmlinuz-edge" "$ISO_DIR/boot/vmlinuz-sigma"
+
 # Copy squashfs to ISO dir
 cp "$SQUASHFS_PATH" "$ISO_DIR/rootfs.squashfs"
 
@@ -48,9 +51,9 @@ background_image /boot/grub/wallpaper.png
 
 menuentry "$SYSNAME" {
 	echo "Loading vmlinuz..."
-	linux /boot/vmlinuz vt.color=0x0B vt.default_red=$vt_default_red vt.default_grn=$vt_default_grn vt.default_blu=$vt_default_blu splash
+	linux /boot/vmlinuz-sigma vt.color=0x0B vt.default_red=$vt_default_red vt.default_grn=$vt_default_grn vt.default_blu=$vt_default_blu splash
 	echo "Loading initrd..."
-	initrd /boot/initramfs
+	initrd /boot/initramfs-sigma
 }
 EOF
 
