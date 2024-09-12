@@ -6,6 +6,9 @@ mkdir -p "$ISO_DIR"
 mkdir -p "$ISO_DIR/boot"
 mkdir -p "$ISO_DIR/boot/grub"
 
+# Copy boot files to ISO dir
+cp -r "$BOOT_DIR/." "$ISO_DIR/boot/."
+
 # Copy squashfs to ISO dir
 cp "$SQUASHFS_PATH" "$ISO_DIR/rootfs.squashfs"
 
