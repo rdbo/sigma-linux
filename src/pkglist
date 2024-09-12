@@ -16,8 +16,8 @@ grub
 grub-bios
 grub-efi
 efibootmgr
-linux-edge
-dracut # initramfs generator
+dracut dracut-modules # initramfs generator
+linux-edge # will automatically pick the linux firmware
 # linux-firmware
 pciutils
 # alpine-sdk
