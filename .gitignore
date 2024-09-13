@@ -1,6 +1,6 @@
 *.swp
 aports/
-cache/
+cache*/
 out/
 profile/repo
 profile/apk/sigma-rootfs/rootfs.tar.gz
