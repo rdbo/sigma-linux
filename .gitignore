@@ -4,3 +4,4 @@ cache*/
 out/
 profile/repo
 profile/apk/sigma-rootfs/rootfs.tar.gz
+src/config.override.sh

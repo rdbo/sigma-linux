@@ -23,9 +23,17 @@ export INITRAMFS_MODPROBE="iso9660,squashfs,overlay,ext4,cdrom,usb-storage,loop,
 export REPOS_FILE="$SRC_DIR/repositories"
 export SQUASHFS_DIR="$CACHE_DIR/squashfs"
 export SQUASHFS_PATH="$CACHE_DIR/rootfs.squashfs"
+export SQUASHFS_COMP="xz"
 export ISO_DIR="$CACHE_DIR/iso"
 export ISO_PATH="$CACHE_DIR/$PROFILENAME-linux.iso"
 export ISO_VOLID="sigma-linux-cdrom"
+
+# Allow overriding the default variables through a
+# separate script, which is added to gitignore
+if [ -f "$SRC_DIR/config.override.sh" ]; then
+	echo "[*] Loaded config overrides"
+	. "$SRC_DIR/config.override.sh"
+fi
 
 echo "Config:"
 echo " - PROFILENAME: $PROFILENAME"
@@ -49,6 +57,7 @@ echo " - INITRAMFS_MODPROBE: $INITRAMFS_MODPROBE"
 echo " - REPOS_FILE: $REPOS_FILE"
 echo " - SQUASHFS_DIR: $SQUASHFS_DIR"
 echo " - SQUASHFS_PATH: $SQUASHFS_PATH"
+echo " - SQUASHFS_COMP: $SQUASHFS_COMP"
 echo " - ISO_DIR: $ISO_DIR"
 echo " - ISO_PATH: $ISO_PATH"
 echo " - ISO_VOLID: $ISO_VOLID"

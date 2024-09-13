@@ -148,4 +148,4 @@ rm -rf "$SQUASHFS_DIR/dev"
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
-mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH" -comp xz
+mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH" -comp "$SQUASHFS_COMP"
