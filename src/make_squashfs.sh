@@ -4,6 +4,13 @@ set -e
 
 mkdir -p "$SQUASHFS_DIR"
 
+# Mount filesystems because some packages write to them
+# (e.g /dev/null)
+umount -R "$SQUASHFS_DIR/dev" || true
+rm -rf "$SQUASHFS_DIR/dev" || true
+mkdir -p "$SQUASHFS_DIR/dev"
+mount --rbind /dev "$SQUASHFS_DIR/dev"
+
 # Skip installing kernel modules if '/lib/modules' is set up
 if [ ! -d "$SQUASHFS_DIR/lib/modules" ]; then
 	# Install kernel modules
@@ -134,6 +141,10 @@ rc_add seatd default
 rc_add bluetooth default
 
 rc_add local default # used for start scripts
+
+# Unmount filesystems
+umount -R "$SQUASHFS_DIR/dev"
+rm -rf "$SQUASHFS_DIR/dev"
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
