@@ -17,7 +17,7 @@ else
 fi
 export PS1="$PS1 \[\033[0;37m\]"
 
-# Other
+# other
 alias ls="ls --color=auto"
 
 # create sigma cache folder
