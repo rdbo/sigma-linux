@@ -52,7 +52,7 @@ echo "[*] Making initramfs..."
 ./src/make_initramfs.sh
 
 # Build ISO
-echo "[*] Building ISO..."
-./src/build_iso.sh
+echo "[*] Making ISO..."
+./src/make_iso.sh
 
 echo "[*] Build finished successfully"
