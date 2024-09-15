@@ -21,7 +21,7 @@ mount -t proc none /proc
 mount -t sysfs none /sys
 
 # Read kernel command line params
-set -- $(cat /proc/cmdline)
+set -- \$(cat /proc/cmdline)
 
 echo "Probing kernel modules..."
 probe_modules="$INITRAMFS_MODPROBE"
