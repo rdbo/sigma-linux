@@ -6,8 +6,8 @@ mkdir -p "$SQUASHFS_DIR"
 
 # Mount filesystems because some packages write to them
 # (e.g /dev/null)
-umount -R "$SQUASHFS_DIR/dev" || true
-rm -rf "$SQUASHFS_DIR/dev" || true
+umount -R "$SQUASHFS_DIR/dev" > /dev/null 2>&1 || true
+rm -rf "$SQUASHFS_DIR/dev" > /dev/null 2>&1 || true
 mkdir -p "$SQUASHFS_DIR/dev"
 mount --rbind /dev "$SQUASHFS_DIR/dev"
 
