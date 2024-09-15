@@ -26,12 +26,6 @@ mkdir -p "$HOME/.cache/sigma"
 # setup gtk theme
 export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
 
-# setup rust stuff
-. "$HOME/.cargo/env"
-
-# setup go stuff
-export PATH="$HOME/go/bin:$PATH"
-
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ]; then
 #	exec dbus-launch river
