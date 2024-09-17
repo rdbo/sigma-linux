@@ -2,7 +2,8 @@
 
 # linux-sigma
 if [ ! -d "$APKTEMP_DIR/linux-sigma" ]; then
-	cp -r "$APK_DIR/linux-sigma/" "$APKTEMP_DIR/"
+	mkdir -p "$APKTEMP_DIR/linux-sigma"
+	cp -r "$APK_DIR/linux-sigma/." "$APKTEMP_DIR/linux-sigma/."
 	cd "$APKTEMP_DIR/linux-sigma"
 fi
 
