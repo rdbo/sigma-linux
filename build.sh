@@ -28,10 +28,6 @@ else
 	echo "[*] Skipped making squashfs, file '$SQUASHFS_PATH' exists"
 fi
 
-# Make initramfs
-echo "[*] Making initramfs..."
-./src/make_initramfs.sh
-
 # Build ISO
 echo "[*] Making ISO..."
 ./src/make_iso.sh
