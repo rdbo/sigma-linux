@@ -16,7 +16,7 @@ grub
 grub-bios
 grub-efi
 efibootmgr
-linux-firmware
+linux-firmware-any
 pciutils
 alpine-sdk
 kmod
