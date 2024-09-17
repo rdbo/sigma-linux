@@ -34,7 +34,10 @@ else
 	echo "[*] Skipped building kernel, file '$KERNEL_DIR/.config' exists"
 fi
 
-# Build local repository
+# Setup APKs and build local repository
+echo "[*] Setting up APKs..."
+doas -u "$BUILD_USER" -- ./src/setup_apks.sh
+
 echo "[*] Building local repository..."
 doas -u "$BUILD_USER" -- ./src/build_repo.sh
 
