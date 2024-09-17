@@ -11,6 +11,13 @@ rm -rf "$SQUASHFS_DIR/dev" > /dev/null 2>&1 || true
 mkdir -p "$SQUASHFS_DIR/dev"
 mount --rbind /dev "$SQUASHFS_DIR/dev"
 
+# Mount temporary boot dir, which will be populated by the
+# kernel and initramfs packages
+umount -R "$SQUASHFS_DIR/boot" > /dev/null 2>&1 || true
+rm -rf "$SQUASHFS_DIR/boot" > /dev/null 2>&1 || true
+mkdir -p "$BOOT_DIR" "$SQUASHFS_DIR/boot"
+mount --rbind "$BOOT_DIR" "$SQUASHFS_DIR/boot"
+
 # Skip installing kernel modules if '/lib/modules' is set up
 if [ ! -d "$SQUASHFS_DIR/lib/modules" ]; then
 	# Install kernel modules
@@ -145,6 +152,9 @@ rc_add local default # used for start scripts
 # Unmount filesystems
 umount -R "$SQUASHFS_DIR/dev"
 rm -rf "$SQUASHFS_DIR/dev"
+
+umount -R "$SQUASHFS_DIR/boot"
+rm -rf "$SQUASHFS_DIR/boot"
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
