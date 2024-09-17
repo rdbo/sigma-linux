@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# linux-sigma
+if [ ! -d "$APKTEMP_DIR/linux-sigma" ]; then
+	cp -r "$APK_DIR/linux-sigma/" "$APKTEMP_DIR/"
+	cd "$APKTEMP_DIR/linux-sigma"
+fi
+
 # sigma-conf
 if [ ! -d "$APKTEMP_DIR/sigma-conf" ]; then
 	mkdir -p "$APKTEMP_DIR/sigma-conf/"
