@@ -7,7 +7,7 @@ mkdir -p "$ISO_DIR/boot"
 mkdir -p "$ISO_DIR/boot/grub"
 
 # Copy vmlinuz to ISO dir
-cp "$KERNEL_DIR/arch/$TARGET_ARCH/boot/bzImage" "$ISO_DIR/boot/vmlinuz"
+cp "$KERNEL_DIR/arch/$DISTRO_TARGET_ARCH/boot/bzImage" "$ISO_DIR/boot/vmlinuz"
 
 # NOTE: The modules won't be installed because the kernel is configured
 #       so that the required modules are builtin
