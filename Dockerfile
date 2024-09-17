@@ -3,8 +3,9 @@ FROM alpine:edge
 # Setup packages
 RUN printf "http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing\n" > /etc/apk/repositories
 RUN apk update
-RUN apk add gcc openssl-dev elfutils-dev xorriso grub grub-efi grub-bios git gpg make musl-dev flex bison linux-headers perl mtools squashfs-tools alpine-sdk doas netpbm netpbm-extras
-RUN apk add gmp-dev mpc1-dev mpfr-dev # Optional kernel dependencies
+RUN apk add gcc openssl-dev elfutils-dev git gpg make musl-dev flex bison linux-headers perl mtools netpbm netpbm-extras bc diffutils findutils installkernel linux-firmware-any python3 sed xz gmp-dev mpc1-dev mpfr-dev # Kernel dependencies
+RUN apk add doas alpine-sdk # Alpine SDK and build tools
+RUN apk add squashfs-tools xorriso grub grub-efi grub-bios # ISO dependencies
 
 # Create build user
 RUN adduser -D build -G abuild
