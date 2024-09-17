@@ -25,7 +25,6 @@ makedepends="$_depends_dev
 	findutils
 	installkernel
 	linux-headers
-	linux-firmware-any
 	openssl-dev
 	python3
 	sed
