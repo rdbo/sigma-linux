@@ -18,16 +18,6 @@ rm -rf "$SQUASHFS_DIR/boot" > /dev/null 2>&1 || true
 mkdir -p "$BOOT_DIR" "$SQUASHFS_DIR/boot"
 mount --rbind "$BOOT_DIR" "$SQUASHFS_DIR/boot"
 
-# Skip installing kernel modules if '/lib/modules' is set up
-if [ ! -d "$SQUASHFS_DIR/lib/modules" ]; then
-	# Install kernel modules
-	cd "$KERNEL_DIR"
-	make INSTALL_MOD_PATH="$SQUASHFS_DIR" modules_install
-	cd "$ROOT_DIR"
-else
-	echo "[*] Skipped installing kernel modules in squashfs, '/lib/modules' exists"
-fi
-
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
