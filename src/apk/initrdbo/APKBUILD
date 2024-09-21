@@ -1,0 +1,30 @@
+# Maintainer: Rdbo <rdbodev@gmail.com>
+pkgname=initrdbo
+pkgver=0.1.0
+pkgrel=0
+pkgdesc="A simple initramfs generator"
+url="https://github.com/rdbo/initrdbo"
+arch="all"
+license="AGPL-3.0"
+depends="
+	busybox
+	cryptsetup
+	lddtree
+	cpio
+	xz
+	"
+triggers="$pkgname.trigger=/lib/modules/*"
+source="https://github.com/rdbo/initrdbo/archive/refs/tags/$pkgver.tar.gz"
+
+provides="initramfs-generator"
+provider_priority=1 # must be lower than mkinitfs
+
+build() {
+	return 0
+}
+
+package() {
+	install -D -m 755 "initrdbo" "$pkgdir/sbin/initrdbo"
+	mkdir -p "$pkgdir/etc/initrdbo.d"
+	cp -r "initrdbo.d/." "$pkgdir/etc/initrdbo.d/."
+}

@@ -16,6 +16,7 @@ grub
 grub-bios
 grub-efi
 efibootmgr
+initrdbo
 linux-sigma
 linux-firmware-any
 pciutils

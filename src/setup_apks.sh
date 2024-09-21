@@ -4,7 +4,12 @@
 if [ ! -d "$APKTEMP_DIR/linux-sigma" ]; then
 	mkdir -p "$APKTEMP_DIR/linux-sigma"
 	cp -r "$APK_DIR/linux-sigma/." "$APKTEMP_DIR/linux-sigma/."
-	cd "$APKTEMP_DIR/linux-sigma"
+fi
+
+# initrdbo
+if [ ! -d "$APKTEMP_DIR/initrdbo" ]; then
+	mkdir -p "$APKTEMP_DIR/initrdbo"
+	cp -r "$APK_DIR/initrdbo/." "$APKTEMP_DIR/initrdbo/."
 fi
 
 # sigma-conf
@@ -20,13 +25,11 @@ fi
 # sigma-firacode-nerd
 if [ ! -d "$APKTEMP_DIR/sigma-firacode-nerd" ]; then
 	cp -r "$APK_DIR/sigma-firacode-nerd/" "$APKTEMP_DIR/"
-	cd "$APKTEMP_DIR/sigma-firacode-nerd"
 fi
 
 # sigma-material-symbols
 if [ ! -d "$APKTEMP_DIR/sigma-material-symbols" ]; then
 	cp -r "$APK_DIR/sigma-material-symbols/" "$APKTEMP_DIR/"
-	cd "$APKTEMP_DIR/sigma-material-symbols"
 fi
 
 # sigma-sent
@@ -49,7 +52,6 @@ fi
 # sigma-vt323
 if [ ! -d "$APKTEMP_DIR/sigma-vt323" ]; then
 	cp -r "$APK_DIR/sigma-vt323/" "$APKTEMP_DIR/"
-	cd "$APKTEMP_DIR/sigma-vt323"
 fi
 
 # sigma-wvkbd
@@ -62,5 +64,4 @@ fi
 # sigma-flat-remix-gtk
 if [ ! -d "$APKTEMP_DIR/sigma-flat-remix-gtk" ]; then
 	cp -r "$APK_DIR/sigma-flat-remix-gtk/" "$APKTEMP_DIR/"
-	cd "$APKTEMP_DIR/sigma-flat-remix-gtk"
 fi
