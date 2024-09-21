@@ -14,6 +14,7 @@ depends="
 	xz
 	"
 triggers="$pkgname.trigger=/lib/modules/*"
+options="!check"
 source="$pkgname-$pkgver.tar.gz::https://github.com/rdbo/initrdbo/archive/refs/tags/$pkgver.tar.gz"
 
 provides="initramfs-generator"
