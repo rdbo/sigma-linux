@@ -31,6 +31,10 @@ vt_default_red=0x10,0xaa,0x00,0xaa,0x00,0xaa,0x00,0xaa,0x55,0xff,0x55,0xff,0x55,
 vt_default_grn=0x1a,0x00,0xaa,0x55,0x00,0x00,0xaa,0xaa,0x55,0x55,0xff,0xff,0x55,0x55,0xff,0xff
 vt_default_blu=0x20,0x00,0x00,0x00,0xaa,0xaa,0xaa,0xaa,0x55,0x55,0x55,0x55,0xff,0xff,0xc8,0xff
 
+# Get kernel and initramfs names
+vmlinuz="$(ls "$BOOT_DIR/" | grep "^vmlinuz" | tail -1)"
+initramfs="$(ls "$BOOT_DIR" | grep "^initramfs" | tail -1)"
+
 cat <<- EOF > "$ISO_DIR/boot/grub/grub.cfg"
 set timeout=5
 
@@ -46,9 +50,9 @@ background_image /boot/grub/wallpaper.png
 
 menuentry "$SYSNAME" {
 	echo "Loading vmlinuz..."
-	linux /boot/vmlinuz vt.color=0x0B vt.default_red=$vt_default_red vt.default_grn=$vt_default_grn vt.default_blu=$vt_default_blu splash
+	linux /boot/$vmlinuz vt.color=0x0B vt.default_red=$vt_default_red vt.default_grn=$vt_default_grn vt.default_blu=$vt_default_blu splash
 	echo "Loading initrd..."
-	initrd /boot/initramfs
+	initrd /boot/$initramfs
 }
 EOF
 
