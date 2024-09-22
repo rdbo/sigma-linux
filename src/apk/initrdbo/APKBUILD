@@ -29,7 +29,3 @@ package() {
 	mkdir -p "$pkgdir/etc/initrdbo.d"
 	cp -r "initrdbo.d/." "$pkgdir/etc/initrdbo.d/."
 }
-
-sha512sums="
-9fdd88e6094c00e1fd51fdb8212d24a4b0142c102b7bc108beef513c0a8f874f8f0422fbba070ab5a134b8c6bc16ae1b86532a66c1624ca0e0fb22d142a28b4e  initrdbo-0.1.0.tar.gz
-"
