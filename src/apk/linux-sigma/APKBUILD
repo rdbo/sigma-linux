@@ -123,7 +123,7 @@ build() {
 	for i in $_flavors; do
 		cd "$builddir"
 		make ARCH="$_carch" DTC_FLAGS="-@" CC="${CC:-gcc}" \
-			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine"
+			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-rdbo-sigma"
 	done
 }
 
@@ -275,5 +275,5 @@ _doc() {
 sha512sums="
 baa2487954044f991d2ae254d77d14a1f0185dd62c9f0fcaff69f586c9f906823017b8db1c4588f27b076dfa3ebb606929fec859f60ea419e7974330b9289cc2  linux-6.10.tar.xz
 def2d13b3aa0ca2e612d66892914672707824dc47c3ed8b41f31a0b92eb07542ed84f528cc8ce0b855bc21bc08c127fe6cc405a65c2ec7075c9bb8323bc912e4  patch-6.10.10.xz
-7a5ccec5904fee23c29d6b033d9735c329aa19afc201cd0191aba557cd45f63076737d1630201614eeb804b39700e5e6d8107cc665b0c1cb5708b78f6a8b480c  config-sigma.x86_64
+745f5b76fdbb2d21ebdc087fdbd6a9859f32ee38ef693687c0aca2b5fd97d9dec928c74fc10abae4b2ba1e28cfc4ee36bb471aa4dac4ab4286df36a879921ffb  config-sigma.x86_64
 "
