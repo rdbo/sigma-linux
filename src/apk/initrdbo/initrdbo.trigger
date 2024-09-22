@@ -1,6 +1,7 @@
 #!/bin/sh
 
-for flavor in "$@"; do
+for dir in "$@"; do
+	flavor=${dir##*/}
 	release="$(cat "/usr/share/kernel/$flavor/kernel.release")"
 	initramfs_path="/boot/initramfs-$flavor"
 	if [ -f "$initramfs_path" ]; then
