@@ -12,7 +12,7 @@ fi
 if [ ! -d "$APKTEMP_DIR/initrdbo" ]; then
 	mkdir -p "$APKTEMP_DIR/initrdbo"
 	cp -r "$APK_DIR/initrdbo/." "$APKTEMP_DIR/initrdbo/."
-	cd "$APKTEMP_DIR/linux-sigma"
+	cd "$APKTEMP_DIR/initrdbo"
 	abuild checksum
 fi
 
