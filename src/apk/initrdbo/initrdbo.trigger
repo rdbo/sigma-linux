@@ -8,5 +8,6 @@ for flavor in "$@"; do
 		rm "$initramfs_path"
 	fi
 
-	initrdbo -k "$release" "$initramfs_path"
+	# TODO: use 'xz' as the compressor, currently not working
+	initrdbo -k "$release" -z "gzip" "$initramfs_path"
 done
