@@ -13,7 +13,7 @@ depends="
 	cpio
 	xz
 	"
-triggers="$pkgname.trigger=/lib/modules/*"
+triggers="$pkgname.trigger=/usr/share/kernel/*"
 options="!check"
 source="$pkgname-$pkgver.tar.gz::https://github.com/rdbo/initrdbo/archive/refs/tags/$pkgver.tar.gz"
 

@@ -1,10 +1,11 @@
 #!/bin/sh
 
-for i in "$@"; do
-	release=${i##*/}
-	initramfs_path="/boot/initramfs-$release"
+for flavor in "$@"; do
+	release="/usr/share/kernel/$flavor/kernel.release"
+	initramfs_path="/boot/initramfs-$flavor"
 	if [ -f "$initramfs_path" ]; then
-		continue
+		cp "$initramfs_path" "/boot/initramfs-$flavor.old"
+		rm "$initramfs_path"
 	fi
 
 	initrdbo -k "$release" "$initramfs_path"
