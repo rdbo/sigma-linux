@@ -1,7 +1,7 @@
 #!/bin/sh
 
 for flavor in "$@"; do
-	release="/usr/share/kernel/$flavor/kernel.release"
+	release="$(cat "/usr/share/kernel/$flavor/kernel.release")"
 	initramfs_path="/boot/initramfs-$flavor"
 	if [ -f "$initramfs_path" ]; then
 		cp "$initramfs_path" "/boot/initramfs-$flavor.old"
