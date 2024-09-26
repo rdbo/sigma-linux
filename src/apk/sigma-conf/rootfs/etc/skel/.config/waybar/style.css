@@ -13,11 +13,11 @@ tooltip {
     border: 2px solid #132a33;
 }
 
-#workspaces {
+#workspaces, #tags {
     margin: 0;
 }
 
-#workspaces button {
+#workspaces button, #tags button.occupied {
     margin: 0;
     padding: 0 4px;
     color: #00ffc8;
@@ -25,25 +25,29 @@ tooltip {
     border-radius: 0;
 }
 
-#workspaces button:hover {
+#workspaces button:hover, #tags button:hover {
     background: inherit;
     color: #00ffc8;
     background-color: #132a33;
 }
 
-#workspaces button.empty {
+#workspaces button.empty, #tags button {
     color: #007769;
+    margin: 0;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 0;
 }
 
-#workspaces button.focused {
+#workspaces button.focused, #tags button.focused {
     background-color: #132a33;
 }
 
-#workspaces button.active {
+#workspaces button.active, #tags button.focused {
     box-shadow: inset 0 -4px #00ffc8;
 }
 
-#workspaces button.urgent {
+#workspaces button.urgent, #tags button.urgent {
     color: orange;
 }
 
