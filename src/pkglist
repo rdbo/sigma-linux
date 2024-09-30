@@ -80,7 +80,7 @@ sigma-firacode-nerd sigma-vt323 sigma-material-symbols
 font-ubuntu-nerd font-noto-all
 
 ## Desktop
-hyprland hyprland-doc # compositor
+river river-doc # compositor
 waybar waybar-doc # status bar
 fuzzel # dmenu-like
 swaylock # screen locker
