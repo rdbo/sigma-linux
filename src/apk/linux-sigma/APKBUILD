@@ -110,7 +110,7 @@ oldconfig() {
 			|| return 1
 
 		cp "$srcdir"/$_config "$builddir"/.config
-		make -C $builddir \
+		yes "" | make -C $builddir \
 			O="$builddir" \
 			ARCH="$_carch" \
 			listnewconfig oldconfig
