@@ -81,7 +81,8 @@ font-ubuntu-nerd font-noto-all
 
 ## Desktop
 river river-doc # compositor
-waybar waybar-doc # status bar
+# waybar waybar-doc # status bar
+yambar yambar-doc # status bar
 fuzzel # dmenu-like
 swaylock # screen locker
 swww # wallpaper daemon
