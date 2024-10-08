@@ -32,7 +32,8 @@ options="!strip !check" # no tests
 _config=${config:-config-sigma.${CARCH}}
 
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
-source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz"
+source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
+	0001-linux6.11.y-bore5.5.0.patch"
 case $pkgver in
 	*.*.0)	source="$source";;
 	*.*.*)	source="$source
