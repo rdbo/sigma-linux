@@ -18,7 +18,7 @@ grub-efi
 efibootmgr
 initrdbo
 linux-sigma
-linux-firmware-any
+linux-firmware
 pciutils
 alpine-sdk
 kmod
