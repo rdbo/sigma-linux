@@ -28,6 +28,6 @@ export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
 
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ]; then
-#	exec dbus-launch river
-	exec dbus-launch Hyprland
+	exec dbus-launch river
+#	exec dbus-launch Hyprland
 fi

@@ -119,7 +119,7 @@ xrdb "$HOME/.Xresources"
 riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
 /usr/libexec/pipewire-launcher # Starts pipewire and waits for it to initialize
 riverctl spawn 'mako'
-riverctl spawn 'yambar'
+riverctl spawn 'waybar'
 riverctl spawn 'easyeffects --gapplication-service'
 riverctl spawn 'sigma-vkbd --hidden'
 swww init
