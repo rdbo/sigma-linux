@@ -151,6 +151,7 @@ rm -rf "$SQUASHFS_DIR/boot"
 if [ -e "$FIRMWARE_DIR" ]; then
 	echo "[*] Skipped firmware cleanup, '$FIRMWARE_DIR' exists"
 else
+	echo "[*] Cleaning up unused firmware for squashfs..."
 	mv "$SQUASHFS_DIR/lib/firmware" "$FIRMWARE_DIR"
 	mkdir -p "$SQUASHFS_DIR/lib/firmware"
 	# TODO: Make sure that `modinfo` cannot fail. It mail fail due to
