@@ -157,7 +157,7 @@ else
 	#       the host kernel not being the same as the installer kernel
 	find "$SQUASHFS_DIR"/lib/modules -type f -name "*.ko*" | xargs modinfo -F firmware | sort -u | while read fw; do
 		for fname in "$fw" "$fw.zst" "$fw.xz"; do
-			if [ -e "${basedir}/lib/firmware/$fname" ]; then
+			if [ -e "${FIRMWARE_DIR}/$fname" ]; then
 				install -pD "${FIRMWARE_DIR}/$fname" "$SQUASHFS_DIR"/lib/firmware/$fname
 				break
 			fi
