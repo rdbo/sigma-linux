@@ -4,7 +4,7 @@ alpine-baselayout
 alpine-baselayout-data
 alpine-keys
 apk-tools
-busybox
+busybox busybox-doc
 ca-certificates-bundle
 musl
 openrc
@@ -40,7 +40,7 @@ xz zstd zip unzip
 # lighttpd
 rsync
 diffutils
-tmux
+tmux tmux-doc
 jq
 ripgrep
 wireless-tools
@@ -61,8 +61,6 @@ bluez
 
 ## Docs
 mandoc man-pages
-busybox-doc
-tmux-doc
 
 ## Configuration
 sigma-conf
