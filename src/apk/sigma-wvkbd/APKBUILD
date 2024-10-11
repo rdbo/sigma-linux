@@ -2,7 +2,7 @@
 # Maintainer: Rdbo <rdbodev@gmail.com>
 
 pkgname="sigma-wvkbd"
-pkgver="0.14.4_git20240401"
+pkgver="0.15.0_git20241011"
 pkgrel=0
 pkgdesc="wvkbd built for Sigma Linux"
 url="https://github.com/rdbo/sigma-linux"
@@ -10,7 +10,7 @@ arch="all"
 license="GPL-3.0"
 depends="libxkbcommon glib pango cairo"
 makedepends="fontconfig libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev musl-dev"
-_commit="e98a32e426ef7b0cc0d977a0151be88eacb970a3"
+_commit="6136148454175031f2455ab638a7671f5e454adc"
 source="https://github.com/rdbo/sigma-wvkbd/archive/$_commit/sigma-wvkbd-$_commit.tar.gz"
 options="!check"
 
