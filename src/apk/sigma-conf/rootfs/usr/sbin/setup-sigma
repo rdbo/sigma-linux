@@ -110,7 +110,7 @@ mount "$efi_partition" "$newroot/boot/efi"
 echo "Mounted root filesystem at: $newroot"
 
 echo "Copying files..."
-cp -r /squash/. "$newroot/"
+cp -r /live/. "$newroot/"
 
 echo "Mounting pseudo filesystems on new root..."
 mkdir -p "$newroot/dev" "$newroot/proc"
