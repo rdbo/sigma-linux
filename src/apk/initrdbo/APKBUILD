@@ -1,6 +1,6 @@
 # Maintainer: Rdbo <rdbodev@gmail.com>
 pkgname=initrdbo
-pkgver=0.3.1
+pkgver=0.3.2
 pkgrel=0
 pkgdesc="A simple initramfs generator"
 url="https://github.com/rdbo/initrdbo"
