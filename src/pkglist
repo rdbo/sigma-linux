@@ -86,7 +86,8 @@ swaylock # screen locker
 swww # wallpaper daemon
 
 ## Terminal
-rio foot
+# rio
+foot
 
 ## Text Editing
 vim helix tree-sitter-grammars
