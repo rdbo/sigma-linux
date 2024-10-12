@@ -4,7 +4,7 @@ pkgver=0.3.3
 pkgrel=0
 pkgdesc="A simple initramfs generator"
 url="https://github.com/rdbo/initrdbo"
-arch="all"
+arch="noarch"
 license="AGPL-3.0"
 depends="
 	busybox
