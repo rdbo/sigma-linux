@@ -17,7 +17,7 @@ grub-bios
 grub-efi
 efibootmgr
 initrdbo
-linux-sigma
+linux-sigma linux-sigma-dev
 linux-firmware
 pciutils
 alpine-sdk
