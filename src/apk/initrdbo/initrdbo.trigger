@@ -9,6 +9,5 @@ for dir in "$@"; do
 		rm "$initramfs_path"
 	fi
 
-	# TODO: use 'xz' as the compressor, currently not working
-	initrdbo -k "$release" -z "gzip" "$initramfs_path"
+	initrdbo -k "$release" "$initramfs_path"
 done
