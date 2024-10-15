@@ -1,8 +1,8 @@
 # Cursor
 
-cursor = '▇'
-blinking-cursor = false
-hide-cursor-when-typing = false
+[cursor]
+shape = "block"
+blinking = false
 
 # Use fork
 
