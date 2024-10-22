@@ -39,6 +39,7 @@ cat <<- EOF > "$ISO_DIR/boot/grub/grub.cfg"
 set timeout=5
 
 insmod all_video
+insmod xzio
 loadfont /boot/grub/fonts/unicode.pf2
 
 insmod gfxterm
