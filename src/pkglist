@@ -15,6 +15,7 @@ lsblk
 grub
 grub-bios
 grub-efi
+xorriso
 efibootmgr
 initrdbo
 linux-sigma linux-sigma-dev
