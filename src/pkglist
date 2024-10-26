@@ -16,6 +16,7 @@ grub
 grub-bios
 grub-efi
 xorriso
+mtools
 efibootmgr
 initrdbo
 linux-sigma linux-sigma-dev
