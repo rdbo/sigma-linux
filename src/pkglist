@@ -38,7 +38,7 @@ patch entr
 7zip
 xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 # yt-dlp
-xz zstd zip unzip
+xz zstd zip unzip gzip
 # lighttpd
 rsync
 diffutils
