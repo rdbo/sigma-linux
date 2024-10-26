@@ -11,7 +11,7 @@ depends="
 	cryptsetup
 	lddtree
 	cpio
-	xz
+	gzip
 	mount
 	"
 triggers="$pkgname.trigger=/usr/share/kernel/*"
