@@ -132,7 +132,7 @@ cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/
 sed -i -E 's|/boot||g' "$newroot/boot/grub/grub.cfg"
 root_findfs="$(get_dev_id "$root_partition")"
 sed -i -E "s|root=[^[:space:]]+|root=UUID=$root_findfs|" "$newroot/boot/grub/grub.cfg"
-cp /cdrom/boot/vmlinuz* /cdrom/boot/config* /cdrom/boot/initramfs* /cdrom/System.map* "$newroot/boot/"
+cp /cdrom/boot/vmlinuz* /cdrom/boot/config* /cdrom/boot/initramfs* /cdrom/boot/System.map* "$newroot/boot/"
 
 echo "Setting up /etc/fstab..."
 boot_id="$(get_dev_id "$boot_partition")"
