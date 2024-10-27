@@ -101,6 +101,7 @@ riverctl map normal Super+Shift 0 set-view-tags $all_tags
 riverctl map normal Super E spawn 'sigma-filemgr'
 riverctl map normal Super P spawn 'sigma-launcher'
 riverctl map normal Super Print spawn 'sigma-screenshot'
+riverctl map normal Super Print spawn 'sigma-screenshot 3'
 
 riverctl map normal Super+Shift Return spawn "sigma-term"
 riverctl map normal Super+Shift Escape spawn 'sigma-change-resolution'
