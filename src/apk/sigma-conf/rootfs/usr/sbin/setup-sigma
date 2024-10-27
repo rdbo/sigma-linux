@@ -60,7 +60,7 @@ done
 read -p "[p] Use full disk encryption? (y/n): " usefde
 usefde="$(printf "$usefde" | awk '{ print tolower($0) }')"
 
-read -p "[p] Fill drive with random bytes (y/n)? " filldrive
+read -p "[p] Fill drive with random bytes? (y/n): " filldrive
 filldrive="$(printf "$filldrive" | awk '{ print tolower($0) }')"
 
 echo
