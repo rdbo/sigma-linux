@@ -46,6 +46,7 @@ tmux tmux-doc
 jq
 ripgrep
 wireless-tools
+btop
 
 ## Memory
 earlyoom zram-init
