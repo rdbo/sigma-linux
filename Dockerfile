@@ -30,3 +30,5 @@ RUN git config --global http.postBuffer 1048576000
 RUN git config --global http.version HTTP/1.1
 
 WORKDIR /app
+
+ENTRYPOINT ["/bin/sh"]
