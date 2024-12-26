@@ -1,12 +1,12 @@
 name: 'Container'
 description: 'Runs the Dockerfile for Sigma Linux'
 inputs:
-  run:
-    description: 'Shell commands to run'
+  exec:
+    description: 'Shell command to run'
     required: true
     default: './build.sh'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ run }}
+    - ${{ exec }}
