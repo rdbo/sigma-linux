@@ -140,6 +140,7 @@ keepassxc pass
 
 ## Chat
 weechat
+simplex-chat
 
 ## Monitoring
 # wireshark tshark
