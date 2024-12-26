@@ -4,7 +4,7 @@ inputs:
   exec:
     description: 'Shell command to run'
     required: true
-    default: './build.sh'
+    default: './build.sh && cp /app/build/sigma-linux.iso /github/workspace'
 runs:
   using: 'docker'
   image: 'Dockerfile'

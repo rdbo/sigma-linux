@@ -6,8 +6,13 @@ jobs:
     container-job:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
+            - name: Checkout Code
               uses: actions/checkout@v4
-            - name: Container build step
+            - name: Container Build Step
               uses: ./
               id: container
+            - name: Upload Build Artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: workspace_artifacts
+                path: ${{ github.workspace }}
