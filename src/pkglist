@@ -47,6 +47,7 @@ jq
 ripgrep
 wireless-tools
 btop
+bandwhich
 
 ## Memory
 earlyoom zram-init
