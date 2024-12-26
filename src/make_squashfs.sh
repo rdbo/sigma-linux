@@ -18,6 +18,10 @@ rm -rf "$SQUASHFS_DIR/boot" > /dev/null 2>&1 || true
 mkdir -p "$BOOT_DIR" "$SQUASHFS_DIR/boot"
 mount --rbind "$BOOT_DIR" "$SQUASHFS_DIR/boot"
 
+# Disable GRUB triggers since they
+# interfere with our GRUB config
+echo 'disable_trigger=1' > "$SQUASHFS_DIR/etc/upgrade-grub.conf"
+
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
