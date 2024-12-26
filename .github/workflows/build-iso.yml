@@ -14,5 +14,6 @@ jobs:
             - name: Upload Build Artifacts
               uses: actions/upload-artifact@v4
               with:
-                name: workspace_artifacts
-                path: ${{ github.workspace }}
+                name: sigma-linux
+                path: ${{ github.workspace }}/cache/sigma-linux.iso
+                compression-level: 0
