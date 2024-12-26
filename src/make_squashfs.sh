@@ -20,6 +20,7 @@ mount --rbind "$BOOT_DIR" "$SQUASHFS_DIR/boot"
 
 # Disable GRUB triggers since they
 # interfere with our GRUB config
+mkdir -p "$SQUASHFS_DIR/etc"
 echo 'disable_trigger=1' > "$SQUASHFS_DIR/etc/upgrade-grub.conf"
 
 pkgs="$(cat "$SRC_DIR/pkglist" | sed 's/#.*//g' | tr '\n' ' ')"
@@ -64,7 +65,6 @@ For more information about the distribution, see:
 
 EOF
 
-mkdir -p "$SQUASHFS_DIR/etc"
 echo "$PROFILENAME" > "$SQUASHFS_DIR/etc/hostname"
 
 > "$SQUASHFS_DIR/etc/fstab"
