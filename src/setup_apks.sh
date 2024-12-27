@@ -71,6 +71,6 @@ if [ ! -d "$APKTEMP_DIR/sigma-flat-remix-gtk" ]; then
 fi
 
 # simplex-chat
-if [ ! -d "$APKTEMP_DIR/sigma-firacode-nerd" ]; then
+if [ ! -d "$APKTEMP_DIR/simplex-chat" ]; then
 	cp -r "$APK_DIR/simplex-chat/" "$APKTEMP_DIR/"
 fi
