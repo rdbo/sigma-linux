@@ -123,5 +123,4 @@ riverctl spawn 'mako'
 riverctl spawn 'waybar'
 riverctl spawn 'easyeffects --gapplication-service'
 riverctl spawn 'sigma-vkbd --hidden'
-swww init
-swww img -t none "$SIGMA_CONFIG_DIR/background"
+swaybg -i "$SIGMA_CONFIG_DIR/background"
