@@ -1,0 +1,29 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+pkgname="sigma-dwl"
+pkgver="0.7"
+pkgrel=0
+pkgdesc="dwl built for Sigma Linux"
+url="https://github.com/rdbo/sigma-dwl"
+arch="all"
+license="GPL-3.0"
+makedepends="wayland-dev wlroots-dev libinput-dev"
+_commit="fe6e6f239cd3579ff7f40548da8a7f604368a528"
+source="
+	https://github.com/rdbo/sigma-dwl/archive/$_commit/sigma-dwl-$_commit.tar.gz
+	config.h"
+options="!check"
+
+build() {
+	make -C "$srcdir/$pkgname-$_commit"
+}
+
+package() {
+	local wrk="$srcdir/$pkgname-$_commit"
+	install -D -m755 "$wrk/dwl" -t "$pkgdir/usr/bin/"
+	install -D -m644 "$wrk/dwl.1" -t "$pkgdir/usr/share/man/man1/"
+	gzip "$pkgdir/usr/share/man/man1/dwl.1"
+
+	make -C "$wrk" clean
+	install -D -m755 "$wrk" "$pkgdir/usr/src/$pkgname"
+}
