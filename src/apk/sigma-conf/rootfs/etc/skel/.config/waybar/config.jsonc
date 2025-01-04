@@ -2,7 +2,7 @@
     "height": 26,
     "spacing": 10,
 
-    "modules-left": ["river/tags"],
+    "modules-left": ["dwl/tags"],
     "modules-center": ["clock"],
     "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery", "custom/audio#sink", "custom/audio#source", "custom/vkbd", "custom/power"],
 
