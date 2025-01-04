@@ -28,7 +28,7 @@ export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
 
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ]; then
-#	exec dbus-launch river
-#	exec dbus-launch Hyprland
-	exec dbus-launch dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
+	exec dbus-launch river
+	# exec dbus-launch Hyprland
+	# exec dbus-launch dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
 fi
