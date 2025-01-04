@@ -118,9 +118,4 @@ xrdb "$HOME/.Xresources"
 
 # Start programs
 riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
-/usr/libexec/pipewire-launcher # Starts pipewire and waits for it to initialize
-riverctl spawn 'mako'
-riverctl spawn 'waybar'
-riverctl spawn 'easyeffects --gapplication-service'
-riverctl spawn 'sigma-vkbd --hidden'
-swaybg -i "$SIGMA_CONFIG_DIR/background"
+. "$SIGMA_CONFIG_DIR/startup.sh"
