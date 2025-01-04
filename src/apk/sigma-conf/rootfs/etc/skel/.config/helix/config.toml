@@ -7,4 +7,4 @@ true-color = true
 enable = true
 
 [editor.file-picker]
-hidden = true
+hidden = false
