@@ -1,7 +1,7 @@
 # Contributor: Rdbo <rdbodev@gmail.com>
 # Maintainer: Rdbo <rdbodev@gmail.com>
 pkgname=simplex-chat
-pkgver=6.2.1
+pkgver=6.2.3
 pkgrel=0
 pkgdesc="A messaging network without user identifiers"
 url="https://github.com/simplex-chat/simplex-chat"
@@ -55,7 +55,7 @@ package() {
 }
 
 sha512sums="
-8b0604fbfd9c7c9175eecb7ce61569098edafee61b64bda003f3f61651a12aa8d82b1f20a12b4d940966d7992fe79cc282f982128e570301138460c3538f8658  simplex-chat-6.2.1.tar.gz
+27217f23136c5ef1c052cf0ab5f1eea9f9998a8eb9aa3ea2c915f90aac9ed38bf1b39359b19c371d2992518af3f73c3268ad160414a91ad11e9f2257cd61cbef  simplex-chat-6.2.3.tar.gz
 3e7594db5a255acfae2acf4b105483920c70aca0a0782d02b0c4521c239d175b385c66f4c3cf3f09cf6b2a75a3882d541f1eb2d88044333e8ece4cd985672d87  ghc-9.6.3.tar.xz
 3d34822c1eaf378f54839176d49b69a66c2dcb6d47b87ba278beea63f928d1395a9b4894b2f5c95d3646fc070c8d7e1b76b97b86f50f7b4b23c93b67c14d38bc  cabal-3.10.1.0.tar.xz
 "
