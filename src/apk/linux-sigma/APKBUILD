@@ -81,6 +81,7 @@ prepare() {
 
 	# first apply patches in specified order
 	for i in $source; do
+		local i="$(echo "$i" | sed -E 's|.*/||g')" # Fix for URL patches
 		case $i in
 		*.patch)
 			msg "Applying $i..."
