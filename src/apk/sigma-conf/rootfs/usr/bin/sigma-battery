@@ -64,7 +64,7 @@ fi
 if [ "$1" = "waybar" ]; then
 	text=""
 	alt=""
-	tooltip="<span color='#00ffc8'>battery</span>: $BATTERY\\n<span color='#00ffc8'>charge</span>:  ${CHARGE}%"
+	tooltip="<span color='#00ffc8'>battery</span>:  $BATTERY\\n<span color='#00ffc8'>charge</span>:   ${CHARGE}%\\n<span color='#00ffc8'>plugged</span>:  ${PLUGGED}\\n<span color='#00ffc8'>charging</span>: ${CHARGING}"
 	class=""
 	percentage=""
 
