@@ -98,7 +98,8 @@ foot
 vim helix tree-sitter-grammars
 
 ## Browser
-luakit luakit-doc
+# luakit luakit-doc
+firefox
 
 ## Notifications
 mako
