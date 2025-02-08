@@ -82,7 +82,8 @@ sigma-firacode-nerd sigma-vt323 sigma-material-symbols
 font-ubuntu-nerd font-noto-all
 
 ## Desktop
-river river-doc # compositor
+# river river-doc # compositor
+hyprland hyprland-doc
 waybar waybar-doc # status bar
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
