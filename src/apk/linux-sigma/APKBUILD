@@ -33,7 +33,7 @@ _config=${config:-config-sigma.${CARCH}}
 
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
 source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/ef9b6acd95a9fd0b1c11e3b45fb7387f414c626c/patches/stable/linux-6.12-bore/0001-linux6.12.y-bore5.7.15.patch"
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/3e2a217241fadbe058d8dd5dfe8e123f5dc8b88e/patches/stable/linux-6.13-bore/0001-linux6.13.y-bore5.9.6.patch"
 case $pkgver in
 	*.*.0)	source="$source";;
 	*.*.*)	source="$source
