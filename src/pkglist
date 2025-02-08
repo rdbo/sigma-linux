@@ -120,6 +120,7 @@ zathura zathura-pdf-mupdf
 
 ## Mail
 # neomutt
+# thunderbird
 
 ## RSS
 # newsboat
@@ -183,6 +184,7 @@ gcc
 g++
 perl
 # openjdk8 openjdk21
+openjdk23
 
 ## Linkers
 mold
@@ -215,10 +217,10 @@ hexedit
 # john
 # hydra
 # radare2
-# exiftool
+exiftool
 # sqlmap
 # recon-ng
 # bettercap
-# socat
-# arp-scan
+socat
+arp-scan
 tor
