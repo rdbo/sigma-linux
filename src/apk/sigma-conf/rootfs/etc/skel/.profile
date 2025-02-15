@@ -17,14 +17,14 @@ else
 fi
 export PS1="$PS1 \[\033[0;37m\]"
 
-# other
-alias ls="ls --color=auto"
-
-# create sigma cache folder
-mkdir -p "$HOME/.cache/sigma"
-
 # setup gtk theme
 export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
+
+# fix for java apps
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# aliases
+alias ls="ls --color=auto"
 
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ]; then
