@@ -10,6 +10,12 @@ echo
 # setup $PROMPT
 export PROMPT="%B%F{cyan}烈%n@%m:%~ %(#.#.\$) %b%F{white}"
 
+# setup history
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt SHARE_HISTORY
+
 # setup gtk theme
 export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
 
