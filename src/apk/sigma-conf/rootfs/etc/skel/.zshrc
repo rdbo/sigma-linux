@@ -34,3 +34,5 @@ bindkey "^[[1;5C" forward-word
 bindkey "^W" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey "^B" backward-word
+
+bindkey -r '^J'
