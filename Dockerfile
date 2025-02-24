@@ -7,6 +7,7 @@ RUN apk add gcc openssl-dev elfutils-dev git gpg make musl-dev flex bison linux-
 RUN apk add doas alpine-sdk # Alpine SDK and build tools
 RUN apk add squashfs-tools xorriso grub grub-efi grub-bios # ISO dependencies
 RUN apk add shadow
+RUN apk add ruby tar
 
 # Create build user
 RUN adduser -D build -G abuild
