@@ -31,7 +31,7 @@ projects.each do |project|
   end
 
   puts "Downloading '#{project}'..."
-  `git clone --recursive --depth=1 "https://github.com/rdbo/#{project}" "#{archives_dir}/#{project}"`
+  `git clone --recurse-submodules --shallow-submodules --depth=1 "https://github.com/rdbo/#{project}" "#{archives_dir}/#{project}"`
 end
 
 timestamp = Time.now.strftime "%Y-%m-%d"
