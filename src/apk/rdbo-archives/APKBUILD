@@ -14,7 +14,7 @@ source="archiver.rb"
 
 build() {
 	cd "$srcdir"
-	ruby archive.rb
+	ruby archiver.rb
 }
 
 package() {
