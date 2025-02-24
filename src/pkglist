@@ -181,6 +181,7 @@ mesa-vulkan-swrast
 # Development
 
 ## Compilers/Interpreters
+ruby ruby-doc
 python3
 gcc
 g++
@@ -192,8 +193,8 @@ openjdk23
 mold
 
 ## LSP
-clang-extra-tools
-py3-lsp-server
+# clang-extra-tools
+# py3-lsp-server
 
 ## Build Systems
 make cmake
@@ -226,3 +227,4 @@ exiftool
 socat
 arp-scan
 tor
+rdbo-archives

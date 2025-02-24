@@ -1,0 +1,28 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+
+pkgname="rdbo-archives"
+pkgver="1.0"
+pkgrel=0
+pkgdesc="My doings over the years"
+url="https://github.com/rdbo"
+arch="noarch"
+license="AGPL-3.0"
+options="!check"
+makedepends="git ruby tar xz"
+source="archiver.rb"
+
+build() {
+	cd "$srcdir"
+	ruby archive.rb
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/src/"
+	local latest="$(ls "$srcdir"/rdbo-archives-*.tar.xz | sort | tail -1)"
+	cp "$latest" "$pkgdir/usr/src/"
+}
+
+sha512sums="
+cd72fd1d96876145c0f14d9a6f7c752a2a41e29d558da40e1269b25f7cd38a2b9cdd1491ba8add1285d95c82a9a21ef717946e7b93f2dcd57467fa5ebfa33d7e  archiver.rb
+"

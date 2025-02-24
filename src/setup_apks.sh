@@ -26,6 +26,14 @@ if [ ! -d "$APKTEMP_DIR/sigma-conf" ]; then
 	abuild checksum
 fi
 
+# rdbo-archives
+if [ ! -d "$APKTEMP_DIR/rdbo-archives" ]; then
+	mkdir -p "$APKTEMP_DIR/rdbo-archives"
+	cp -r "$APK_DIR/rdbo-archives/." "$APKTEMP_DIR/rdbo-archives/."
+	cd "$APKTEMP_DIR/rdbo-archives"
+	abuild checksum
+fi
+
 # sigma-firacode-nerd
 if [ ! -d "$APKTEMP_DIR/sigma-firacode-nerd" ]; then
 	cp -r "$APK_DIR/sigma-firacode-nerd/" "$APKTEMP_DIR/"
