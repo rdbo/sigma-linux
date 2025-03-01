@@ -1,7 +1,7 @@
 # Contributor: Rdbo <rdbodev@gmail.com>
 # Maintainer: Rdbo <rdbodev@gmail.com>
 pkgname=simplex-chat
-pkgver=6.2.3
+pkgver=6.2.5
 pkgrel=0
 pkgdesc="A messaging network without user identifiers"
 url="https://github.com/simplex-chat/simplex-chat"
