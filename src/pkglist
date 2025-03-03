@@ -100,7 +100,7 @@ vim helix tree-sitter-grammars
 ## Browser
 # luakit luakit-doc
 # firefox
-# librewolf
+librewolf
 
 ## Notifications
 mako
