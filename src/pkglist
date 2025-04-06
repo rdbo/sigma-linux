@@ -182,7 +182,7 @@ mesa-vulkan-swrast
 # Development
 
 ## Compilers/Interpreters
-ruby ruby-doc
+ruby ruby-doc ruby-rdoc
 python3
 gcc
 g++
