@@ -49,6 +49,9 @@ wireless-tools
 btop
 bandwhich
 
+## Suspend/Hibernate
+acpid zzz
+
 ## Memory
 earlyoom zram-init
 
