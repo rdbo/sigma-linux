@@ -48,6 +48,7 @@ ripgrep
 wireless-tools
 btop
 bandwhich
+timeshift
 
 ## Suspend/Hibernate
 acpid zzz
