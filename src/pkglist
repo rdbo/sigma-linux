@@ -164,6 +164,7 @@ zenity
 setxkbmap
 electrum
 cava
+wev xev
 
 ## Themes
 sigma-flat-remix-gtk
