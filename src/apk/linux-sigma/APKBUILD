@@ -7,7 +7,7 @@
 
 _flavor=sigma
 pkgname=linux-${_flavor}
-pkgver=6.13.7
+pkgver=6.15.2
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
@@ -33,7 +33,8 @@ _config=${config:-config-sigma.${CARCH}}
 
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
 source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/3e2a217241fadbe058d8dd5dfe8e123f5dc8b88e/patches/stable/linux-6.13-bore/0001-linux6.13.y-bore5.9.6.patch"
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.15-bore/0001-linux6.15.0-bore5.9.6.patch
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.15-bore/0002-sched-fair-Prefer-full-idle-SMT-cores.patch"
 case $pkgver in
 	*.*.0)	source="$source";;
 	*.*.*)	source="$source
@@ -273,9 +274,3 @@ _doc() {
 		"$subpkgdir"/usr/share/doc/linux-sigma-doc/
 
 }
-sha512sums="
-a37b1823df7b4f72542f689b65882634740ba0401a42fdcf6601d9efd2e132e5a7650e70450ba76f6cd1f13ca31180f2ccee9d54fe4df89bc0000ade4380a548  linux-6.12.tar.xz
-6e698677adab9d305c992a9850c91fad6e219308efa70d833690359904556579f383e98db0734bd228dac72545c0cd6f522f8374a3430f566ef407743dfd040e  0001-linux6.13.y-bore5.9.6.patch
-fe7f480e8be21dc02af0404dc825a8017b733798cbdea0801772a79b10fb00e6bfdfce5d85e80be88263a1af38604f0b277fbd971eb1fe4052a965a68bfbdd9b  patch-6.12.8.xz
-f20e2225275f5fc57024824bdc8072b4866bf89472391341fb020e37d443aa91afe0b7934c45aa17bfd6e72c1fe409e8c907c48a128373906a9cac5ffc301d1b  config-sigma.x86_64
-"
