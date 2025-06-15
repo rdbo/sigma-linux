@@ -141,8 +141,8 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "swww" "init"
+spawn-at-startup "xwayland-satellite"
+spawn-at-startup "swww-daemon"
 spawn-at-startup "sh" "-c" "swww img -t none \"$SIGMA_CONFIG_DIR/background\""
 spawn-at-startup "mako"
 spawn-at-startup "/usr/libexec/pipewire-launcher"
@@ -166,6 +166,11 @@ screenshot-path "~/Pictures/%Y-%m-%d_%H-%M-%S.png"
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
+
+// Disable hotkey overlay
+hotkey-overlay {
+    skip-at-startup
+}
 
 animations {
     // off
@@ -205,7 +210,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Shift+Return hotkey-overlay-title="Open a Terminal: sigma-term" { spawn "sigma-term"; }
     Mod+P hotkey-overlay-title="Run an Application: sigma-launcher" { spawn "sigma-launcher"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "sigma-lock-screen"; }
+    Mod+Shift+X hotkey-overlay-title="Lock the Screen: sigma-lock-screen" { spawn "sigma-lock-screen"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -287,8 +292,8 @@ binds {
     Mod+I              { focus-workspace-up; }
     Mod+Shift+Page_Down { move-column-to-workspace-down; }
     Mod+Shift+Page_Up   { move-column-to-workspace-up; }
-    Mod+Shift+I         { move-column-to-workspace-down; }
-    Mod+Shift+U         { move-column-to-workspace-up; }
+    Mod+Shift+U         { move-column-to-workspace-down; }
+    Mod+Shift+I         { move-column-to-workspace-up; }
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Shift+Page_Down { move-window-to-workspace-down; }
@@ -405,6 +410,8 @@ binds {
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+Space       { toggle-window-floating; }
+    Mod+Shift+Space { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -434,7 +441,7 @@ binds {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    Mod+Shift+Q { quit; }
+    Mod+Shift+E { quit; }
     // Ctrl+Alt+Delete { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
