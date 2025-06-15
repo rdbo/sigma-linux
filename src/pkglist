@@ -87,8 +87,8 @@ font-ubuntu-nerd font-noto-all
 
 ## Desktop
 # river river-doc # compositor
-# hyprland hyprland-doc
-niri
+hyprland hyprland-doc
+# niri
 waybar waybar-doc # status bar
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
