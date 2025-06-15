@@ -7,7 +7,7 @@
 
 _flavor=sigma
 pkgname=linux-${_flavor}
-pkgver=6.15.2
+pkgver=6.15.0
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
