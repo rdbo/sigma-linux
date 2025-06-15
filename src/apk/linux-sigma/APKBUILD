@@ -125,7 +125,7 @@ build() {
 	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 	for i in $_flavors; do
 		cd "$builddir"
-		make -j$(nproc) ARCH="$_carch" DTC_FLAGS="-@" CC="${CC:-gcc}" \
+		make ARCH="$_carch" DTC_FLAGS="-@" CC="${CC:-gcc}" \
 			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-rdbo-sigma"
 	done
 }
