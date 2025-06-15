@@ -8,7 +8,7 @@ RUN apk add doas alpine-sdk # Alpine SDK and build tools
 RUN apk add squashfs-tools xorriso grub grub-efi grub-bios # ISO dependencies
 RUN apk add shadow
 RUN apk add ruby tar
-RUN apk add clang llvm lld # For kernel built with clang
+# RUN apk add clang llvm lld # For kernel built with clang
 
 # xorg/suckless dependencies
 RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev

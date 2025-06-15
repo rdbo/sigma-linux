@@ -7,7 +7,7 @@
 
 _flavor=sigma
 pkgname=linux-${_flavor}
-pkgver=6.15.2
+pkgver=6.12.33
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
@@ -26,18 +26,15 @@ makedepends="$_depends_dev
 	openssl-dev
 	python3
 	sed
-	xz
-	clang
-	llvm
-	lld"
+	xz"
 
 options="!strip !check" # no tests
 _config=${config:-config-sigma.${CARCH}}
 
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
 source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.15-bore/0001-linux6.15.0-bore5.9.6.patch
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.15-bore/0002-sched-fair-Prefer-full-idle-SMT-cores.patch"
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.12-bore/0001-linux6.12.32-bore5.9.6.patch
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.12-bore/0002-sched-fair-Prefer-full-idle-SMT-cores.patch"
 case $pkgver in
 	*.*.0)	source="$source";;
 	*.*.*)	source="$source
@@ -129,8 +126,7 @@ build() {
 	for i in $_flavors; do
 		cd "$builddir"
 		make -j$(nproc) ARCH="$_carch" DTC_FLAGS="-@" CC="${CC:-gcc}" \
-			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-rdbo-sigma" \
-			LLVM=1 KCFLAGS="-O3"
+			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-rdbo-sigma"
 	done
 }
 
