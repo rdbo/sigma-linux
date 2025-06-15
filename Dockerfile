@@ -10,6 +10,11 @@ RUN apk add shadow
 RUN apk add ruby tar
 RUN apk add clang llvm # For kernel built with clang
 
+# xorg/suckless dependencies
+RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev
+# wvkbd dependencies
+RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev
+
 # Create build user
 RUN adduser -D build -G abuild
 RUN addgroup build wheel
@@ -22,11 +27,6 @@ RUN abuild-keygen -i -a -n
 RUN git config --global http.postBuffer 1048576000
 RUN git config --global http.version HTTP/1.1
 USER root
-
-# suckless dependencies
-RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev
-# wvkbd dependencies
-RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev
 
 # Fix for building helix
 RUN git config --global http.postBuffer 1048576000
