@@ -28,7 +28,8 @@ makedepends="$_depends_dev
 	sed
 	xz
 	clang
-	llvm"
+	llvm
+	lld"
 
 options="!strip !check" # no tests
 _config=${config:-config-sigma.${CARCH}}
