@@ -8,6 +8,7 @@ RUN apk add doas alpine-sdk # Alpine SDK and build tools
 RUN apk add squashfs-tools xorriso grub grub-efi grub-bios # ISO dependencies
 RUN apk add shadow
 RUN apk add ruby tar
+RUN apk add clang llvm # For kernel built with clang
 
 # Create build user
 RUN adduser -D build -G abuild

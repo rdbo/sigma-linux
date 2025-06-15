@@ -192,6 +192,7 @@ ruby ruby-doc ruby-rdoc
 python3
 gcc
 g++
+clang llvm
 perl
 # openjdk8 openjdk21
 openjdk23
