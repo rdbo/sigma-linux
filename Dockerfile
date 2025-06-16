@@ -10,11 +10,8 @@ RUN apk add shadow
 RUN apk add ruby tar
 RUN apk add umount
 # RUN apk add clang llvm lld # For kernel built with clang
-
-# xorg/suckless dependencies
-RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev
-# wvkbd dependencies
-RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev
+RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev # xorg/suckless dependencies
+RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev # wvkbd dependencies
 
 # Create build user
 RUN adduser -D build -G abuild
