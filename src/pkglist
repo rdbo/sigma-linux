@@ -49,6 +49,7 @@ wireless-tools
 btop
 bandwhich
 timeshift
+umount
 
 ## Suspend/Hibernate
 acpid zzz
