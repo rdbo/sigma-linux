@@ -27,7 +27,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 alias ls="ls --color=auto"
 
 # start window manager on tty1
-if [ "$curtty" = "/dev/tty1" ]; then
+if [ "$curtty" = "/dev/tty1" ] && [ $(id -u) -ne 0 ]; then
 	# exec dbus-launch river
 	exec dbus-launch Hyprland
 	# exec dbus-launch dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
