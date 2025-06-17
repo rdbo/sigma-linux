@@ -68,7 +68,7 @@ pulsemixer pulseaudio-ctl pulseaudio-utils
 # easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
 
 ## Bluetooth
-# bluez
+bluez
 
 ## Docs
 # mandoc man-pages
