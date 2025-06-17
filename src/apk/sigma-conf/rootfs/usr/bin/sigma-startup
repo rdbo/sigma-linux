@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. sigma-common
+
+sh "$SIGMA_CONFIG_DIR/startup.sh"

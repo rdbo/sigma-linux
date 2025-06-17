@@ -25,15 +25,6 @@ riverctl set-cursor-warp disabled
 # Keyboard
 riverctl set-repeat 50 300
 
-kbdlayout="$SIGMA_CONFIG_DIR/kbdlayout" # This file is created by the 'sigma-change-kbdlayout' script
-if [ -f "$kbdlayout" ]; then
-  layout="$(cat "$kbdlayout")"
-  if [ ! -z "$layout" ]; then
-    # Restore previously selected keyboard layout
-    riverctl keyboard-layout "$layout"
-  fi
-fi
-
 # Filters
 riverctl rule-add -app-id "wmfloat" float
 
@@ -118,4 +109,4 @@ xrdb "$HOME/.Xresources"
 
 # Start programs
 riverctl spawn 'rivertile -view-padding 6 -outer-padding 6'
-. "$SIGMA_CONFIG_DIR/startup.sh"
+sigma-startup

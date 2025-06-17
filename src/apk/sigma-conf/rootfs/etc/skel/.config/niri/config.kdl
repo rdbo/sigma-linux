@@ -142,15 +142,7 @@ layout {
 // See the binds section below for more spawn examples.
 
 spawn-at-startup "xwayland-satellite"
-spawn-at-startup "swww-daemon"
-spawn-at-startup "sh" "-c" "swww img -t none \"$SIGMA_CONFIG_DIR/background\""
-spawn-at-startup "mako"
-spawn-at-startup "/usr/libexec/pipewire-launcher"
-spawn-at-startup "easyeffects" "--gapplication-service"
-spawn-at-startup "waybar"
-spawn-at-startup "sigma-vkbd" "--hidden"
-spawn-at-startup "sh" "-c" "xrdb \"$HOME/.Xresources\""
-spawn-at-startup "sh" "-c" "[ -f \"$SIGMA_CONFIG_DIR/kbdlayout\" ] && setxkbmap -layout \"$(cat \"$SIGMA_CONFIG_DIR/kbdlayout\")\""
+spawn-at-startup "sigma-startup"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.

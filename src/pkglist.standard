@@ -97,7 +97,7 @@ waybar waybar-doc # status bar
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
 swaylock # screen locker
-swaybg swww # wallpaper daemon
+swaybg # wallpaper daemon
 
 ## Terminal
 # rio
