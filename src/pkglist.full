@@ -25,21 +25,23 @@ pciutils
 alpine-sdk
 kmod
 shadow
+umount
 
 #--------------------------------#
 
 # System
 
 ## Administration Tools
-doas openssh
+doas
+openssh
 curl wget
 gpg
 patch entr
 7zip
 xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
-# yt-dlp
+yt-dlp
 xz zstd zip unzip gzip
-# lighttpd
+lighttpd
 rsync
 diffutils
 tmux tmux-doc
@@ -49,7 +51,6 @@ wireless-tools
 btop
 bandwhich
 timeshift
-umount
 
 ## Suspend/Hibernate
 acpid zzz
@@ -58,7 +59,8 @@ acpid zzz
 earlyoom zram-init
 
 ## Network
-iwd wpa_supplicant dhcpcd openvpn wireguard-tools
+iwd wpa_supplicant dhcpcd
+openvpn wireguard-tools
 
 ## Audio
 pipewire pipewire-pulse pipewire-alsa pipewire-jack
@@ -84,7 +86,8 @@ xwayland xwayland-satellite seatd eudev xrdb
 
 ## Fonts
 sigma-firacode-nerd sigma-vt323 sigma-material-symbols
-font-ubuntu-nerd font-noto-all
+font-ubuntu-nerd
+font-noto-all
 
 ## Desktop
 # river river-doc # compositor
@@ -125,25 +128,25 @@ sigma-sent
 groff
 poppler poppler-utils
 zathura zathura-pdf-mupdf
-# libreoffice libreoffice-gtk
+libreoffice libreoffice-gtk
 
 ## Mail
-# neomutt
-# thunderbird
+neomutt
+thunderbird
 
 ## RSS
-# newsboat
+newsboat
 
 ## Multimedia
 mpv
 ffmpeg
 imagemagick
 nsxiv
-# gimp
-# inkscape
+gimp
+inkscape
 wf-recorder
-# shotcut
-# lmms
+shotcut
+lmms
 
 ## Password Management
 keepassxc pass
@@ -153,7 +156,7 @@ weechat
 simplex-chat
 
 ## Monitoring
-# wireshark tshark
+wireshark tshark
 
 ## Misc
 wl-clipboard
@@ -167,6 +170,7 @@ setxkbmap
 electrum
 cava
 wev xev
+qemu-ui-gtk qemu-system-x86_64 qemu-system-aarch64 ovmf
 
 ## Themes
 sigma-flat-remix-gtk
@@ -190,12 +194,13 @@ mesa-vulkan-swrast
 
 ## Compilers/Interpreters
 ruby ruby-doc ruby-rdoc
-python3
+python3 py3-pip py3-virtualenv
 gcc
 g++
 perl
-# openjdk8 openjdk21
-openjdk23
+openjdk8 openjdk24
+rust cargo
+go
 
 ## Linkers
 mold
@@ -205,7 +210,8 @@ mold
 # py3-lsp-server
 
 ## Build Systems
-make cmake
+make cmake meson ninja-build
+maven
 
 ## Versioning
 git
@@ -218,20 +224,20 @@ gdb
 # 1337 h@xx0r
 
 hexedit
-# aircrack-ng
-# nmap nmap-ncat
-# rustscan
-# ghidra
-# zaproxy
-# mitmproxy
-# hashcat
-# john
-# hydra
-# radare2
+aircrack-ng
+nmap nmap-ncat
+rustscan
+ghidra
+zaproxy
+mitmproxy
+hashcat
+john
+hydra
+radare2
 exiftool
-# sqlmap
-# recon-ng
-# bettercap
+sqlmap
+recon-ng
+bettercap
 socat
 arp-scan
 tor

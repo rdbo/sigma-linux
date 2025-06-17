@@ -1,0 +1,244 @@
+# Core Packages
+alpine-base
+alpine-baselayout
+alpine-baselayout-data
+alpine-keys
+apk-tools
+busybox busybox-doc
+ca-certificates-bundle
+musl
+openrc
+openssl
+cryptsetup
+sfdisk
+lsblk
+grub
+grub-bios
+grub-efi
+xorriso
+mtools
+efibootmgr
+initrdbo
+linux-sigma linux-sigma-dev
+linux-firmware
+pciutils
+alpine-sdk
+kmod
+shadow
+umount
+
+#--------------------------------#
+
+# System
+
+## Administration Tools
+doas
+openssh
+curl wget
+gpg
+patch entr
+7zip
+xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
+# yt-dlp
+xz zstd zip unzip gzip
+# lighttpd
+rsync
+diffutils
+tmux tmux-doc
+jq
+ripgrep
+wireless-tools
+btop
+bandwhich
+timeshift
+
+## Suspend/Hibernate
+acpid zzz
+
+## Memory
+earlyoom zram-init
+
+## Network
+iwd wpa_supplicant dhcpcd
+openvpn wireguard-tools
+
+## Audio
+pipewire pipewire-pulse pipewire-alsa pipewire-jack
+pulsemixer pulseaudio-ctl pulseaudio-utils
+easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
+
+## Bluetooth
+bluez
+
+## Docs
+mandoc man-pages
+
+## Configuration
+sigma-conf
+ncurses-terminfo
+
+#--------------------------------#
+
+# Desktop Environment
+
+## Core
+xwayland xwayland-satellite seatd eudev xrdb
+
+## Fonts
+sigma-firacode-nerd sigma-vt323 sigma-material-symbols
+font-ubuntu-nerd
+font-noto-all
+
+## Desktop
+# river river-doc # compositor
+hyprland hyprland-doc
+# niri
+waybar waybar-doc # status bar
+# yambar yambar-doc # status bar
+fuzzel # dmenu-like
+swaylock # screen locker
+swaybg swww # wallpaper daemon
+
+## Terminal
+# rio
+foot
+
+## Text Editing
+vim helix helix-tree-sitter-vendor
+
+## Browser
+# luakit luakit-doc
+# firefox
+librewolf
+
+## Notifications
+mako
+libnotify
+
+## Screenshot
+grim
+slurp
+
+## File Managent
+yazi dragon-drop
+
+## Office
+sc-im
+sigma-sent
+groff
+poppler poppler-utils
+zathura zathura-pdf-mupdf
+# libreoffice libreoffice-gtk
+
+## Mail
+# neomutt
+# thunderbird
+
+## RSS
+# newsboat
+
+## Multimedia
+mpv
+ffmpeg
+imagemagick
+nsxiv
+# gimp
+# inkscape
+wf-recorder
+# shotcut
+# lmms
+
+## Password Management
+keepassxc pass
+
+## Chat
+weechat
+simplex-chat
+
+## Monitoring
+# wireshark tshark
+
+## Misc
+wl-clipboard
+wlr-randr
+dbus-x11
+sigma-wvkbd
+neofetch
+lxappearance
+zenity
+setxkbmap
+# electrum
+cava
+wev xev
+# qemu-ui-gtk qemu-system-x86_64 qemu-system-aarch64 ovmf
+
+## Themes
+sigma-flat-remix-gtk
+adwaita-icon-theme
+papirus-icon-theme
+
+## GL/Rendering
+mesa
+mesa-gbm
+mesa-dri-gallium
+mesa-egl
+mesa-gl
+mesa-gles
+mesa-vulkan-ati
+mesa-vulkan-intel
+mesa-vulkan-swrast
+
+#--------------------------------#
+
+# Development
+
+## Compilers/Interpreters
+ruby ruby-doc ruby-rdoc
+python3 py3-pip py3-virtualenv
+gcc
+g++
+perl
+openjdk8 openjdk24
+rust cargo
+go
+
+## Linkers
+mold
+
+## LSP
+# clang-extra-tools
+# py3-lsp-server
+
+## Build Systems
+make cmake meson ninja-build
+maven
+
+## Versioning
+git
+
+## Debuggers
+gdb
+
+#--------------------------------#
+
+# 1337 h@xx0r
+
+hexedit
+# aircrack-ng
+# nmap nmap-ncat
+# rustscan
+# ghidra
+# zaproxy
+# mitmproxy
+# hashcat
+# john
+# hydra
+# radare2
+exiftool
+# sqlmap
+# recon-ng
+# bettercap
+socat
+arp-scan
+tor
+rdbo-archives
