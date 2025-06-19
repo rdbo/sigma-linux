@@ -1,8 +1,10 @@
 {
     "height": 26,
     "spacing": 10,
+    "layer": "top",
 
-    "modules-left": ["hyprland/workspaces"],
+    "modules-left": ["niri/workspaces"],
+    // "modules-left": ["hyprland/workspaces"],
     // "modules-left": ["river/tags"],
     // "modules-left": ["dwl/tags"],
     "modules-center": ["clock"],
