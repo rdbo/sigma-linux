@@ -25,7 +25,8 @@ layout {
     // Set gaps around windows in logical pixels.
     gaps 8
 
-    background-color "#101a20"
+    // background-color "#101a20"
+    background-color "transparent"
 
     center-focused-column "never"
 
@@ -167,6 +168,10 @@ hotkey-overlay {
 animations {
     // off
     // slowdown 3.0
+
+    workspace-switch {
+        off
+    }
 }
 
 // Block out two password managers from screen capture.
@@ -181,6 +186,18 @@ window-rule {
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
+}
+
+layer-rule {
+    // This is for swaybg; change for other wallpaper tools.
+    // Find the right namespace by running niri msg layers.
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="waybar"
+    place-within-backdrop true
 }
 
 binds {
@@ -203,6 +220,8 @@ binds {
     Mod+Shift+Return hotkey-overlay-title="Open a Terminal: sigma-term" { spawn "sigma-term"; }
     Mod+P hotkey-overlay-title="Run an Application: sigma-launcher" { spawn "sigma-launcher"; }
     Mod+Shift+X hotkey-overlay-title="Lock the Screen: sigma-lock-screen" { spawn "sigma-lock-screen"; }
+    Mod+Shift+Escape hotkey-overlay-title="Change Screen Resolution: sigma-change-resolution" { spawn "sigma-change-resolution"; }
+    Mod+Shift+Tab hotkey-overlay-title="Change Keyboard Layout: sigma-change-kbdlayout" { spawn "sigma-change-kbdlayout"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
