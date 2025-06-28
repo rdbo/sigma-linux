@@ -195,8 +195,7 @@ mesa-vulkan-swrast
 ## Compilers/Interpreters
 # ruby ruby-doc ruby-rdoc
 # python3 py3-pip py3-virtualenv
-# gcc
-# g++
+# gcc g++ valgrind
 # perl
 # openjdk8 openjdk24
 # rust cargo
