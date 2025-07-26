@@ -231,6 +231,7 @@ binds {
     Mod+Shift+X hotkey-overlay-title="Lock the Screen: sigma-lock-screen" { spawn "sigma-lock-screen"; }
     Mod+Shift+Escape hotkey-overlay-title="Change Screen Resolution: sigma-change-resolution" { spawn "sigma-change-resolution"; }
     Mod+Shift+Tab hotkey-overlay-title="Change Keyboard Layout: sigma-change-kbdlayout" { spawn "sigma-change-kbdlayout"; }
+    Mod+Shift+Delete hotkey-overlay-title="Open power menu: sigma-power-menu" { spawn "sigma-power-menu"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
