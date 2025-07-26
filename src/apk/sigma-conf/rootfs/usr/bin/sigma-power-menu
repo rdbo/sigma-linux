@@ -1,10 +1,10 @@
 #!/bin/sh
 
-action="$(printf "Lock Screen\nQuit\nPower Off\nReboot\n" | sigma-dmenu -p "Choose an action...")"
+action="$(printf "Lock Screen\nHibernate\nPower Off\nReboot\n" | sigma-dmenu -p "Choose an action...")"
 
 case "$action" in
 	"Lock Screen") sigma-lock-screen;;
-	"Quit") riverctl exit;;
+	"Hibernate") foot -a wmfloat doas zzz;;
 	"Power Off") foot -a wmfloat doas poweroff;;
 	"Reboot") foot -a wmfloat doas reboot;;
 esac
