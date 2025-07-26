@@ -88,9 +88,15 @@ echo "label: gpt" | sfdisk -f "$disk"
 echo ", 512M, uefi" | sfdisk -f "$disk" # EFI
 echo ", 1G, linux" | sfdisk -a -f "$disk" # Boot
 echo ", , linux" | sfdisk -a -f "$disk" # RootFS
-efi_partition="${disk}1"
-boot_partition="${disk}2"
-root_partition="${disk}3"
+
+# A partition for '/dev/nvme0n1' would be '/dev/nvme0n1p1', lets handle that case
+case "$disk" in
+	*[0-9]) partition_prefix="${disk}p";;
+	*) partition_prefix="$disk";;
+esac
+efi_partition="${partition_prefix}1"
+boot_partition="${partition_prefix}2"
+root_partition="${partition_prefix}3"
 
 echo "Formating partitions..."
 yes | mkfs.vfat "$efi_partition"
