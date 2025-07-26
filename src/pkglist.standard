@@ -214,7 +214,7 @@ make cmake meson ninja-build
 maven
 
 ## Versioning
-git
+git git-doc
 
 ## Debuggers
 gdb
