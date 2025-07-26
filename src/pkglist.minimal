@@ -51,6 +51,7 @@ wireless-tools
 # btop
 # bandwhich
 # timeshift
+# flatpak
 
 ## Suspend/Hibernate
 acpid zzz
@@ -241,5 +242,5 @@ socat
 arp-scan
 tor
 # jadx apktool
-# android-tools
+# android-tools scrcpy
 rdbo-archives
