@@ -244,4 +244,5 @@ arp-scan
 tor
 jadx apktool
 android-tools scrcpy
+libmem-dev libmem-static
 rdbo-archives

@@ -1,0 +1,41 @@
+# Contributor: Rdbo
+# Maintainer: Rdbo <rdbodev@gmail.com>
+pkgname="libmem"
+pkgver="5.1.0"
+pkgrel=0
+pkgdesc="Advanced Game Hacking Library"
+url="https://github.com/rdbo/libmem"
+arch="all"
+license="AGPL-3.0"
+makedepends="cmake make gcc g++ musl-dev"
+# source="https://github.com/rdbo/libmem/archive/$pkgver/$pkgname-$pkgver.tar.gz"
+options="!check"
+subpackages="$pkgname-dev $pkgname-static"
+
+prepare() {
+	# The submodules are annoying to deal 
+	# with when not using git directly.
+	if [ -d "$builddir/.git" ]; then return; fi
+	default_prepare
+	mkdir -p "$builddir"
+	cd "$builddir"
+	git clone --depth 1 --recursive --recurse-submodules --shallow-submodules --branch "$pkgver" "https://github.com/rdbo/libmem" .
+}
+
+build() {
+	mkdir "$builddir/shared" && cd "$builddir/shared"
+	cmake "$builddir" -DCMAKE_BUILD_TYPE=Release -DLIBMEM_BUILD_TESTS=OFF -DLIBMEM_BUILD_STATIC=OFF
+	make -j $(nproc)
+
+	mkdir "$builddir/static" && cd "$builddir/static"
+	cmake "$builddir" -DCMAKE_BUILD_TYPE=Release -DLIBMEM_BUILD_TESTS=OFF -DLIBMEM_BUILD_STATIC=ON
+	make -j $(nproc)
+}
+
+package() {
+	cd "$builddir/shared" && make DESTDIR="$pkgdir" install
+	cd "$builddir/static" && make DESTDIR="$pkgdir-static" install
+}
+# sha512sums="
+# ee231e5ae7ed08f2e9950ee2d6604ed29a777d816a057b6451953cb03eb52579a73c3e77b9af059963223486798bf73ea7e2f579c7e9d1e222091125b3e1eeee  libmem-5.1.0.tar.gz
+# "
