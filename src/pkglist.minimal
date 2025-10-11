@@ -52,6 +52,7 @@ wireless-tools
 # bandwhich
 # timeshift
 # flatpak
+# bubblewrap
 
 ## Suspend/Hibernate
 acpid zzz
