@@ -1,0 +1,42 @@
+palette = "sigma"
+format = """\
+[ ](pill0)\
+[ 烈](bg:pill0 fg:main bold)\
+[](bg:pill1 fg:pill0)\
+$username\
+[@](bg:pill1 fg:main bold)\
+$hostname\
+[](bg:pill2 fg:pill1)\
+$directory\
+[ ](pill2)\
+$git_branch
+[   └─> ](bold cyan)
+"""
+
+[username]
+show_always = true
+format = "[ $user]($style)"
+style_user = "bg:pill1 fg:main bold"
+style_root = "$style_user"
+
+[hostname]
+ssh_only = false
+format = "[$hostname ]($style)"
+style = "bg:pill1 fg:main bold"
+
+[directory]
+format="[ $path ]($style)"
+style = "bg:pill2 fg:main bold"
+truncate_to_repo = true
+truncation_length = 5
+truncation_symbol = "…/"
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style)"
+style = "fg:#508ff6 bold"
+
+[palettes.sigma]
+main = "#00ffc8"
+pill0 = "#1b6969"
+pill1 = "#114958"
+pill2 = "#013a52"
