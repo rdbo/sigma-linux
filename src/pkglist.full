@@ -26,6 +26,7 @@ alpine-sdk
 kmod
 shadow
 umount
+merge-usr
 
 #--------------------------------#
 

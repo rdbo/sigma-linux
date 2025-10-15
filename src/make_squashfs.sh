@@ -175,6 +175,9 @@ else
 	done
 fi
 
+# Merge user patches (https://alpinelinux.org/posts/2025-10-01-usr-merge.html)
+chroot "$SQUASHFS_DIR" merge-usr
+
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
 mksquashfs "$SQUASHFS_DIR" "$SQUASHFS_PATH" -comp "$SQUASHFS_COMP" $SQUASHFS_EXTRA_ARGS
