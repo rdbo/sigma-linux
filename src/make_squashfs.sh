@@ -144,7 +144,7 @@ rc_add bluetooth default
 rc_add local default # used for start scripts
 
 # Setup regular user
-useradd -R "$SQUASHFS_DIR" -m -G wheel,audio,input,video,seat user
+useradd -R "$SQUASHFS_DIR" -s /bin/bash -m -G wheel,audio,input,video,seat user
 # passwd -R "$SQUASHFS_DIR" -d user
 chroot "$SQUASHFS_DIR" sh -c 'printf "user:pass" | chpasswd'
 
