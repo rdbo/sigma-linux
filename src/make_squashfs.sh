@@ -11,6 +11,11 @@ rm -rf "$SQUASHFS_DIR/dev" > /dev/null 2>&1 || true
 mkdir -p "$SQUASHFS_DIR/dev"
 mount --rbind /dev "$SQUASHFS_DIR/dev"
 
+umount -R "$SQUASHFS_DIR/proc" > /dev/null 2>&1 || true
+rm -rf "$SQUASHFS_DIR/proc" > /dev/null 2>&1 || true
+mkdir -p "$SQUASHFS_DIR/proc"
+mount --rbind /dev "$SQUASHFS_DIR/proc"
+
 # Mount temporary boot dir, which will be populated by the
 # kernel and initramfs packages
 umount -R "$SQUASHFS_DIR/boot" > /dev/null 2>&1 || true
@@ -152,6 +157,9 @@ chroot "$SQUASHFS_DIR" sh -c 'printf "user:pass" | chpasswd'
 chroot "$SQUASHFS_DIR" merge-usr
 
 # Unmount filesystems
+umount -R "$SQUASHFS_DIR/proc"
+rm -rf "$SQUASHFS_DIR/proc"
+
 umount -R "$SQUASHFS_DIR/dev"
 rm -rf "$SQUASHFS_DIR/dev"
 
