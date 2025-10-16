@@ -85,6 +85,7 @@ ncurses-terminfo
 # Desktop Environment
 
 ## Core
+wayland wayland-libs-client wayland-libs-server
 xwayland xwayland-satellite seatd eudev xrdb
 
 ## Fonts
