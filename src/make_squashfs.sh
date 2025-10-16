@@ -148,6 +148,9 @@ useradd -R "$SQUASHFS_DIR" -s /bin/bash -m -G wheel,audio,input,video,seat user
 # passwd -R "$SQUASHFS_DIR" -d user
 chroot "$SQUASHFS_DIR" sh -c 'printf "user:pass" | chpasswd'
 
+# Merge user patches (https://alpinelinux.org/posts/2025-10-01-usr-merge.html)
+chroot "$SQUASHFS_DIR" merge-usr
+
 # Unmount filesystems
 umount -R "$SQUASHFS_DIR/dev"
 rm -rf "$SQUASHFS_DIR/dev"
@@ -174,9 +177,6 @@ else
 		done
 	done
 fi
-
-# Merge user patches (https://alpinelinux.org/posts/2025-10-01-usr-merge.html)
-chroot "$SQUASHFS_DIR" merge-usr
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
