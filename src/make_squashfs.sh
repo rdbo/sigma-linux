@@ -14,7 +14,7 @@ mount --rbind /dev "$SQUASHFS_DIR/dev"
 umount -R "$SQUASHFS_DIR/proc" > /dev/null 2>&1 || true
 rm -rf "$SQUASHFS_DIR/proc" > /dev/null 2>&1 || true
 mkdir -p "$SQUASHFS_DIR/proc"
-mount --rbind /dev "$SQUASHFS_DIR/proc"
+mount --rbind /proc "$SQUASHFS_DIR/proc"
 
 # Mount temporary boot dir, which will be populated by the
 # kernel and initramfs packages
