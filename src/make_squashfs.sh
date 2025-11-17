@@ -35,11 +35,12 @@ echo "Packages: $pkgs"
 # Skip installing APKs if APK database is already set up
 if [ ! -d "$SQUASHFS_DIR/etc/apk" ]; then
 	# Initialize APK database
-	apk add --initdb -p "$SQUASHFS_DIR"
+	apk add --arch "$DISTRO_TARGET_ARCH" --initdb -p "$SQUASHFS_DIR"
 
 	# Install packages
 	apk add \
 		-p "$SQUASHFS_DIR" \
+		--arch "$DISTRO_TARGET_ARCH" \
 		--allow-untrusted \
 		--no-cache \
 		--repositories-file="$REPOS_FILE" \
