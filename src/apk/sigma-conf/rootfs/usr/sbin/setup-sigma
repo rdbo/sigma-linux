@@ -137,6 +137,7 @@ mount -t devtmpfs none "$newroot/dev"
 mount -t proc proc "$newroot/proc"
 
 echo "Setting up boot..."
+arch="$(uname -m)"
 chroot "$newroot" grub-install --target=x86_64-efi --boot-directory=/boot --efi-directory=/boot/efi --removable "$disk"
 cp /cdrom/boot/grub/grub.cfg /cdrom/boot/grub/wallpaper.png "$newroot/boot/grub/"
 # Patch GRUB config
