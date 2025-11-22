@@ -9,7 +9,8 @@ $hostname\
 [](bg:pill2 fg:pill1)\
 $directory\
 [ ](pill2)\
-$git_branch
+$git_branch\
+$python
 [   └─> ](bold cyan)
 """
 
@@ -32,8 +33,12 @@ truncation_length = 5
 truncation_symbol = "…/"
 
 [git_branch]
-format = "[$symbol$branch(:$remote_branch)]($style)"
+format = "[$symbol$branch(:$remote_branch)]($style) "
 style = "fg:#508ff6 bold"
+
+[python]
+format="[(\\($virtualenv\\))]($style)"
+style="fg:#e68c00 bold"
 
 [palettes.sigma]
 main = "#00ffc8"
