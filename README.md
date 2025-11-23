@@ -8,6 +8,8 @@ All the files in this repository follow the license in the file `LICENSE` presen
 
 Note that packages under `src/apk` will have their license names noted at the `APKBUILD` file
 
+Packages installed from the package repository will have their own licenses as well
+
 # Screenshots
 
 ![desktop](screenshots/desktop.png)
