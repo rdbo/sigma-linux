@@ -18,7 +18,7 @@ $python
 show_always = true
 format = "[ $user]($style)"
 style_user = "bg:pill1 fg:main bold"
-style_root = "$style_user"
+style_root = "bg:pill1 fg:rootred bold"
 
 [hostname]
 ssh_only = false
@@ -42,6 +42,7 @@ style="fg:#e68c00 bold"
 
 [palettes.sigma]
 main = "#00ffc8"
+rootred = "#ff6060"
 pill0 = "#1b6969"
 pill1 = "#114958"
 pill2 = "#013a52"
