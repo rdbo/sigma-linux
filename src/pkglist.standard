@@ -27,6 +27,7 @@ kmod
 shadow
 umount
 merge-usr
+losetup
 
 #--------------------------------#
 
@@ -41,7 +42,7 @@ patch entr
 7zip
 xfsprogs e2fsprogs btrfs-progs dosfstools ntfs-3g
 # yt-dlp
-xz zstd zip unzip gzip
+tar xz zstd zip unzip gzip
 # lighttpd
 rsync
 diffutils
