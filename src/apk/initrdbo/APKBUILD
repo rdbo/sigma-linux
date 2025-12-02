@@ -1,6 +1,6 @@
 # Maintainer: Rdbo <rdbodev@gmail.com>
 pkgname=initrdbo
-pkgver=0.3.8
+pkgver=0.3.9
 pkgrel=0
 pkgdesc="A simple initramfs generator"
 url="https://github.com/rdbo/initrdbo"
@@ -13,6 +13,7 @@ depends="
 	cpio
 	gzip
 	mount
+	bash
 	"
 triggers="$pkgname.trigger=/usr/share/kernel/*"
 options="!check"
