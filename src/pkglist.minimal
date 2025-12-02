@@ -55,6 +55,7 @@ wireless-tools
 # timeshift
 # flatpak
 # bubblewrap
+# bc
 
 ## Suspend/Hibernate
 acpid zzz

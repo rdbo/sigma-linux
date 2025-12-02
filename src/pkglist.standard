@@ -55,6 +55,7 @@ bandwhich
 timeshift
 flatpak
 bubblewrap
+bc
 
 ## Suspend/Hibernate
 acpid zzz
