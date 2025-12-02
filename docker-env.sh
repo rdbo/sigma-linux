@@ -2,6 +2,7 @@
 
 set -e
 
+echo "[*] Loading config..."
 . src/config.sh >& /dev/null
 
 set_docker_arch() {
@@ -18,15 +19,20 @@ set_docker_arch() {
 }
 
 if [ "$DISTRO_TARGET_ARCH" != "$(uname -m)" ]; then
-	# Install binfmt
-	echo "[*] Setting up binfmt for cross compilation..."
-	doas modprobe binfmt_misc
-	doas mount -t binfmt_misc binfmt_misc /proc/sys/fs/binfmt_misc/
-	docker run --privileged --rm tonistiigi/binfmt --install all
+	if [ ! -e "/proc/sys/fs/binfmt_misc/qemu-$DISTRO_TARGET_ARCH" ]; then
+		# Install binfmt
+		echo "[*] Setting up binfmt for cross compilation..."
+		doas modprobe binfmt_misc
+		doas mount -t binfmt_misc binfmt_misc /proc/sys/fs/binfmt_misc/
+		docker run --privileged --rm tonistiigi/binfmt --install all
+	fi
 
 	echo "[*] Setting up cross target docker..."
 	set_docker_arch "$DISTRO_TARGET_ARCH"
 fi
 
+echo "[*] Building Dockerfile..."
 docker build -t sigma-linux .
+
+echo "[*] Starting Docker environment..."
 docker run --privileged -v "$(pwd):/app" --workdir /app -it sigma-linux sh

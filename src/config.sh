@@ -54,6 +54,3 @@ echo " - FIRMWARE_DIR: $FIRMWARE_DIR"
 echo " - ISO_DIR: $ISO_DIR"
 echo " - ISO_PATH: $ISO_PATH"
 echo " - ISO_VOLID: $ISO_VOLID"
-
-mkdir -p "$CACHE_DIR"
-chmod 777 "$CACHE_DIR" # Allow read-write for build user

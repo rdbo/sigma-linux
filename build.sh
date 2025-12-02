@@ -7,6 +7,9 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+mkdir -p "$CACHE_DIR"
+chmod 777 "$CACHE_DIR" # Allow read-write for build user
+
 echo "[*] Sigma Linux Builder"
 
 echo "[*] Running config..."
