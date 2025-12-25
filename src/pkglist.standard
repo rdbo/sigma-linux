@@ -64,7 +64,8 @@ acpid zzz
 earlyoom zram-init
 
 ## Network
-iwd wpa_supplicant dhcpcd
+wpa_supplicant dhcpcd
+networkmanager networkmanager-wifi networkmanager-wwan networkmanager-dnsmasq networkmanager-cli networkmanager-tui
 openvpn wireguard-tools
 
 ## Audio

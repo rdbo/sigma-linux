@@ -142,7 +142,7 @@ rc_add hostname boot
 rc_add zram-init boot
 rc_add networking default # Sets up interfaces based on /etc/network/interfaces
 rc_add earlyoom default
-rc_add iwd default
+rc_add networkmanager default
 rc_add dbus default
 rc_add seatd default
 rc_add bluetooth default
