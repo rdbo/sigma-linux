@@ -57,6 +57,7 @@ wireless-tools
 # bubblewrap
 # bc
 cpupower
+polkit
 
 ## Suspend/Hibernate
 acpid zzz

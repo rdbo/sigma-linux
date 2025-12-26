@@ -142,6 +142,7 @@ rc_add hostname boot
 rc_add zram-init boot
 rc_add networking default # Sets up interfaces based on /etc/network/interfaces
 rc_add earlyoom default
+rc_add polkit default
 rc_add networkmanager default
 rc_add dbus default
 rc_add seatd default
@@ -151,7 +152,7 @@ rc_add local default # used for start scripts
 
 # Setup regular user
 if [ ! -e "$SQUASHFS_DIR/home/user" ]; then
-	useradd -R "$SQUASHFS_DIR" -s /bin/bash -m -G wheel,audio,input,video,seat,dialout user
+	useradd -R "$SQUASHFS_DIR" -s /bin/bash -m -G wheel,audio,input,video,seat,dialout,netdev user
 fi
 # passwd -R "$SQUASHFS_DIR" -d user
 chroot "$SQUASHFS_DIR" sh -c 'printf "user:pass" | chpasswd'
