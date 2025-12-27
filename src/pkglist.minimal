@@ -58,6 +58,7 @@ wireless-tools
 # bc
 cpupower
 polkit
+# argon2
 
 ## Suspend/Hibernate
 acpid zzz
