@@ -59,6 +59,7 @@ def do_encrypt(password)
   puts "encryption-params=#{ENCRYPTION_ALGO},#{cipher_nonce.unpack1("H*")}"
   eputs"Reading input from STDIN, send EOF to stop (CTRL-D)"
   print "ciphertext="
+  eputs
 
   key = pbkdf(password, pbkdf_salt)
   cipher = OpenSSL::Cipher.new ENCRYPTION_ALGO
@@ -68,6 +69,7 @@ def do_encrypt(password)
   while line = STDIN.gets
     ciphertext = cipher.update(line)
     print ciphertext.unpack1("H*")
+    eputs
   end
   puts cipher.final.unpack1("H*")
   mac = cipher.auth_tag
