@@ -1,0 +1,126 @@
+#!/usr/bin/ruby
+require 'openssl'
+require 'securerandom'
+require 'open3'
+
+VERSION = 1
+PBKDF_ALGO = "argon2id"
+PBKDF_LENGTH = 32
+PBKDF_SALT_LENGTH = 32
+PBKDF_PARALLELISM = 4
+PBKDF_MEM_KB = 2 ** 16
+PBKDF_PASSES = 8
+ENCRYPTION_ALGO = "ChaCha20-Poly1305"
+
+def eprint(*args)
+  STDERR.print(*args)
+end
+
+def eputs(*args)
+  STDERR.puts(*args)
+end
+
+def usage()
+  eputs "Usage: sigma-cipher [MODE]"
+  eputs "  - [MODE] can be either 'encrypt' or 'decrypt'"
+  eputs "  - password will be prompted when the program starts (every byte until new line)"
+  eputs "  - input bytes (plaintext or ciphertext) are passed through stdin"
+  exit 1
+end
+
+def pbkdf(password_bytes, salt_bytes, length=PBKDF_LENGTH, parallelism=PBKDF_PARALLELISM, mem_kb=PBKDF_MEM_KB, passes=PBKDF_PASSES)
+  command = "argon2"
+  output = ""
+  error = ""
+  exit_code = 1
+  Open3.popen3(command, salt_bytes, "-id", "-l", length.to_s, "-p", parallelism.to_s, "-k", mem_kb.to_s, "-t", passes.to_s, "-r") { |stdin, stdout, stderr, wait_thread|
+    stdin.puts password_bytes
+    stdin.flush
+    stdin.close
+
+    output = stdout.read
+    error = stderr.read
+    exit_code = wait_thread.value.exitstatus
+  }
+
+  if exit_code != 0 then
+    raise "Failed to derive key from password: #{error}"
+  end
+
+  [output.chomp].pack("H*")
+end
+
+def do_encrypt(password)
+  pbkdf_salt = SecureRandom.random_bytes(PBKDF_SALT_LENGTH)
+  puts "sigma-cipher-version=#{VERSION}"
+  puts "pbkdf-params=#{PBKDF_ALGO},#{PBKDF_LENGTH},#{PBKDF_PARALLELISM},#{PBKDF_MEM_KB},#{PBKDF_PASSES},#{pbkdf_salt.unpack1("H*")}"
+
+  cipher_nonce = SecureRandom.random_bytes(12)
+  puts "encryption-params=#{ENCRYPTION_ALGO},#{cipher_nonce.unpack1("H*")}"
+  eputs"Reading input from STDIN, send EOF to stop (CTRL-D)"
+  print "ciphertext="
+
+  key = pbkdf(password, pbkdf_salt)
+  cipher = OpenSSL::Cipher.new ENCRYPTION_ALGO
+  cipher.encrypt
+  cipher.key = key
+  cipher.iv = cipher_nonce
+  while line = STDIN.gets
+    ciphertext = cipher.update(line)
+    print ciphertext.unpack1("H*")
+  end
+  puts cipher.final.unpack1("H*")
+  mac = cipher.auth_tag
+  puts "mac=#{mac.unpack1("H*")}"
+end
+
+def do_decrypt(password)
+  eprint "Enter the 'sigma-cipher-version' entry: "
+  version = STDIN.gets&.chomp.split("=")[1].to_i(10)
+
+  eprint "Enter the 'pbkdf-params' entry: "
+  pbkdf_params = STDIN.gets&.chomp.split("=")[1].split(",")
+  pbkdf_salt = [pbkdf_params[-1]].pack("H*")
+
+  eprint "Enter the 'encryption-params' entry: "
+  encryption_params = STDIN.gets&.chomp.split("=")[1].split(",")
+  nonce = [encryption_params[-1]].pack("H*")
+
+  eprint "Enter the 'ciphertext' entry: "
+  ciphertext = [STDIN.gets&.chomp.split("=")[1]].pack("H*")
+
+  eprint "Enter the 'mac' entry: "
+  mac = [STDIN.gets&.chomp.split("=")[1]].pack("H*")
+
+  key = pbkdf(password, pbkdf_salt)
+  cipher = OpenSSL::Cipher.new ENCRYPTION_ALGO
+  cipher.decrypt
+  cipher.key = key
+  cipher.iv = nonce
+  cipher.auth_tag = mac
+  plaintext = cipher.update(ciphertext) + cipher.final
+  puts plaintext
+end
+
+eputs "[sigma-cipher]"
+if ARGV.length != 1 then
+  usage
+end
+
+mode = ARGV[0]
+if not ["encrypt", "decrypt"].include?(mode) then
+  usage
+end
+eputs "MODE: #{mode}"
+
+password = ""
+while password.empty?
+  eprint "Enter your password: "
+  password = STDIN.gets&.chomp
+end
+
+if mode == "encrypt"
+  do_encrypt(password)
+else
+  do_decrypt(password)
+end
