@@ -2,6 +2,7 @@
 require 'openssl'
 require 'securerandom'
 require 'open3'
+require 'io/console'
 
 VERSION = 1
 PBKDF_ALGO = "argon2id"
@@ -26,6 +27,38 @@ def usage()
   eputs "  - password will be prompted when the program starts (every byte until new line)"
   eputs "  - input bytes (plaintext or ciphertext) are passed through stdin"
   exit 1
+end
+
+def read_password()
+  chars = ""
+  while (c = STDIN.getch)
+    case c
+      when "\03"
+        eputs
+        exit 1
+      when "\r", "\n"
+        break
+      when "\b", "\x7F"
+        next if chars.empty?
+        chars.chop!()
+        eprint "\b \b"
+      when "\e"
+        # consume additional characters for
+        # escape sequences, like arrow inputs
+        loop do
+          begin
+            STDIN.read_nonblock(1)
+          rescue
+            break
+          end
+        end
+      else
+        chars << c
+        eprint "*"
+    end
+  end
+
+  chars
 end
 
 def pbkdf(password_bytes, salt_bytes, length=PBKDF_LENGTH, parallelism=PBKDF_PARALLELISM, mem_kb=PBKDF_MEM_KB, passes=PBKDF_PASSES)
@@ -118,7 +151,7 @@ eputs "MODE: #{mode}"
 password = ""
 while password.empty?
   eprint "Enter your password: "
-  password = STDIN.gets&.chomp
+  password = read_password
 end
 
 if mode == "encrypt"
