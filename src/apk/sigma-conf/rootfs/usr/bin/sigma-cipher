@@ -83,50 +83,70 @@ def pbkdf(password_bytes, salt_bytes, length=PBKDF_LENGTH, parallelism=PBKDF_PAR
   [output.chomp].pack("H*")
 end
 
-def do_encrypt(password)
+def do_encrypt(password, file=nil)
   pbkdf_salt = SecureRandom.random_bytes(PBKDF_SALT_LENGTH)
   puts "sigma-cipher-version=#{VERSION}"
   puts "pbkdf-params=#{PBKDF_ALGO},#{PBKDF_LENGTH},#{PBKDF_PARALLELISM},#{PBKDF_MEM_KB},#{PBKDF_PASSES},#{pbkdf_salt.unpack1("H*")}"
 
   cipher_nonce = SecureRandom.random_bytes(12)
   puts "encryption-params=#{ENCRYPTION_ALGO},#{cipher_nonce.unpack1("H*")}"
-  eputs"Reading input from STDIN, send EOF to stop (CTRL-D)"
-  print "ciphertext="
-  eputs
 
   key = pbkdf(password, pbkdf_salt)
   cipher = OpenSSL::Cipher.new ENCRYPTION_ALGO
   cipher.encrypt
   cipher.key = key
   cipher.iv = cipher_nonce
-  while line = STDIN.gets
-    ciphertext = cipher.update(line)
-    print ciphertext.unpack1("H*")
+  if not file
     eputs
+    eputs"Reading input from STDIN, send EOF to stop (CTRL-D)"
+    print "ciphertext="
+    while line = STDIN.gets
+      ciphertext = cipher.update(line)
+      print ciphertext.unpack1("H*")
+      eputs
+    end
+  else
+    print "ciphertext="
+    chunk_size = 4096
+    f = File.open(file, "rb")
+    while chunk = f.read(chunk_size)
+      ciphertext = cipher.update(chunk)
+      print ciphertext.unpack1("H*")
+    end
   end
   puts cipher.final.unpack1("H*")
   mac = cipher.auth_tag
   puts "mac=#{mac.unpack1("H*")}"
 end
 
-def do_decrypt(password)
+def do_decrypt(password, file=nil)
+  stream=STDIN
+  if file
+    stream = File.open(file, "rb")
+  end
   eprint "Enter the 'sigma-cipher-version' entry: "
-  version = STDIN.gets&.chomp.split("=")[1].to_i(10)
+  version = stream.gets&.chomp.split("=")[1].to_i(10)
+  eputs
 
   eprint "Enter the 'pbkdf-params' entry: "
-  pbkdf_params = STDIN.gets&.chomp.split("=")[1].split(",")
+  pbkdf_params = stream.gets&.chomp.split("=")[1].split(",")
   pbkdf_salt = [pbkdf_params[-1]].pack("H*")
+  eputs
 
   eprint "Enter the 'encryption-params' entry: "
-  encryption_params = STDIN.gets&.chomp.split("=")[1].split(",")
+  encryption_params = stream.gets&.chomp.split("=")[1].split(",")
   nonce = [encryption_params[-1]].pack("H*")
+  eputs
 
   eprint "Enter the 'ciphertext' entry: "
-  ciphertext = [STDIN.gets&.chomp.split("=")[1]].pack("H*")
+  ciphertext = [stream.gets&.chomp.split("=")[1]].pack("H*")
+  eputs
 
   eprint "Enter the 'mac' entry: "
-  mac = [STDIN.gets&.chomp.split("=")[1]].pack("H*")
+  mac = [stream.gets&.chomp.split("=")[1]].pack("H*")
+  eputs
 
+  eputs "PLAINTEXT:"
   key = pbkdf(password, pbkdf_salt)
   cipher = OpenSSL::Cipher.new ENCRYPTION_ALGO
   cipher.decrypt
@@ -138,8 +158,11 @@ def do_decrypt(password)
 end
 
 eputs "[sigma-cipher]"
-if ARGV.length != 1 then
+file = nil
+if ARGV.length < 1 then
   usage
+elsif ARGV.length >= 2
+  file = ARGV[1]
 end
 
 mode = ARGV[0]
@@ -153,9 +176,10 @@ while password.empty?
   eprint "Enter your password: "
   password = read_password
 end
+eputs
 
 if mode == "encrypt"
-  do_encrypt(password)
+  do_encrypt(password, file)
 else
-  do_decrypt(password)
+  do_decrypt(password, file)
 end
