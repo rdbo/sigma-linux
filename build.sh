@@ -7,13 +7,13 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-mkdir -p "$CACHE_DIR"
-chmod 777 "$CACHE_DIR" # Allow read-write for build user
-
 echo "[*] Sigma Linux Builder"
 
 echo "[*] Running config..."
 . ./src/config.sh
+
+mkdir -p "$CACHE_DIR"
+chmod 777 "$CACHE_DIR" # Allow read-write for build user
 
 # Setup APKs and build local repository
 echo "[*] Setting up APKs..."
