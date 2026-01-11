@@ -12,6 +12,7 @@ RUN apk add umount
 # RUN apk add clang llvm lld # For kernel built with clang
 RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev # xorg/suckless dependencies
 RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev # wvkbd dependencies
+RUN apk add ruby-dev ruby-full ruby-rdoc ruby-bundler
 
 # Create build user
 RUN adduser -D build -G abuild

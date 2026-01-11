@@ -28,5 +28,5 @@ check() {
 
 package() {
 	install -D -m 444 "cache/bible.json" "$pkgdir/usr/share/sigma/bible.json"
-	install -D -m 444 "cache/bible.pdf" "$pkgdir/usr/share/sigma/bible.json"
+	install -D -m 444 "cache/bible.pdf" "$pkgdir/usr/share/sigma/bible.pdf"
 }
