@@ -84,7 +84,7 @@ bluez
 
 ## Configuration
 sigma-conf
-bible
+biblegen
 ncurses-terminfo
 
 #--------------------------------#

@@ -1,5 +1,5 @@
 # Maintainer: Rdbo <rdbodev@gmail.com>
-pkgname=bible
+pkgname=biblegen
 pkgver=1.0
 pkgrel=0
 pkgdesc="Catholic Bible JSON and PDF contents"
