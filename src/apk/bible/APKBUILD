@@ -1,0 +1,32 @@
+# Maintainer: Rdbo <rdbodev@gmail.com>
+pkgname=bible
+pkgver=1.0
+pkgrel=0
+pkgdesc="Catholic Bible JSON and PDF contents"
+url="https://github.com/rdbo/biblegen"
+arch="noarch"
+license="Public Domain"
+makedepends="
+	ruby
+	ruby-dev
+	ruby-bundler
+	"
+source="$pkgname-$pkgver.tar.gz::https://github.com/rdbo/biblegen/archive/refs/tags/$pkgver.tar.gz"
+
+build() {
+	local gem_home="$builddir/gem"
+	mkdir -p "$gem_home"
+	GEM_HOME="$gem_home" bundle install
+	GEM_HOME="$gem_home" ruby bin/biblegen --force -f json
+	GEM_HOME="$gem_home" ruby bin/biblegen --force -f pdf
+}
+
+check() {
+	local gem_home="$builddir/gem"
+	GEM_HOME="$builddir/gem" ruby test/assert.rb
+}
+
+package() {
+	install -D -m 444 "cache/bible.json" "$pkgdir/usr/share/sigma/bible.json"
+	install -D -m 444 "cache/bible.pdf" "$pkgdir/usr/share/sigma/bible.json"
+}

@@ -84,6 +84,7 @@ mandoc man-pages
 
 ## Configuration
 sigma-conf
+bible
 ncurses-terminfo
 
 #--------------------------------#

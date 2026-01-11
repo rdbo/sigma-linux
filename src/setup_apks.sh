@@ -82,3 +82,11 @@ fi
 if [ ! -d "$APKTEMP_DIR/simplex-chat" ]; then
 	cp -r "$APK_DIR/simplex-chat/" "$APKTEMP_DIR/"
 fi
+
+# initrdbo
+if [ ! -d "$APKTEMP_DIR/bible" ]; then
+	mkdir -p "$APKTEMP_DIR/bible"
+	cp -r "$APK_DIR/bible/." "$APKTEMP_DIR/bible/."
+	cd "$APKTEMP_DIR/bible"
+	abuild checksum
+fi
