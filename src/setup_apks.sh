@@ -83,7 +83,7 @@ if [ ! -d "$APKTEMP_DIR/simplex-chat" ]; then
 	cp -r "$APK_DIR/simplex-chat/" "$APKTEMP_DIR/"
 fi
 
-# initrdbo
+# biblegen
 if [ ! -d "$APKTEMP_DIR/biblegen" ]; then
 	mkdir -p "$APKTEMP_DIR/biblegen"
 	cp -r "$APK_DIR/biblegen/." "$APKTEMP_DIR/biblegen/."
