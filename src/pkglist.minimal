@@ -68,6 +68,7 @@ earlyoom zram-init
 
 ## Network
 wpa_supplicant dhcpcd
+iwd
 networkmanager networkmanager-wifi networkmanager-wwan networkmanager-dnsmasq networkmanager-cli networkmanager-tui
 # openvpn wireguard-tools
 
