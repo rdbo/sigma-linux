@@ -59,6 +59,7 @@ bc
 cpupower
 polkit
 argon2
+delta
 
 ## Suspend/Hibernate
 acpid zzz
