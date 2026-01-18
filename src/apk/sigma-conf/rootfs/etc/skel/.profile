@@ -23,6 +23,9 @@ export GTK_THEME="Flat-Remix-GTK-Green-Darkest-Solid"
 # fix for java apps
 export _JAVA_AWT_WM_NONREPARENTING=1
 
+# ruby
+export GEM_HOME="$HOME/.local/share/gem"
+
 # aliases
 alias ls="ls --color=auto"
 

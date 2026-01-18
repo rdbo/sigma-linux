@@ -180,7 +180,7 @@ else
 	mkdir -p "$SQUASHFS_DIR/lib/firmware"
 	# TODO: Make sure that `modinfo` cannot fail. It mail fail due to
 	#       the host kernel not being the same as the installer kernel
-	find "$SQUASHFS_DIR"/lib/modules -type f -name "*.ko*" | xargs modinfo -F firmware | sort -u | while read fw; do
+	chroot "$FILESYSTEM_DIR" find /lib/modules -type f -name "*.ko*" | chroot "$FILESYSTEM_DIR" xargs -r -- modinfo -F firmware | sort -u | while read fw; do
 		for fname in "$fw" "$fw.zst" "$fw.xz"; do
 			if [ -e "${FIRMWARE_DIR}/$fname" ]; then
 				install -pD "${FIRMWARE_DIR}/$fname" "$SQUASHFS_DIR/lib/firmware/$fname"

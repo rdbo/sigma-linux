@@ -210,7 +210,7 @@ ruby ruby-doc ruby-rdoc ruby-full ruby-dev
 python3 py3-pip py3-virtualenv
 gcc g++ valgrind
 perl
-openjdk8 openjdk24
+openjdk25
 rust cargo
 go
 
