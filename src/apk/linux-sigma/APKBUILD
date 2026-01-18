@@ -7,7 +7,7 @@
 
 _flavor=sigma
 pkgname=linux-${_flavor}
-pkgver=6.17.3
+pkgver=6.18.5
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
@@ -33,7 +33,7 @@ _config=${config:-config-sigma.${CARCH}}
 
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
 source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.17-bore/0001-linux6.17-bore-6.5.2.patch"
+	https://raw.githubusercontent.com/CachyOS/kernel-patches/refs/heads/master/6.18/all/0001-cachyos-base-all.patch"
 case $pkgver in
 	*.*.0)	source="$source";;
 	*.*.*)	source="$source
