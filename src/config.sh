@@ -28,8 +28,8 @@ export ISO_VOLID="sigma-linux-cdrom"
 # Allow overriding the default variables through a
 # separate script, which is added to gitignore
 if [ -f "$SRC_DIR/config.override.sh" ]; then
-	echo "[*] Loaded config overrides"
 	. "$SRC_DIR/config.override.sh"
+	echo "[*] Loaded config overrides"
 fi
 
 echo "Config:"
