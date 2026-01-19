@@ -31,6 +31,17 @@ echo 'disable_trigger=1' > "$SQUASHFS_DIR/etc/upgrade-grub.conf"
 pkgs="$(cat "$SRC_DIR/pkglist.$PKG_PROFILE" | sed 's/#.*//g' | tr '\n' ' ')"
 echo "Packages: $pkgs"
 
+# Create /etc/modules for use in initrdbo
+cat <<- EOF > "$SQUASHFS_DIR/etc/modules"
+ahci libahci
+ata_generic libata
+ata_piix
+nvme nvme-core
+
+af_packet
+ipv6
+EOF
+
 
 # Skip installing APKs if APK database is already set up
 if [ ! -d "$SQUASHFS_DIR/etc/apk" ]; then

@@ -235,7 +235,7 @@ mesa-vulkan-swrast
 
 # 1337 h@xx0r
 
-hexedit
+# hexedit
 # aircrack-ng
 # nmap nmap-ncat
 # rustscan
@@ -250,9 +250,9 @@ hexedit
 # sqlmap
 # recon-ng
 # bettercap
-socat
-arp-scan
-tor
+# socat
+# arp-scan
+# tor
 # jadx apktool
 # android-tools scrcpy
 rdbo-archives
