@@ -42,7 +42,7 @@ if [ "$2" = "waybar" ]; then
 		fi
 	fi
 
-	if [ "$VOL_LEFT" = "$VOL_RIGHT" ]; then
+	if [ -z "$VOL_RIGHT"] || [ "$VOL_LEFT" = "$VOL_RIGHT" ]; then
 		text="$text<span font_size='xx-small'> </span>$VOL_LEFT"
 	else
 		text="$text<span font_size='xx-small'> </span>L:$VOL_LEFT<span font_size='xx-small'> </span>R:$VOL_RIGHT"
