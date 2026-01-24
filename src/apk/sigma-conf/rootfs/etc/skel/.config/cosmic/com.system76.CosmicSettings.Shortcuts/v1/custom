@@ -1,0 +1,86 @@
+{
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "y",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "q",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "F11",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "Return",
+    ): System(Terminal),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "e",
+    ): System(HomeFolder),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "Escape",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "x",
+    ): System(LockScreen),
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "f",
+    ): Fullscreen,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "q",
+    ): System(LogOut),
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "Escape",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "c",
+    ): Close,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "f",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "t",
+    ): ToggleTiling,
+}

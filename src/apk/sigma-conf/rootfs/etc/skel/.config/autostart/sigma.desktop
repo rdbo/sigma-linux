@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Name=Sigma Init
+Comment=Run sigma startup script
+Exec=sh -c '. sigma-common && . "$SIGMA_CONFIG_DIR/startup.sh"'
+Terminal=false
+Type=Application

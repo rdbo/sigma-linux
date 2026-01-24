@@ -1,0 +1,9 @@
+(
+    output: "all",
+    source: Path("/usr/share/sigma/backgrounds/wallpaper.png"),
+    filter_by_theme: true,
+    rotation_frequency: 300,
+    filter_method: Lanczos,
+    scaling_mode: Zoom,
+    sampling_method: Alphanumeric,
+)
