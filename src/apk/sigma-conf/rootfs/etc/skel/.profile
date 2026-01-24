@@ -34,5 +34,7 @@ if [ "$curtty" = "/dev/tty1" ] && [ $(id -u) -ne 0 ]; then
 	# exec dbus-launch river
 	# exec dbus-launch Hyprland
 	# exec dbus-launch dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
-	exec dbus-launch niri
+	# exec dbus-launch niri
+	# exec dbus-launch start-cosmic
+	exec dbus-launch mango
 fi

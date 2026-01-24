@@ -3,10 +3,10 @@
     "spacing": 10,
     "layer": "top",
 
-    "modules-left": ["niri/workspaces"],
+    // "modules-left": ["niri/workspaces"],
     // "modules-left": ["hyprland/workspaces"],
     // "modules-left": ["river/tags"],
-    // "modules-left": ["dwl/tags"],
+    "modules-left": ["dwl/tags"],
     "modules-center": ["clock"],
     "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery", "custom/audio#sink", "custom/audio#source", "custom/vkbd", "custom/power"],
 
