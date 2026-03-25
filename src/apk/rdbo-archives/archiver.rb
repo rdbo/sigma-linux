@@ -16,7 +16,7 @@ if not Dir.exist?(archives_dir)
 end
 
 readme = File.read("README.md")
-projects = readme.scan(/\((https:\/\/github.com\/rdbo\/.*)\)/).map{|p| p[0].split('/')[-1].gsub(/\.git$/, "")}
+projects = readme.scan(/\((https:\/\/github.com\/.+\/.+)\)/).map{|p| p[0].split('/')[-2..].join("/").gsub(/\.git$/, "")}
 
 puts "Projects to archive:"
 projects.each do |project|
@@ -25,13 +25,16 @@ end
 puts
 
 projects.each do |project|
+  username, password = project.split("/", 2)
   if Dir.exist?("#{archives_dir}/#{project}")
     puts "Skipped downloading '#{project}', already downloaded"
     next
   end
 
+  FileUtils.mkdir_p("#{archives_dir}/#{username}")
+
   puts "Downloading '#{project}'..."
-  `git clone --recurse-submodules --shallow-submodules "https://github.com/rdbo/#{project}" "#{archives_dir}/#{project}"`
+  `git clone --recurse-submodules --shallow-submodules "https://github.com/#{project}" "#{archives_dir}/#{project}"`
 end
 
 timestamp = Time.now.strftime "%Y-%m-%d"
