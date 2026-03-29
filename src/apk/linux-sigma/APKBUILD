@@ -1,140 +1,198 @@
 # Maintainer: Rdbo <rdbodev@gmail.com>
 # Contributor: Rdbo <rdbodev@gmail.com>
 
-# This APKBUILD is derived from the `linux-edge` package
+# This APKBUILD is derived from the `linux-stable` package
 # on Alpine Linux's aports. Use it as a reference for
 # updating this package as well.
 
 _flavor=sigma
-pkgname=linux-${_flavor}
-pkgver=6.17.3
-case $pkgver in
-	*.*.*)	_kernver=${pkgver%.*};;
-	*.*) _kernver=$pkgver;;
-esac
+pkgname=linux-$_flavor
+pkgver=6.19.10
+_kernver=${pkgver%.*}
 pkgrel=0
-pkgdesc="Linux latest stable kernel built for Sigma Linux"
+pkgdesc="Linux stable kernel built for Sigma Linux"
 url="https://www.kernel.org"
 depends="initramfs-generator"
-_depends_dev="perl gmp-dev elfutils-dev flex bison"
-makedepends="$_depends_dev
-	bc
-	diffutils
-	findutils
-	installkernel
-	linux-headers
-	openssl-dev
-	python3
-	sed
-	xz"
-
-options="!strip !check" # no tests
+_depends_dev="perl gmp-dev mpc1-dev mpfr-dev elfutils-dev bash flex bison zstd"
+makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware-any openssl-dev>3 mawk
+	diffutils elfutils findutils zstd pahole python3 gcc>=13.1.1_git20230624 bpftool"
+options="!strip !check"
 _config=${config:-config-sigma.${CARCH}}
-
-subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
 source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/refs/heads/main/patches/stable/linux-6.17-bore/0001-linux6.17-bore-6.5.2.patch"
-case $pkgver in
-	*.*.0)	source="$source";;
-	*.*.*)	source="$source
-	https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/patch-$pkgver.xz" ;;
-esac
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/a020594b8562909d71494f1857432f61cb75893a/patches/stable/linux-6.19-bore/0001-linux6.19.7-bore-6.6.2.patch
 
-source="$source
-	config-sigma.x86_64
+	sigma.x86_64.config
 	"
-
-builddir="$srcdir/linux-${_kernver}"
-arch="x86_64"
-license="GPL-2.0"
-
-_flavors=
+subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc"
 for _i in $source; do
 	case $_i in
-	config-*.$CARCH)
-		_f=${_i%.$CARCH}
-		_f=${_f#config-}
-		_flavors="$_flavors ${_f}"
+	*.$CARCH.config)
+		_f=${_i%."$CARCH".config}
+		_flavors="$_flavors $_f"
 		if [ "linux-$_f" != "$pkgname" ]; then
-			subpackages="$subpackages linux-${_f}::$CBUILD_ARCH linux-${_f}-dev:_dev:$CBUILD_ARCH"
+			subpackages="$subpackages linux-$_f::$CBUILD_ARCH linux-$_f-dev:_dev:$CBUILD_ARCH"
 		fi
 		;;
 	esac
 done
+builddir="$srcdir"/linux-$_kernver
 
-_carch=${CARCH}
-case "$_carch" in
-aarch64*) _carch="arm64" ;;
-arm*) _carch="arm" ;;
-riscv64) _carch="riscv" ;;
-esac
+if [ "${pkgver%.0}" = "$pkgver" ]; then
+	# Prepend to apply first
+	source="patch-$pkgver.patch.xz::https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/patch-$pkgver.xz $source"
+fi
+arch="all !armhf"
+license="GPL-2.0-only"
 
 prepare() {
-	local _patch_failed=
-	cd $builddir
-	case $pkgver in
-		*.*.0);;
-		*)
-		msg "Applying patch-$pkgver.xz"
-		unxz -c < "$srcdir"/patch-$pkgver.xz | patch -p1 -N ;;
-	esac
-
-	# first apply patches in specified order
-	for i in $source; do
-		local i="$(echo "$i" | sed -E 's|.*/||g')" # Fix for URL patches
-		case $i in
-		*.patch)
-			msg "Applying $i..."
-			if ! patch -s -p1 -N -i "$srcdir"/$i; then
-				echo $i >>failed
-				_patch_failed=1
-			fi
-			;;
-		esac
-	done
-
-	if ! [ -z "$_patch_failed" ]; then
-		error "The following patches failed:"
-		cat failed
-		return 1
-	fi
+	default_prepare
 
 	# remove localversion from patch if any
 	rm -f localversion*
-	oldconfig
 }
 
-oldconfig() {
-	for i in $_flavors; do
-		local _config=config-$i.${CARCH}
-		mkdir -p "$builddir"
-		echo "-$pkgrel-$i" > "$builddir"/localversion-alpine \
-			|| return 1
+_kernelarch() {
+	local arch="$1"
+	case "$arch" in
+		aarch64*) arch="arm64" ;;
+		arm*) arch="arm" ;;
+		ppc*) arch="powerpc" ;;
+		s390*) arch="s390" ;;
+		riscv*) arch="riscv" ;;
+		loongarch64) arch="loongarch" ;;
+	esac
+	echo "$arch"
+}
 
-		cp "$srcdir"/$_config "$builddir"/.config
-		yes "" | make -C $builddir \
-			O="$builddir" \
-			ARCH="$_carch" \
-			listnewconfig oldconfig
+_prepareconfig() {
+	local _flavor="$1"
+	local _arch="$2"
+	local _config=$_flavor.$_arch.config
+	local _builddir="$srcdir"/build-$_flavor.$_arch
+	mkdir -p "$_builddir"
+	echo "-$pkgrel-$_flavor" > "$_builddir"/localversion-alpine
+
+	cp "$srcdir"/$_config "$_builddir"/.config
+	msg "Configuring $_flavor kernel ($_arch)"
+	make -C "$builddir" \
+		O="$_builddir" \
+		ARCH="$(_kernelarch $_arch)" \
+		olddefconfig
+
+	if grep "CONFIG_MODULE_SIG=y" "$_builddir"/.config >/dev/null; then
+		if [ -f "$KERNEL_SIGNING_KEY" ]; then
+			sed -i -e "s:^CONFIG_MODULE_SIG_KEY=.*:CONFIG_MODULE_SIG_KEY=\"$KERNEL_SIGNING_KEY\":" \
+				"$_builddir"/.config
+			msg "Using $KERNEL_SIGNING_KEY to sign $_flavor kernel ($_arch) modules"
+		else
+			warning "KERNEL_SIGNING_KEY was not set. A signing key will be generated, but 3rd"
+			warning "party modules can not be signed"
+		fi
+	fi
+}
+
+listconfigs() {
+	for i in $source; do
+		case "$i" in
+			*.config) echo $i;;
+		esac
 	done
+}
+
+prepareconfigs() {
+	for _config in $(listconfigs); do
+		local _flavor=${_config%%.*}
+		local _arch=${_config%.config}
+		_arch=${_arch#*.}
+		local _builddir="$srcdir"/build-$_flavor.$_arch
+		_prepareconfig "$_flavor" "$_arch"
+	done
+}
+
+# this is supposed to be run before version is bumped so we can compare
+# what new kernel config knobs are introduced
+prepareupdate() {
+	clean && fetch && unpack && prepare && deps
+	prepareconfigs
+	rm -r "$builddir"
+}
+
+updateconfigs() {
+	if ! [ -d "$builddir" ]; then
+		deps && fetch && unpack && prepare
+	fi
+	for _config in ${CONFIGS:-$(listconfigs)}; do
+		msg "updating $_config"
+		local _flavor=${_config%%.*}
+		local _arch=${_config%.config}
+		_arch=${_arch#*.}
+		local _builddir="$srcdir"/build-$_flavor.$_arch
+		mkdir -p "$_builddir"
+		echo "-$pkgrel-$_flavor" > "$_builddir"/localversion-alpine
+		local actions="listnewconfig oldconfig"
+		if ! [ -f "$_builddir"/.config ]; then
+			cp "$srcdir"/$_config "$_builddir"/.config
+			actions="olddefconfig"
+		fi
+		env | grep ^CONFIG_ >> "$_builddir"/.config || true
+		make -j1 -C "$builddir" \
+			O="$_builddir" \
+			ARCH="$(_kernelarch $_arch)" \
+			$actions savedefconfig
+
+		cp "$_builddir"/defconfig "$startdir"/$_config
+	done
+}
+
+set_kbuild_timestamp() {
+	# KBUILD_BUILD_TIMESTAMP needs to be parsable by busybox date
+	export KBUILD_BUILD_TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S' -u${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 }
 
 build() {
 	unset LDFLAGS
-	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+	# for some reason these sometimes leak into the kernel build,
+	# -Werror=format-security breaks some stuff
+	unset CFLAGS CPPFLAGS CXXFLAGS
+	set_kbuild_timestamp
 	for i in $_flavors; do
-		cd "$builddir"
-		make -j$(nproc) ARCH="$_carch" DTC_FLAGS="-@" CC="${CC:-gcc}" \
+		_prepareconfig "$i" "$CARCH"
+	done
+	for i in $_flavors; do
+		msg "Building $i kernel"
+		cd "$srcdir"/build-$i.$CARCH
+
+		# set org in cert for modules signing
+		# https://www.kernel.org/doc/html/v6.1/admin-guide/module-signing.html#generating-signing-keys
+		mkdir -p certs
+		sed -e 's/#O = Unspecified company/O = sigmalinux/' \
+			"$builddir"/certs/default_x509.genkey \
+			> certs/x509.genkey
+
+		make ARCH="$(_kernelarch $CARCH)" \
+			CC="${CC:-gcc}" \
+			AWK="${AWK:-mawk}" \
 			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-rdbo-sigma"
+
+		if grep -q '^CONFIG_DEBUG_INFO_BTF=y' .config; then
+			# Generate vmlinux.h
+			bpftool btf dump file vmlinux format c > vmlinux.h
+
+			if [ "$CARCH" = "ppc64le" ]; then
+				# ppc64le installs the uncompressed vmlinux, which is extremely
+				# large with BTF debuginfo unless stripped
+				eu-strip --remove-comment vmlinux
+			fi
+		fi
 	done
 }
 
 _package() {
 	local _buildflavor="$1" _outdir="$2"
-	local _abi_release=${pkgver}-${pkgrel}-${_buildflavor}
-	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+	set_kbuild_timestamp
 
-	cd "$builddir"
+	cd "$srcdir"/build-$_buildflavor.$CARCH
+	local _abi_release="$(make -s kernelrelease)"
 	# modules_install seems to regenerate a defect Modules.symvers on s390x. Work
 	# around it by backing it up and restore it after modules_install
 	cp Module.symvers Module.symvers.backup
@@ -143,21 +201,21 @@ _package() {
 
 	local _install
 	case "$CARCH" in
-		arm*|aarch64) _install="zinstall dtbs_install";;
-		riscv64) _install="install dtbs_install";;
+		arm*|aarch64|riscv*) _install="zinstall dtbs_install";;
 		*) _install=install;;
 	esac
 
-	make -j1 modules_install $_install \
-		ARCH="$_carch" \
+	make modules_install $_install \
+		ARCH="$(_kernelarch $CARCH)" \
 		INSTALL_MOD_PATH="$_outdir" \
+		INSTALL_MOD_STRIP=1 \
 		INSTALL_PATH="$_outdir"/boot \
 		INSTALL_DTBS_PATH="$_outdir/boot/dtbs-$_buildflavor"
 
 	cp Module.symvers.backup Module.symvers
 
-	rm -f "$_outdir"/lib/modules/${_abi_release}/build \
-		"$_outdir"/lib/modules/${_abi_release}/source
+	rm -f "$_outdir"/lib/modules/"$_abi_release"/build \
+		"$_outdir"/lib/modules/"$_abi_release"/source
 	rm -rf "$_outdir"/lib/firmware
 
 	install -D -m644 include/config/kernel.release \
@@ -168,108 +226,356 @@ _package() {
 package() {
 	depends="$depends linux-firmware-any"
 
-	_package sigma "$pkgdir"
+	_package "$_flavor" "$pkgdir"
+
+	# copy files for linux-sigma-doc sub package
+	mkdir -p "$pkgdir"/usr/share/doc
+	cp -r "$builddir"/Documentation \
+		"$pkgdir"/usr/share/doc/linux-sigma-doc-"$pkgver"/
+	# remove files that aren't part of the documentation itself
+	for nondoc in .gitignore conf.py docutils.conf Kconfig Makefile; do
+		rm "$pkgdir"/usr/share/doc/linux-sigma-doc-"$pkgver"/"$nondoc"
+	done
+	# create /usr/share/doc/linux-sigma-doc symlink
+	cd "$pkgdir"/usr/share/doc; ln -s linux-sigma-doc-"$pkgver" linux-sigma-doc
 }
 
 _dev() {
 	local _flavor=$(echo $subpkgname | sed -E 's/(^linux-|-dev$)//g')
-	local _abi_release=${pkgver}-${pkgrel}-$_flavor
+	local _builddir="$srcdir"/build-$_flavor.$CARCH
+	local _abi_release="$(make -C "$_builddir" -s kernelrelease)"
+	local _karch="$(_kernelarch $CARCH | sed 's/x86_64/x86/')"
 	# copy the only the parts that we really need for build 3rd party
 	# kernel modules and install those as /usr/src/linux-headers,
-	# simlar to what ubuntu does
+	# similar to what ubuntu does
 	#
 	# this way you dont need to install the 300-400 kernel sources to
 	# build a tiny kernel module
 	#
 	pkgdesc="Headers and script for third party modules for $_flavor kernel"
 	depends="$_depends_dev"
-	local dir="$subpkgdir"/usr/src/linux-headers-${_abi_release}
-	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+	local dir="$subpkgdir"/usr/src/linux-headers-"$_abi_release"
+	set_kbuild_timestamp
 
 	# first we import config, run prepare to set up for building
 	# external modules, and create the scripts
 	mkdir -p "$dir"
-	cp "$srcdir"/config-$_flavor.${CARCH} "$dir"/.config
-	echo "-$pkgrel-$_flavor" > "$dir"/localversion-alpine
-	cd $builddir
+	cp -a "$_builddir"/.config "$_builddir"/localversion-alpine \
+		"$dir"/
 
-	echo "Installing headers..."
-	case "$_carch" in
-	x86_64)
-		_carch="x86"
-		install -Dt "${dir}/tools/objtool" $builddir/tools/objtool/objtool
-		;;
-	esac
-	cp -t "$dir" -a $builddir/include
+	install -D -t "$dir"/certs "$_builddir"/certs/signing_key.x509 || :
 
-	install -Dt "${dir}" -m644 $builddir/Makefile
-	install -Dt "${dir}" -m644 $builddir/Module.symvers
-	install -Dt "${dir}" -m644 $builddir/System.map
-	cp -t "$dir" -a $builddir/scripts
+	# Install vmlinux.h
+	if grep -q '^CONFIG_DEBUG_INFO_BTF=y' "$_builddir"/.config; then
+		install -Dm644 "$_builddir"/vmlinux.h -t "$dir/"
+	fi
 
-	install -Dt "${dir}/arch/${_carch}" -m644 $builddir/arch/${_carch}/Makefile
-	install -Dt "${dir}/arch/${_carch}/kernel" -m644 $builddir/arch/${_carch}/kernel/asm-offsets.s
-	cp -t "${dir}/arch/${_carch}" -a $builddir/arch/${_carch}/include
+	make -C "$builddir" \
+		O="$dir" \
+		ARCH="$(_kernelarch $CARCH)" \
+		AWK="${AWK:-mawk}" \
+		prepare modules_prepare scripts
 
-	install -Dt "$dir/drivers/md" -m644 drivers/md/*.h
-	install -Dt "$dir/net/mac80211" -m644 net/mac80211/*.h
+	# remove the stuff that points to real sources. we want 3rd party
+	# modules to believe this is the sources
+	rm "$dir"/Makefile "$dir"/source
 
-	# https://bugs.archlinux.org/task/13146
-	install -Dt "$dir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+	# copy the needed stuff from real sources
+	#
+	# this is taken from ubuntu kernel build script
+	# http://kernel.ubuntu.com/git/ubuntu/ubuntu-zesty.git/tree/debian/rules.d/3-binary-indep.mk
+	cd "$builddir"
+	find .  -path './include/*' -prune \
+		-o -path './scripts/*' -prune -o -type f \
+		\( -name 'Makefile*' -o -name 'Kconfig*' -o -name 'Kbuild*' -o \
+		   -name '*.sh' -o -name '*.pl' -o -name '*.lds' -o -name 'Platform' \) \
+		-print | cpio -pdm "$dir"
 
-	# https://bugs.archlinux.org/task/20402
-	install -Dt "$dir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
-	install -Dt "$dir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
-	install -Dt "$dir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+	cp -a scripts include "$dir"
 
-	# https://bugs.archlinux.org/task/71392
-	install -Dt "$dir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+	find "arch/$_karch" "tools/include" "tools/arch/$_karch" -type f -path '*/include/*' \
+		-print | cpio -pdm "$dir"
 
-	echo "Installing KConfig files..."
-	find . -name 'Kconfig*' -exec install -Dm644 {} "$dir/{}" \;
+	install -Dm644 "$srcdir"/build-$_flavor.$CARCH/Module.symvers \
+		"$dir"/Module.symvers
 
-	echo "Removing unneeded architectures..."
-	local arch
-	for arch in "$dir"/arch/*/; do
-		case $(basename "$arch") in $_carch) continue ;; esac
-		echo "Removing $(basename "$arch")"
-		rm -r "$arch"
-	done
+	# remove unneeded things
+	msg "Removing documentation..."
+	rm -r "$dir"/Documentation
+	sed -i -e '/Documentation/d' "$dir"/Kconfig
+	find "$dir" -type f \( -name '*.o' -o -name '*.cmd' \) -exec rm -v -- {} +
 
-	echo "Removing broken symlinks..."
-	find -L "$builddir" -type l -printf 'Removing %P\n' -delete
-
-	echo "Removing loose objects..."
-	find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
-
-	echo "Stripping build tools..."
-	local file
-	while read -rd '' file; do
-		case "$(file -bi "$file")" in
-			application/x-sharedlib\;*)      # Libraries (.so)
-				strip -v $STRIP_SHARED "$file" ;;
-			application/x-archive\;*)        # Libraries (.a)
-				strip -v $STRIP_STATIC "$file" ;;
-			application/x-executable\;*)     # Binaries
-				strip -v $STRIP_BINARIES "$file" ;;
-			application/x-pie-executable\;*) # Relocatable binaries
-				strip -v $STRIP_SHARED "$file" ;;
-		esac
-	done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
-
-	echo "Stripping vmlinux..."
-	strip -v $STRIP_STATIC "$builddir/vmlinux"
-
-	echo "Adding symlink..."
-	mkdir -p "$subpkgdir"/lib/modules/${_abi_release}
-	ln -sf /usr/src/linux-headers-${_abi_release} \
-		"$subpkgdir"/lib/modules/${_abi_release}/build
+	mkdir -p "$subpkgdir"/lib/modules/"$_abi_release"
+	ln -sf /usr/src/linux-headers-"$_abi_release" \
+		"$subpkgdir"/lib/modules/"$_abi_release"/build
 }
 
-_doc() {
-	pkgdesc="documentation for $_flavor kernel"
-	mkdir -p "$subpkgdir"/usr/share/doc/linux-sigma-doc
-	cp -r "$builddir"/Documentation \
-		"$subpkgdir"/usr/share/doc/linux-sigma-doc/
+# _flavor=sigma
+# pkgname=linux-${_flavor}
+# pkgver=6.19.10
+# case $pkgver in
+# 	*.*.*)	_kernver=${pkgver%.*};;
+# 	*.*) _kernver=$pkgver;;
+# esac
+# pkgrel=0
+# pkgdesc="Linux latest stable kernel built for Sigma Linux"
+# url="https://www.kernel.org"
+# depends="initramfs-generator"
+# _depends_dev="perl gmp-dev elfutils-dev flex bison"
+# makedepends="$_depends_dev
+# 	bc
+# 	diffutils
+# 	findutils
+# 	installkernel
+# 	linux-headers
+# 	openssl-dev
+# 	python3
+# 	sed
+# 	xz"
 
-}
+# options="!strip !check" # no tests
+# _config=${config:-config-sigma.${CARCH}}
+
+# subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc:_doc"
+# source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
+# 	https://raw.githubusercontent.com/firelzrd/bore-scheduler/a020594b8562909d71494f1857432f61cb75893a/patches/stable/linux-6.19-bore/0001-linux6.19.7-bore-6.6.2.patch
+# 	"
+# case $pkgver in
+# 	*.*.0)	source="$source";;
+# 	*.*.*)	source="$source
+# 	https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/patch-$pkgver.xz" ;;
+# esac
+
+# source="$source
+# 	config-sigma.x86_64
+# 	"
+
+# builddir="$srcdir/linux-${_kernver}"
+# arch="x86_64"
+# license="GPL-2.0"
+
+# _flavors=
+# for _i in $source; do
+# 	case $_i in
+# 	config-*.$CARCH)
+# 		_f=${_i%.$CARCH}
+# 		_f=${_f#config-}
+# 		_flavors="$_flavors ${_f}"
+# 		if [ "linux-$_f" != "$pkgname" ]; then
+# 			subpackages="$subpackages linux-${_f}::$CBUILD_ARCH linux-${_f}-dev:_dev:$CBUILD_ARCH"
+# 		fi
+# 		;;
+# 	esac
+# done
+
+# _carch=${CARCH}
+# case "$_carch" in
+# aarch64*) _carch="arm64" ;;
+# arm*) _carch="arm" ;;
+# riscv64) _carch="riscv" ;;
+# esac
+
+# prepare() {
+# 	local _patch_failed=
+# 	cd $builddir
+# 	case $pkgver in
+# 		*.*.0);;
+# 		*)
+# 		msg "Applying patch-$pkgver.xz"
+# 		unxz -c < "$srcdir"/patch-$pkgver.xz | patch -p1 -N ;;
+# 	esac
+
+# 	# first apply patches in specified order
+# 	for i in $source; do
+# 		local i="$(echo "$i" | sed -E 's|.*/||g')" # Fix for URL patches
+# 		case $i in
+# 		*.patch)
+# 			msg "Applying $i..."
+# 			if ! patch -s -p1 -N -i "$srcdir"/$i; then
+# 				echo $i >>failed
+# 				_patch_failed=1
+# 			fi
+# 			;;
+# 		esac
+# 	done
+
+# 	if ! [ -z "$_patch_failed" ]; then
+# 		error "The following patches failed:"
+# 		cat failed
+# 		return 1
+# 	fi
+
+# 	# remove localversion from patch if any
+# 	rm -f localversion*
+# 	oldconfig
+# }
+
+# oldconfig() {
+# 	for i in $_flavors; do
+# 		local _config=config-$i.${CARCH}
+# 		mkdir -p "$builddir"
+# 		echo "-$pkgrel-$i" > "$builddir"/localversion-sigma \
+# 			|| return 1
+
+# 		cp "$srcdir"/$_config "$builddir"/.config
+# 		yes "" | make -C $builddir \
+# 			O="$builddir" \
+# 			ARCH="$_carch" \
+# 			listnewconfig oldconfig
+# 	done
+# }
+
+# build() {
+# 	unset LDFLAGS
+# 	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+# 	for i in $_flavors; do
+# 		cd "$builddir"
+# 		make -j$(nproc) ARCH="$_carch" DTC_FLAGS="-@" CC="${CC:-gcc}" \
+# 			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-rdbo-sigma"
+# 	done
+# }
+
+# _package() {
+# 	local _buildflavor="$1" _outdir="$2"
+# 	local _abi_release=${pkgver}-${pkgrel}-${_buildflavor}
+# 	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+
+# 	cd "$builddir"
+# 	# modules_install seems to regenerate a defect Modules.symvers on s390x. Work
+# 	# around it by backing it up and restore it after modules_install
+# 	cp Module.symvers Module.symvers.backup
+
+# 	mkdir -p "$_outdir"/boot "$_outdir"/lib/modules
+
+# 	local _install
+# 	case "$CARCH" in
+# 		arm*|aarch64) _install="zinstall dtbs_install";;
+# 		riscv64) _install="install dtbs_install";;
+# 		*) _install=install;;
+# 	esac
+
+# 	make -j1 modules_install $_install \
+# 		ARCH="$_carch" \
+# 		INSTALL_MOD_PATH="$_outdir" \
+# 		INSTALL_PATH="$_outdir"/boot \
+# 		INSTALL_DTBS_PATH="$_outdir/boot/dtbs-$_buildflavor"
+
+# 	cp Module.symvers.backup Module.symvers
+
+# 	rm -f "$_outdir"/lib/modules/${_abi_release}/build \
+# 		"$_outdir"/lib/modules/${_abi_release}/source
+# 	rm -rf "$_outdir"/lib/firmware
+
+# 	install -D -m644 include/config/kernel.release \
+# 		"$_outdir"/usr/share/kernel/$_buildflavor/kernel.release
+# }
+
+# # main flavor installs in $pkgdir
+# package() {
+# 	depends="$depends linux-firmware-any"
+
+# 	_package sigma "$pkgdir"
+# }
+
+# _dev() {
+# 	local _flavor=$(echo $subpkgname | sed -E 's/(^linux-|-dev$)//g')
+# 	local _abi_release=${pkgver}-${pkgrel}-$_flavor
+# 	# copy the only the parts that we really need for build 3rd party
+# 	# kernel modules and install those as /usr/src/linux-headers,
+# 	# simlar to what ubuntu does
+# 	#
+# 	# this way you dont need to install the 300-400 kernel sources to
+# 	# build a tiny kernel module
+# 	#
+# 	pkgdesc="Headers and script for third party modules for $_flavor kernel"
+# 	depends="$_depends_dev"
+# 	local dir="$subpkgdir"/usr/src/linux-headers-${_abi_release}
+# 	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+
+# 	# first we import config, run prepare to set up for building
+# 	# external modules, and create the scripts
+# 	mkdir -p "$dir"
+# 	cp "$srcdir"/config-$_flavor.${CARCH} "$dir"/.config
+# 	echo "-$pkgrel-$_flavor" > "$dir"/localversion-sigma
+# 	cd $builddir
+
+# 	echo "Installing headers..."
+# 	case "$_carch" in
+# 	x86_64)
+# 		_carch="x86"
+# 		install -Dt "${dir}/tools/objtool" $builddir/tools/objtool/objtool
+# 		;;
+# 	esac
+# 	cp -t "$dir" -a $builddir/include
+
+# 	install -Dt "${dir}" -m644 $builddir/Makefile
+# 	install -Dt "${dir}" -m644 $builddir/Module.symvers
+# 	install -Dt "${dir}" -m644 $builddir/System.map
+# 	cp -t "$dir" -a $builddir/scripts
+
+# 	install -Dt "${dir}/arch/${_carch}" -m644 $builddir/arch/${_carch}/Makefile
+# 	install -Dt "${dir}/arch/${_carch}/kernel" -m644 $builddir/arch/${_carch}/kernel/asm-offsets.s
+# 	cp -t "${dir}/arch/${_carch}" -a $builddir/arch/${_carch}/include
+
+# 	install -Dt "$dir/drivers/md" -m644 drivers/md/*.h
+# 	install -Dt "$dir/net/mac80211" -m644 net/mac80211/*.h
+
+# 	# https://bugs.archlinux.org/task/13146
+# 	install -Dt "$dir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+
+# 	# https://bugs.archlinux.org/task/20402
+# 	install -Dt "$dir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+# 	install -Dt "$dir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+# 	install -Dt "$dir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+
+# 	# https://bugs.archlinux.org/task/71392
+# 	install -Dt "$dir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+
+# 	echo "Installing KConfig files..."
+# 	find . -name 'Kconfig*' -exec install -Dm644 {} "$dir/{}" \;
+
+# 	echo "Removing unneeded architectures..."
+# 	local arch
+# 	for arch in "$dir"/arch/*/; do
+# 		case $(basename "$arch") in $_carch) continue ;; esac
+# 		echo "Removing $(basename "$arch")"
+# 		rm -r "$arch"
+# 	done
+
+# 	echo "Removing broken symlinks..."
+# 	find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+
+# 	echo "Removing loose objects..."
+# 	find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
+# 	echo "Stripping build tools..."
+# 	local file
+# 	while read -rd '' file; do
+# 		case "$(file -bi "$file")" in
+# 			application/x-sharedlib\;*)      # Libraries (.so)
+# 				strip -v $STRIP_SHARED "$file" ;;
+# 			application/x-archive\;*)        # Libraries (.a)
+# 				strip -v $STRIP_STATIC "$file" ;;
+# 			application/x-executable\;*)     # Binaries
+# 				strip -v $STRIP_BINARIES "$file" ;;
+# 			application/x-pie-executable\;*) # Relocatable binaries
+# 				strip -v $STRIP_SHARED "$file" ;;
+# 		esac
+# 	done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
+
+# 	echo "Stripping vmlinux..."
+# 	strip -v $STRIP_STATIC "$builddir/vmlinux"
+
+# 	echo "Adding symlink..."
+# 	mkdir -p "$subpkgdir"/lib/modules/${_abi_release}
+# 	ln -sf /usr/src/linux-headers-${_abi_release} \
+# 		"$subpkgdir"/lib/modules/${_abi_release}/build
+# }
+
+# _doc() {
+# 	pkgdesc="documentation for $_flavor kernel"
+# 	mkdir -p "$subpkgdir"/usr/share/doc/linux-sigma-doc
+# 	cp -r "$builddir"/Documentation \
+# 		"$subpkgdir"/usr/share/doc/linux-sigma-doc/
+
+# }

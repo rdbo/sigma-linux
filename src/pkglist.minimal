@@ -166,7 +166,7 @@ sigma-sent
 
 ## Chat
 # weechat
-simplex-chat
+# simplex-chat
 
 ## Monitoring
 # wireshark tshark

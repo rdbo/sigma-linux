@@ -79,9 +79,9 @@ if [ ! -d "$APKTEMP_DIR/sigma-flat-remix-gtk" ]; then
 fi
 
 # simplex-chat
-if [ ! -d "$APKTEMP_DIR/simplex-chat" ]; then
-	cp -r "$APK_DIR/simplex-chat/" "$APKTEMP_DIR/"
-fi
+# if [ ! -d "$APKTEMP_DIR/simplex-chat" ]; then
+# 	cp -r "$APK_DIR/simplex-chat/" "$APKTEMP_DIR/"
+# fi
 
 # biblegen
 if [ ! -d "$APKTEMP_DIR/biblegen" ]; then
