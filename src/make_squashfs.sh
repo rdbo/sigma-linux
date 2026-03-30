@@ -33,6 +33,8 @@ echo "Packages: $pkgs"
 
 # Create /etc/modules for use in initrdbo
 cat <<- EOF > "$SQUASHFS_DIR/etc/modules"
+sd_mod
+sr_mod
 ahci libahci
 ata_generic libata
 ata_piix
