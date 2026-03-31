@@ -31,10 +31,11 @@ alias ls="ls --color=auto"
 
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ] && [ $(id -u) -ne 0 ]; then
-	# exec dbus-launch river
-	# exec dbus-launch Hyprland
-	# exec dbus-launch dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
-	# exec dbus-launch niri
-	# exec dbus-launch start-cosmic
-	WLR_DRM_NO_ATOMIC=1 exec dbus-launch mango
+    rc-service --user dbus start
+	# exec river
+	# exec Hyprland
+	# exec dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
+	# exec niri
+	# exec start-cosmic
+	exec mango
 fi
