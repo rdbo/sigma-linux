@@ -106,12 +106,13 @@ font-noto-all
 # river river-doc # compositor
 # hyprland hyprland-doc
 # mangowc
-niri
-waybar waybar-doc # status bar
+# niri
+# waybar waybar-doc # status bar
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
 swaylock # screen locker
 swaybg # wallpaper daemon
+cosmic-session cosmic-launcher cosmic-randr cosmic-panel cosmic-files cosmic-icons cosmic-comp cosmic-bg
 
 ## Terminal
 # rio
