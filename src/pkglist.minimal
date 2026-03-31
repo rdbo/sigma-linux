@@ -105,7 +105,8 @@ font-ubuntu-nerd
 ## Desktop
 # river river-doc # compositor
 # hyprland # hyprland-doc
-mangowc
+# mangowc
+niri
 waybar waybar-doc # status bar
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
