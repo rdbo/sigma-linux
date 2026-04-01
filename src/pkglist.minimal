@@ -76,7 +76,7 @@ networkmanager networkmanager-wifi networkmanager-wwan networkmanager-dnsmasq ne
 ## Audio
 pipewire pipewire-pulse pipewire-alsa pipewire-jack
 pulsemixer pulseaudio-ctl pulseaudio-utils
-# easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
+easyeffects calf-lv2 lsp-plugins-lv2 mda-lv2 zam-plugins-lv2
 
 ## Bluetooth
 bluez
@@ -174,7 +174,7 @@ sigma-sent
 # wireshark tshark
 
 ## System Resources
-# lm-sensors
+lm-sensors
 # hardinfo2
 pciutils
 lscpu
