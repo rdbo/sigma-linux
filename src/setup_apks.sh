@@ -1,12 +1,12 @@
 #!/bin/sh
 
 # linux-sigma
-if [ ! -d "$APKTEMP_DIR/linux-sigma" ]; then
-	mkdir -p "$APKTEMP_DIR/linux-sigma"
-	cp -r "$APK_DIR/linux-sigma/." "$APKTEMP_DIR/linux-sigma/."
-	cd "$APKTEMP_DIR/linux-sigma"
-	abuild checksum
-fi
+# if [ ! -d "$APKTEMP_DIR/linux-sigma" ]; then
+# 	mkdir -p "$APKTEMP_DIR/linux-sigma"
+# 	cp -r "$APK_DIR/linux-sigma/." "$APKTEMP_DIR/linux-sigma/."
+# 	cd "$APKTEMP_DIR/linux-sigma"
+# 	abuild checksum
+# fi
 
 # initrdbo
 if [ ! -d "$APKTEMP_DIR/initrdbo" ]; then
