@@ -22,7 +22,6 @@ initrdbo
 # linux-sigma linux-sigma-dev
 linux-stable linux-stable-dev
 linux-firmware
-pciutils
 alpine-sdk
 kmod
 shadow
@@ -107,13 +106,13 @@ font-ubuntu-nerd
 # river river-doc # compositor
 # hyprland # hyprland-doc
 # mangowc
-# niri
-# waybar waybar-doc # status bar
+niri
+waybar waybar-doc # status bar
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
 swaylock # screen locker
 swaybg # wallpaper daemon
-cosmic-session cosmic-launcher cosmic-randr cosmic-panel cosmic-files cosmic-icons cosmic-comp cosmic-bg
+# cosmic-session cosmic-launcher cosmic-randr cosmic-panel cosmic-files cosmic-icons cosmic-comp cosmic-bg
 
 ## Terminal
 # rio
@@ -174,6 +173,12 @@ sigma-sent
 ## Monitoring
 # wireshark tshark
 
+## System Resources
+# lm-sensors
+# hardinfo2
+pciutils
+lscpu
+
 ## Misc
 wl-clipboard
 wlr-randr
@@ -203,6 +208,7 @@ mesa-gles
 mesa-vulkan-ati
 mesa-vulkan-intel
 mesa-vulkan-swrast
+mesa-utils
 
 #--------------------------------#
 
