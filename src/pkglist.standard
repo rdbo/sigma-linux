@@ -1,4 +1,6 @@
 # Core Packages
+
+## Core
 alpine-base
 alpine-baselayout
 alpine-baselayout-data
@@ -21,13 +23,46 @@ efibootmgr
 initrdbo
 linux-sigma linux-sigma-dev
 # linux-stable linux-stable-dev
-linux-firmware
 alpine-sdk
 kmod
 shadow
 umount
 merge-usr
 losetup
+
+## Firmware
+linux-firmware-amd
+linux-firmware-amd-ucode
+linux-firmware-amdgpu
+linux-firmware-intel
+linux-firmware-i915
+linux-firmware-nvidia
+linux-firmware-brcm
+linux-firmware-realtek
+linux-firmware-rtl_bt
+linux-firmware-rtw88
+linux-firmware-rtw89
+linux-firmware-rtlwifi
+linux-firmware-qca
+linux-firmware-ath10k
+linux-firmware-ath11k
+linux-firmware-ath12k
+linux-firmware-bnx2
+linux-firmware-bnx2x
+linux-firmware-mellanox
+linux-firmware-microchip
+linux-firmware-synaptics
+linux-firmware-hp
+linux-firmware-lenovo
+linux-firmware-dell
+linux-firmware-powervr
+linux-firmware-amlogic
+linux-firmware-meson
+linux-firmware-rockchip
+linux-firmware-mrvl
+linux-firmware-qcom
+linux-firmware-mediatek
+linux-firmware-mwlwifi
 
 #--------------------------------#
 

@@ -190,23 +190,23 @@ rm -rf "$SQUASHFS_DIR/boot"
 
 # Cleanup firmware files that are not used by any module
 # (they can be reinstalled through the `linux-firmware` pkg)
-if [ -e "$FIRMWARE_DIR" ]; then
-	echo "[*] Skipped firmware cleanup, '$FIRMWARE_DIR' exists"
-else
-	echo "[*] Cleaning up unused firmware for squashfs..."
-	mv "$SQUASHFS_DIR/lib/firmware" "$FIRMWARE_DIR"
-	mkdir -p "$SQUASHFS_DIR/lib/firmware"
-	# TODO: Make sure that `modinfo` cannot fail. It mail fail due to
-	#       the host kernel not being the same as the installer kernel
-	chroot "$FILESYSTEM_DIR" find /lib/modules -type f -name "*.ko*" | chroot "$FILESYSTEM_DIR" xargs -r -- modinfo -F firmware | sort -u | while read fw; do
-		for fname in "$fw" "$fw.zst" "$fw.xz"; do
-			if [ -e "${FIRMWARE_DIR}/$fname" ]; then
-				install -pD "${FIRMWARE_DIR}/$fname" "$SQUASHFS_DIR/lib/firmware/$fname"
-				break
-			fi
-		done
-	done
-fi
+# if [ -e "$FIRMWARE_DIR" ]; then
+# 	echo "[*] Skipped firmware cleanup, '$FIRMWARE_DIR' exists"
+# else
+# 	echo "[*] Cleaning up unused firmware for squashfs..."
+# 	mv "$SQUASHFS_DIR/lib/firmware" "$FIRMWARE_DIR"
+# 	mkdir -p "$SQUASHFS_DIR/lib/firmware"
+# 	# TODO: Make sure that `modinfo` cannot fail. It mail fail due to
+# 	#       the host kernel not being the same as the installer kernel
+# 	chroot "$FILESYSTEM_DIR" find /lib/modules -type f -name "*.ko*" | chroot "$FILESYSTEM_DIR" xargs -r -- modinfo -F firmware | sort -u | while read fw; do
+# 		for fname in "$fw" "$fw.zst" "$fw.xz"; do
+# 			if [ -e "${FIRMWARE_DIR}/$fname" ]; then
+# 				install -pD "${FIRMWARE_DIR}/$fname" "$SQUASHFS_DIR/lib/firmware/$fname"
+# 				break
+# 			fi
+# 		done
+# 	done
+# fi
 
 # Create squashfs
 rm -f "$SQUASHFS_PATH" # Avoid appending to existing squashfs file
