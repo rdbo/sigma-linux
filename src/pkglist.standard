@@ -142,7 +142,7 @@ sc-im
 sigma-sent
 groff
 poppler poppler-utils
-zathura zathura-pdf-mupdf
+# zathura zathura-pdf-mupdf
 # libreoffice libreoffice-gtk
 
 ## Mail
