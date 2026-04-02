@@ -38,6 +38,7 @@ linux-firmware
 # System
 
 ## Administration Tools
+bash starship
 doas
 openssh
 curl wget

@@ -69,6 +69,7 @@ linux-firmware-mwlwifi
 # System
 
 ## Administration Tools
+bash starship
 doas
 openssh
 curl wget
