@@ -96,6 +96,7 @@ cpupower
 polkit
 argon2
 delta
+just
 
 ## Suspend/Hibernate
 acpid zzz
