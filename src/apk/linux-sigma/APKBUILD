@@ -7,7 +7,7 @@
 
 _flavor=sigma
 pkgname=linux-$_flavor
-pkgver=6.19.10
+pkgver=7.3.1
 _kernver=${pkgver%.*}
 pkgrel=0
 pkgdesc="Linux stable kernel built for Sigma Linux"
@@ -19,8 +19,7 @@ makedepends="$_depends_dev sed installkernel bc linux-headers openssl-dev mawk
 options="!strip !check"
 _config=${config:-config-sigma.${CARCH}}
 source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
-	https://raw.githubusercontent.com/firelzrd/bore-scheduler/a020594b8562909d71494f1857432f61cb75893a/patches/stable/linux-6.19-bore/0001-linux6.19.7-bore-6.6.2.patch
-
+	https://raw.githubusercontent.com/firelzrd/bore-scheduler/1e2f57ad74e8b8b1d315c03b7abd8d74e40448b4/patches/stable/0001-linux7.3-rc2-bore-7.0.0.patch
 	sigma.x86_64.config
 	"
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH $pkgname-doc"
