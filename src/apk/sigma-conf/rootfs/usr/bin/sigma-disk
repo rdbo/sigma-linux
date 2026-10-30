@@ -1,0 +1,114 @@
+#!/bin/sh
+
+. sigma-common
+
+# Only list filesystems backed by a block device
+DISKS="$(df -hP | awk 'NR > 1 && $1 ~ /^\/dev\// { print $6 ":" $3 ":" $2 ":" $5 }')"
+ROOT_USED_PERC="$(df -P / | awk 'NR == 2 { sub("%", "", $5); print $5 }')"
+
+SYS_BLOCK_DIR="/sys/block"
+DISKSTAT_CACHE="$SIGMA_TMP_DIR/diskstat"
+DISK_ACTIVITY=""
+
+# Convert bytes to highest unit
+convert_bytes() {
+	local bytes="$1"
+	local units="B KiB MiB GiB TiB PiB EiB ZiB YiB"
+	local i=1
+
+	while [ $bytes -ge 1024 ]; do
+		bytes="$(($bytes / 1024))"
+		i="$(($i + 1))"
+	done
+
+	local unit="$(echo $units | cut -d " " -f $i)"
+
+	printf "%s" "$bytes $unit"
+}
+
+# Print "<disk> <sectors read> <sectors written>" for each physical disk
+# (virtual devices like ram, zram, loop and dm have no 'device' link)
+diskstat() {
+	for dev in $SYS_BLOCK_DIR/*; do
+		if [ ! -e "$dev/device" ]; then
+			continue
+		fi
+
+		echo "$(basename "$dev") $(awk '{ print $3 " " $7 }' "$dev/stat")"
+	done
+}
+
+now="$(date +%s)"
+curstat="$(diskstat)"
+oldtime="$now"
+oldstat="$curstat"
+
+if [ -f "$DISKSTAT_CACHE" ]; then
+	oldtime="$(head -n 1 "$DISKSTAT_CACHE")"
+	oldstat="$(tail -n +2 "$DISKSTAT_CACHE")"
+fi
+
+elapsed="$(($now - $oldtime))"
+if [ $elapsed -le 0 ]; then
+	elapsed=1
+fi
+
+# Calculate read/write speeds since last run (sectors are always 512 bytes)
+for disk in $(echo "$curstat" | cut -d ' ' -f 1); do
+	read_sectors="$(echo "$curstat" | grep "^$disk " | cut -d ' ' -f 2)"
+	write_sectors="$(echo "$curstat" | grep "^$disk " | cut -d ' ' -f 3)"
+	old_read_sectors="$(echo "$oldstat" | grep "^$disk " | cut -d ' ' -f 2)"
+	old_write_sectors="$(echo "$oldstat" | grep "^$disk " | cut -d ' ' -f 3)"
+
+	read_speed="$(((${read_sectors:-0} - ${old_read_sectors:-$read_sectors}) * 512 / $elapsed))"
+	write_speed="$(((${write_sectors:-0} - ${old_write_sectors:-$write_sectors}) * 512 / $elapsed))"
+
+	DISK_ACTIVITY="$DISK_ACTIVITY ${disk}:$(convert_bytes "$read_speed" | tr ' ' '_'):$(convert_bytes "$write_speed" | tr ' ' '_')"
+done
+
+printf "%s\n%s\n" "$now" "$curstat" > "$DISKSTAT_CACHE"
+
+if [ "$1" = "waybar" ]; then
+	text=" ${ROOT_USED_PERC}%"
+	alt=""
+	tooltip=""
+	class=""
+	percentage="$ROOT_USED_PERC"
+
+	for disk in $DISKS; do
+		mountpoint="$(echo "$disk" | cut -d ':' -f 1)"
+		used="$(echo "$disk" | cut -d ':' -f 2)"
+		size="$(echo "$disk" | cut -d ':' -f 3)"
+		used_perc="$(echo "$disk" | cut -d ':' -f 4)"
+
+		if [ ! -z "$tooltip" ]; then
+			tooltip="$tooltip\\n"
+		fi
+
+		tooltip="${tooltip}<span color='#00ffc8'>$mountpoint</span>: $used<span color='#0099BB'><b>/</b></span>$size ($used_perc)"
+	done
+
+	activity_tooltip=""
+	for activity in $DISK_ACTIVITY; do
+		disk="$(echo "$activity" | cut -d ':' -f 1)"
+		read_speed="$(echo "$activity" | cut -d ':' -f 2 | tr '_' ' ')"
+		write_speed="$(echo "$activity" | cut -d ':' -f 3 | tr '_' ' ')"
+
+		activity_tooltip="${activity_tooltip}\\n<span color='#00ffc8'>$disk</span>: read $read_speed/s<span color='#0099BB'><b>,</b></span> write $write_speed/s"
+	done
+
+	if [ ! -z "$activity_tooltip" ]; then
+		# Make the separator as wide as the longest line (the tooltip font is monospace)
+		width="$(printf "%s%s" "$tooltip" "$activity_tooltip" | sed 's/\\n/\n/g; s/<[^>]*>//g' | awk '{ if (length > max) max = length } END { print max }')"
+		separator="$(printf "%${width}s" | sed 's/ /─/g')"
+		tooltip="${tooltip}\\n<span color='#0099BB'>${separator}</span>${activity_tooltip}"
+	fi
+
+	printf "{"
+	printf '    "text": "%s",' "$text"
+	printf '    "alt": "%s",' "$alt"
+	printf '    "tooltip": "%s",' "$tooltip"
+	printf '    "class": "%s",' "$class"
+	printf '    "percentage": "%s"' "$percentage"
+	printf "}"
+fi

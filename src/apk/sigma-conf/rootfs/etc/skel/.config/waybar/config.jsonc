@@ -8,7 +8,7 @@
     // "modules-left": ["river/tags"],
     "modules-left": ["dwl/tags"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/battery", "custom/audio#sink", "custom/audio#source", "custom/vkbd", "custom/power"],
+    "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/disk", "custom/battery", "custom/audio#sink", "custom/audio#source", "custom/vkbd", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -65,6 +65,13 @@
     "custom/memory": {
         "interval": 1,
         "exec": "sigma-memory waybar",
+        "exec-on-event": false,
+        "return-type": "json"
+    },
+
+    "custom/disk": {
+        "interval": 1,
+        "exec": "sigma-disk waybar",
         "exec-on-event": false,
         "return-type": "json"
     },
