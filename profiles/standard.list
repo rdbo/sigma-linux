@@ -1,0 +1,116 @@
+# standard: minimal plus everyday tools, media and development
+#
+# Syntax: one or more packages per line, # starts a comment,
+# `@include <profile>` pulls in another profile, `-pattern` removes
+# packages (globs allowed) added before it.
+
+@include minimal
+
+# System
+
+## Administration Tools
+openssh
+curl wget
+gpg
+patch entr
+7zip
+rsync
+diffutils
+tmux tmux-doc
+jq
+ripgrep
+btop
+bandwhich
+timeshift
+flatpak
+bubblewrap
+bc
+argon2
+delta
+just
+
+## Network
+openvpn wireguard-tools
+
+## Docs
+mandoc man-pages
+
+#--------------------------------#
+
+# Desktop Environment
+
+## Fonts
+font-noto-all
+
+## Text Editing
+helix helix-tree-sitter-vendor
+
+## Browser
+librewolf
+
+## File Managent
+yazi dragon-drop
+
+## Office
+sc-im
+groff
+poppler poppler-utils
+
+## Multimedia
+mpv
+ffmpeg
+imagemagick
+nsxiv
+wf-recorder
+
+## Password Management
+keepassxc pass
+
+## Chat
+weechat
+
+## System Resources
+hardinfo2
+
+## Misc
+lxappearance
+zenity
+cava
+wev xev
+
+#--------------------------------#
+
+# Development
+
+## Compilers/Interpreters
+ruby ruby-doc ruby-rdoc ruby-full ruby-dev
+python3 py3-pip py3-virtualenv
+gcc g++ valgrind
+perl
+openjdk25
+rust cargo
+go
+
+## Linkers
+mold
+
+## Build Systems
+make cmake meson ninja-build
+maven
+
+## Versioning
+git git-doc
+
+## Debuggers
+gdb
+
+#--------------------------------#
+
+# 1337 h@xx0r
+
+hexedit
+exiftool
+socat
+arp-scan
+tor
+android-tools scrcpy

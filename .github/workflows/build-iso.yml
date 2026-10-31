@@ -1,19 +1,155 @@
-name: Build ISO
+name: CI
 
-on: [workflow_dispatch]
+# Every push and pull request runs the tests. The full ISO build (hours: the
+# kernel alone is most of it) runs for master, for version tags, and on
+# demand: Actions → CI → Run workflow, or `gh workflow run build-iso.yml --ref <branch>`.
+# A version tag (git tag v1.2 && git push --tags) also publishes the ISO as a
+# GitHub release, once it has booted in the boot test.
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch supersedes a build in progress.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 jobs:
-    container-job:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
-            - name: Container Build Step
-              uses: ./
-              id: container
-            - name: Upload Build Artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                name: sigma-linux
-                path: ${{ github.workspace }}/cache/sigma-linux.iso
-                compression-level: 0
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # In Alpine, like the build: the APKBUILD reader runs them through its sh.
+      - name: Unit tests and build plan
+        run: >
+          docker run --rm -v "$PWD:/app" -w /app alpine:edge
+          sh -c 'apk add --no-cache ruby ruby-minitest >/dev/null && ruby test/run.rb && ./sigma build --plan'
+
+  iso:
+    name: ISO
+    needs: test
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.ref == 'refs/heads/master' ||
+      startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 355 # the hosted runner's hard limit is 360
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # The kernel's build tree peaks at ~20 GB and the image adds ~10 GB; the
+      # runner starts with less free than that.
+      - name: Free disk space
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup \
+                      /opt/hostedtoolcache/CodeQL /usr/local/share/boost /usr/share/swift \
+                      /usr/local/share/powershell /usr/local/share/chromium /usr/lib/jvm
+          sudo docker image prune --all --force > /dev/null
+          df -h /
+
+      - name: Ruby
+        run: command -v ruby || { sudo apt-get update -q && sudo apt-get install -y -q ruby; }
+
+      # Compiled objects from earlier runs, the kernel's especially. Saved
+      # under a new key every run; the restore takes the most recent one.
+      - name: Restore ccache
+        uses: actions/cache/restore@v6
+        with:
+          path: cache/ccache
+          key: ccache-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: ccache-
+
+      # Same command as on a workstation: sigma builds its container image and
+      # runs the pipeline in it. All cores are ours here, and the ccache cap
+      # keeps the saved cache within the repository's 10 GB of Actions cache.
+      # The signing key is made fresh for this run and never leaves it.
+      - name: Build
+        id: build
+        timeout-minutes: 320
+        run: ./sigma build --set jobs=$(nproc) --set packages.ccache_size=5G
+
+      # On a timeout the step's process dies but its container may not.
+      - name: Stop the build container
+        if: always()
+        run: docker ps -q | xargs -r docker kill
+
+      # Also after a failure or a timeout: the next run picks up where this one stopped.
+      - name: Save ccache
+        if: always() && steps.build.outcome != 'skipped'
+        uses: actions/cache/save@v6
+        with:
+          path: cache/ccache
+          key: ccache-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Checksum
+        run: cd out && sha256sum sigma-linux.iso | tee sigma-linux.iso.sha256
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v7
+        with:
+          name: sigma-linux
+          path: |
+            out/sigma-linux.iso
+            out/sigma-linux.iso.sha256
+          compression-level: 0
+          retention-days: 14
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends qemu-system-x86
+
+      - name: Boot test
+        timeout-minutes: 15
+        run: sh .github/boot-test.sh
+
+      - name: Upload logs
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v7
+        with:
+          name: logs
+          path: |
+            cache/logs/
+            !cache/logs/latest
+          if-no-files-found: ignore
+          retention-days: 7
+
+  release:
+    name: Release
+    needs: iso
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: sigma-linux
+          path: out
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          size=$(stat -c %s out/sigma-linux.iso)
+          if [ "$size" -ge 2147483648 ]; then
+            echo "::error::The ISO is $((size / 1048576)) MiB; GitHub release assets must be under 2 GiB."
+            exit 1
+          fi
+          gh release create "$GITHUB_REF_NAME" out/sigma-linux.iso out/sigma-linux.iso.sha256 \
+            --repo "$GITHUB_REPOSITORY" --title "Sigma Linux $GITHUB_REF_NAME" --generate-notes

@@ -1,10 +1,2 @@
-.git/
-cache/
-out/
-aports/
-extra/
-screenshots/
-Dockerfile
-.dockerignore
-docker-env.sh
-profile/repo/
+# The checkout is mounted at run time, never copied: send no build context.
+*
