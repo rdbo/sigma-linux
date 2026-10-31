@@ -202,11 +202,15 @@ module Sigma
       end
 
       # After `sigma pkg`, say where the result is and how to use it here.
+      # The hint runs on the host, from the checkout: "$PWD" is expanded there
+      # (inside the container the checkout is /app). -u upgrades a package
+      # that is already installed instead of leaving the old version.
       def install_hint(list)
         names = list.map(&:name).join(" ")
-        ui.note "repository  #{relative(config.repo_dir)}"
-        ui.note "install it on this machine: doas apk add --repository #{relative(config.repo_dir)} #{names}"
-        ui.note "(trust the key once first: doas cp #{relative(paths.keys)}/*.pub /etc/apk/keys/)"
+        repo = "\"$PWD/#{relative(config.repo_dir)}\""
+        ui.note "repository  #{relative(config.repo_dir)}/#{config.arch}/"
+        ui.note "install here, from the checkout: doas apk add -u --repository #{repo} #{names}"
+        ui.note "(trust the key once first: doas cp #{relative(paths.keys)}/*.rsa.pub /etc/apk/keys/)"
       end
     end
   end
