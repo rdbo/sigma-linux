@@ -286,9 +286,14 @@ described** and send me the error box (plus `cache/logs/latest/<stage>/<step>.lo
     `sigma-conf` predates the theme files, so the new one goes in first. This touches your real
     bootloader, so dry-run first:
     1. `./sigma pkg sigma-conf` (Docker running). The key is already trusted from the kernel install.
-    2. `doas apk add -u --repository "$PWD/cache/repo/sigma" sigma-conf`
-    3. `doas rm /boot/vmlinuz-sigma.old_*`: grub-mkconfig lists every `vmlinuz-*`, and that one has no
-       matching initramfs (or modules), so its entry couldn't boot.
+    2. `doas apk add -u --repository "$PWD/cache/repo/sigma" sigma-conf`, then `apk info -v sigma-conf` →
+       `sigma-conf-1.0-r2` and `command -v sigma-grub-setup` finds it. (The installed one was `1.0-r0`, the
+       same version as the first rework build, which apk wouldn't have replaced; hence the `pkgrel` bump.)
+    3. Move kernel backups out of `/boot`'s top level:
+       `doas mkdir -p /boot/backup && doas mv /boot/vmlinuz-sigma.old_* /boot/backup/`. grub-mkconfig
+       counts every `/boot/vmlinuz-*` as a kernel (it skips only `.dpkg-*`, `.rpmsave`/`.rpmnew` and `.sig`
+       names), and that one has no matching initramfs (or modules), so its entry couldn't boot. initrdbo's
+       `initramfs-*.old_*` backups can stay; GRUB never lists them.
     4. `doas sigma-grub-setup --no-update`, then read `/etc/default/grub`: `GRUB_DEVICE_UUID` must equal the
        `root=UUID=` in your `/proc/cmdline`.
     5. `doas grub-mkconfig -o /tmp/grub.cfg.new` and compare with `/boot/grub/grub.cfg`: same root UUID,
@@ -313,6 +318,11 @@ builds off the workstation.
       (latent entropy) afresh in each build tree and loads it into nearly every compile; ccache keyed
       the plugin by mtime. Now `compiler_check=content`, cap 10 GiB (`packages.ccache_size`), and each
       package's line shows its hit rate. **Verify:** runbook step 7
+- [x] `sigma-grub-setup` on the workstation picked the UUID of the ext4 *inside* LUKS: there
+      `/dev/mapper/cryptroot` is a device node, not a link to `/dev/dm-N`, so the lookup of the partition
+      under it found nothing. It now finds `dm-N` by the mapping's name, refuses to leave a device-mapper
+      device as `root=`, and on a running system refuses a UUID other than the one it booted with
+      (nothing is written in that case). `sigma-conf` 1.0-r2 (r1 was the first with the theme files)
 - [x] `smartmontools` and `nvme-cli` in the `minimal` profile
 - [x] Workstation: TRIM enabled through dm-crypt (`cryptsetup refresh --allow-discards --persistent`),
       first `fstrim` done; the GRUB guard moved to the file the trigger actually reads

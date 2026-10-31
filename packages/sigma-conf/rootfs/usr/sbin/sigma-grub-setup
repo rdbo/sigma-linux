@@ -40,7 +40,18 @@ mounted_root() {
 # under a device-mapper device, not the mapped filesystem.
 backing_device() {
 	dev="$(readlink -f "$1")"
-	for slave in "/sys/block/${dev##*/}/slaves/"*; do
+	name="${dev##*/}"
+	# With udev, /dev/mapper/<name> links to /dev/dm-N; without it, it's a
+	# device node of its own. Either way, find dm-N by the mapping's name.
+	if [ ! -e "/sys/class/block/$name" ]; then
+		for dm in /sys/class/block/dm-*; do
+			if [ "$(cat "$dm/dm/name" 2>/dev/null)" = "$name" ]; then
+				name="${dm##*/}"
+				break
+			fi
+		done
+	fi
+	for slave in "/sys/class/block/$name/slaves/"*; do
 		if [ -e "$slave" ]; then
 			echo "/dev/${slave##*/}"
 			return
@@ -70,16 +81,30 @@ done
 [ "$(id -u)" = 0 ] || die "run as root"
 [ -r "$THEME/grub.conf" ] || die "$THEME/grub.conf is missing; is sigma-conf installed?"
 
+detected=""
 if [ -z "$root_dev" ]; then
 	set -- $(mounted_root)
 	root_dev="$1"
 	[ -n "$fstype" ] || fstype="$2"
+	detected=yes
 fi
 [ -n "$fstype" ] || die "--fstype is required with --root"
+mapped="$root_dev"
 root_dev="$(backing_device "$root_dev")"
 [ -b "$root_dev" ] || die "$root_dev is not a block device"
+case "$root_dev" in
+	/dev/mapper/*|/dev/dm-*)
+		die "could not find the partition under $root_dev; pass it with --root" ;;
+esac
 uuid="$(device_uuid "$root_dev")"
 [ -n "$uuid" ] || die "could not read the UUID of $root_dev"
+
+# On a running system, the root= it booted with is known to work: refuse to
+# write a different one unless told which device to use.
+booted="$(sed -n 's/.*root=UUID=\([^ ]*\).*/\1/p' /proc/cmdline)"
+if [ -n "$detected" ] && [ -n "$booted" ] && [ "$booted" != "$uuid" ]; then
+	die "this system booted with root=UUID=$booted, but $root_dev (under $mapped) has UUID $uuid; nothing was changed. Pass --root DEVICE to choose."
+fi
 
 # A hand-written /etc/default/grub is kept aside, once.
 if [ -f "$DEFAULTS" ] && ! grep -qF "$MARKER" "$DEFAULTS"; then
