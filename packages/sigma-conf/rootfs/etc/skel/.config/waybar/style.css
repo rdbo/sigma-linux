@@ -31,7 +31,7 @@ tooltip {
     background-color: #132a33;
 }
 
-#workspaces button.empty, #tags button {
+#workspaces button.empty, #workspaces button.hidden, #tags button {
     color: #007769;
     margin: 0;
     padding: 0 4px;
@@ -39,7 +39,7 @@ tooltip {
     border-radius: 0;
 }
 
-#workspaces button.focused, #tags button.focused {
+#workspaces button.focused, #workspaces button.active, #tags button.focused {
     background-color: #132a33;
 }
 

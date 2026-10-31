@@ -6,9 +6,19 @@
     // "modules-left": ["niri/workspaces"],
     // "modules-left": ["hyprland/workspaces"],
     // "modules-left": ["river/tags"],
-    "modules-left": ["dwl/tags"],
+    // "modules-left": ["dwl/tags"], // mango before 0.18 (dwl IPC)
+    "modules-left": ["ext/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["custom/nwusage", "custom/nwif", "custom/cpu", "custom/memory", "custom/disk", "custom/battery", "custom/audio#sink", "custom/audio#source", "custom/vkbd", "custom/power"],
+
+    // mango 0.18+ shows its tags through the ext-workspace protocol, marking
+    // empty ones hidden: keep showing them (dimmed in style.css), like dwl/tags
+    "ext/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-id": true,
+        "ignore-hidden": false
+    },
 
     "hyprland/workspaces": {
         "format": "{id}",
