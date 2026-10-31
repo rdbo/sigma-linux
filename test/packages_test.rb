@@ -32,6 +32,14 @@ class PackagesTest < Minitest::Test
     assert_equal %w[initrdbo linux-sigma], order, "linux-sigma depends on initramfs-generator (initrdbo)"
   end
 
+  def test_ccache_delta_counts_one_builds_hits
+    stage = Sigma::Stages::Packages.allocate
+    before = { "direct_cache_hit" => 614, "preprocessed_cache_hit" => 3, "cache_miss" => 22_172 }
+    after = { "direct_cache_hit" => 1085, "preprocessed_cache_hit" => 139, "cache_miss" => 40_147 }
+    assert_equal [607, 18_582], stage.send(:ccache_delta, before, after)
+    assert_nil stage.send(:ccache_delta, nil, after)
+  end
+
   def test_unknown_package
     assert_raises(Sigma::Error) { local.for_names(%w[nope]) }
   end

@@ -11,6 +11,13 @@ class UITest < Minitest::Test
     assert_equal "1h 03m", ui.duration(3780)
   end
 
+  def test_counts
+    ui = quiet_ui
+    assert_equal "950", ui.count(950)
+    assert_equal "18.2k", ui.count(18_193)
+    assert_equal "1.0M", ui.count(999_999)
+  end
+
   def test_wrap_and_truncate
     ui = quiet_ui
     assert_equal ["aaa bbb", "ccc"], ui.wrap("aaa bbb ccc", 8)

@@ -187,7 +187,8 @@ module Sigma
       if error.is_a?(CommandFailed)
         unless error.tail.empty?
           lines << ""
-          lines.concat(error.excerpt.map { |l| ui.paint(l, :muted) })
+          lines << ui.paint("first error in the output:", :text) if error.first_error
+          lines.concat(error.excerpt.map { |l| ui.paint(without_build_tree(l), :muted) })
         end
         lines << "" << "#{ui.paint("log", :muted)}  #{relative(error.log_path)}" if error.log_path
       end
@@ -200,6 +201,15 @@ module Sigma
       ui.box(lines, title: ui.paint("error", :error, bold: true), role: :error)
       ui.blank
       1
+    end
+
+    # Compiler messages name files by their full path in abuild's build tree
+    # (cache/build/sigma/<package>/src/...); without that prefix the message
+    # itself fits in the box.
+    def without_build_tree(line)
+      return line unless @config
+
+      line.gsub(%r{#{Regexp.escape(@config.paths.staging)}/[^/\s]+/src/}, "")
     end
 
     def relative(path)

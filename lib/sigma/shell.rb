@@ -9,6 +9,14 @@ module Sigma
   class Shell
     TAIL_LINES = 80
 
+    # A compiler-style diagnostic ("file.c:48:15: error: …", "error[E0425]: …")
+    # or a tool's "ERROR: …". Parallel make keeps building after one, so the
+    # real error can be thousands of lines above the end of the output.
+    ERROR_LINE = /\berror(?:\[\w+\])?: |\AERROR: /
+    # Lines GCC prints above a diagnostic, naming where it came from.
+    ERROR_CONTEXT = /\AIn file included from |\A\s+from |: In (?:member )?function |: At top level:/
+    FIRST_ERROR_LINES = 15
+
     def initialize(builder:)
       @builder = builder
     end
@@ -26,12 +34,19 @@ module Sigma
       argv, spawn_env = wrap(heavy ? ["nice", "-n", "10", *cmd] : cmd, env, as)
       task.log&.puts("$ #{display(cmd, env)}")
       tail = []
+      first_error = nil
 
       status = Open3.popen2e(spawn_env, *argv, **spawn_options(chdir)) do |stdin, out, wait|
         stdin.write(input) if input
         stdin.close
         each_line(out) do |line|
           task.output(line)
+          if first_error
+            first_error << line if first_error.size < FIRST_ERROR_LINES
+          elsif line.match?(ERROR_LINE)
+            context = tail.reverse.take_while { |l| l.match?(ERROR_CONTEXT) }.reverse
+            first_error = context.last(FIRST_ERROR_LINES - 1) << line
+          end
           tail << line
           tail.shift if tail.size > TAIL_LINES
         end
@@ -43,7 +58,7 @@ module Sigma
       # The log has the full command with its environment; the error keeps
       # to the command itself.
       raise CommandFailed.new(display(cmd, {}), status.exitstatus || status.termsig,
-                              log_path: task.log&.path, tail: tail)
+                              log_path: task.log&.path, tail: tail, first_error: first_error)
     rescue Errno::ENOENT
       raise Error.new("command not found: #{cmd.first}",
                       hint: "Is it installed? Building inside the container (the default) provides every tool.")

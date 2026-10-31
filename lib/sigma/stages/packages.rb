@@ -117,12 +117,45 @@ module Sigma
           task.detail = "checksum"
           abuild(task, dir, key, "checksum")
           task.detail = reason
+          before = ccache_counters
           abuild(task, dir, key, "-r", "-f", *(config.dig("packages.keep_build_trees") ? ["-K"] : []))
+          hits, calls = ccache_delta(before, ccache_counters)
           apks = prune(pkg, task, dir, key)
           state.write(package_key(pkg), "version" => pkg.version, "fingerprint" => fingerprint(pkg),
-                                        "apks" => apks, "duration" => ui.clock - started)
-          task.detail = "built #{ui.bytes(apks.sum { |apk| File.size(File.join(arch_dir, apk)) })}"
+                                        "apks" => apks, "duration" => ui.clock - started,
+                                        "ccache" => calls && { "hits" => hits, "calls" => calls })
+          parts = ["built #{ui.bytes(apks.sum { |apk| File.size(File.join(arch_dir, apk)) })}"]
+          parts << ccache_rate(hits, calls) if calls&.positive?
+          task.detail = parts.join(" · ")
         end
+      end
+
+      # ccache's lifetime counters (`ccache --print-stats`), or nil when ccache
+      # is off or missing. Builds run one at a time, so the difference across a
+      # build is that build's.
+      def ccache_counters
+        return unless config.dig("packages.ccache") && shell.available?("ccache")
+
+        out = shell.capture("ccache", "--print-stats", env: { "CCACHE_DIR" => paths.ccache }, as: :builder)
+        out.lines.to_h do |line|
+          name, value = line.chomp.split("\t", 2)
+          [name, value.to_i]
+        end
+      rescue CommandFailed
+        nil
+      end
+
+      # [hits, cacheable compiles] between two snapshots; nil when unknown.
+      def ccache_delta(before, after)
+        return unless before && after
+
+        change = ->(name) { after.fetch(name, 0) - before.fetch(name, 0) }
+        hits = change["direct_cache_hit"] + change["preprocessed_cache_hit"]
+        [hits, hits + change["cache_miss"]]
+      end
+
+      def ccache_rate(hits, calls)
+        "ccache hit #{(100.0 * hits / calls).floor}% of #{ui.count(calls)}"
       end
 
       # A fresh working copy in cache/build/sigma/<name>. A source named
@@ -160,8 +193,21 @@ module Sigma
           "JOBS" => jobs,
           "MAKEFLAGS" => "-j#{jobs}"
         }
-        env.merge!("USE_CCACHE" => "1", "CCACHE_DIR" => paths.ccache) if config.dig("packages.ccache")
+        env.merge!(ccache_env) if config.dig("packages.ccache")
         env
+      end
+
+      # compiler_check=content: ccache tells compilers and GCC plugins apart by
+      # their contents, not their timestamps. The kernel compiles its plugins
+      # afresh in every build tree and loads them into nearly every compile,
+      # so with the default (mtime) every one of those compiles missed.
+      def ccache_env
+        {
+          "USE_CCACHE" => "1",
+          "CCACHE_DIR" => paths.ccache,
+          "CCACHE_COMPILERCHECK" => "content",
+          "CCACHE_MAXSIZE" => config.dig("packages.ccache_size") || "10G"
+        }
       end
 
       # Keeps only this version's .apk files for the package's outputs and

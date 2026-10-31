@@ -183,6 +183,14 @@ module Sigma
       unit == "B" ? "#{count} B" : format("%.1f %s", value, unit)
     end
 
+    # 950, 18.2k, 1.3M
+    def count(number)
+      return number.to_s if number < 1000
+      return format("%.1fk", number / 1000.0) if number < 999_950
+
+      format("%.1fM", number / 1_000_000.0)
+    end
+
     def plural(count, word, plural_word = "#{word}s")
       "#{count} #{count == 1 ? word : plural_word}"
     end

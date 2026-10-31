@@ -21,6 +21,7 @@ paths:
 packages:
   builder: build             # unprivileged user abuild runs as when we are root
   ccache: true               # speeds up rebuilds, the kernel's especially
+  ccache_size: 10G           # one kernel build fills ~3.5 GB; older entries are evicted beyond this
   keep_build_trees: false    # keep abuild's src/ and pkg/ dirs for debugging
 
 rootfs:
