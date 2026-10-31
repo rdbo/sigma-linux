@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Starts a graphical session, e.g. `sigma-session mango`, on the session bus of
+# the dbus OpenRC user service (pam_openrc starts the user's services at login).
+# Without user services, the session gets a bus of its own from dbus-launch.
+
+if [ $# -eq 0 ]; then
+	echo "usage: sigma-session <command> [args...]" >&2
+	exit 1
+fi
+
+if [ -n "$XDG_RUNTIME_DIR" ] && [ -r /etc/user/conf.d/dbus ]; then
+	. /etc/user/conf.d/dbus
+
+	# Login only waits for the user's boot runlevel, so dbus (default runlevel)
+	# may still be starting. $XDG_RUNTIME_DIR/openrc exists while user services run.
+	tries=0
+	while [ ! -S "$XDG_RUNTIME_DIR/bus" ] && [ -d "$XDG_RUNTIME_DIR/openrc" ] && [ $tries -lt 50 ]; do
+		sleep 0.1
+		tries=$((tries + 1))
+	done
+
+	if [ -S "$XDG_RUNTIME_DIR/bus" ]; then
+		exec "$@"
+	fi
+	unset DBUS_SESSION_BUS_ADDRESS
+fi
+
+exec dbus-launch --exit-with-session "$@"

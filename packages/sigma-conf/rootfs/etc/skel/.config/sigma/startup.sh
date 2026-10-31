@@ -6,7 +6,17 @@
 dbus-update-activation-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_RUNTIME_DIR
 
 swaybg -m fill -i "$SIGMA_CONFIG_DIR/background" &
-/usr/libexec/pipewire-launcher # Starts pipewire and waits for it to initialize
+# PipeWire normally runs as OpenRC user services; wait for it (easyeffects needs
+# it), or start it here on sessions without user services
+if [ -d "$XDG_RUNTIME_DIR/openrc" ] && [ -e "${XDG_CONFIG_HOME:-$HOME/.config}/rc/runlevels/default/pipewire" ]; then
+	tries=0
+	while [ ! -S "$XDG_RUNTIME_DIR/pipewire-0" ] && [ $tries -lt 50 ]; do
+		sleep 0.1
+		tries=$((tries + 1))
+	done
+else
+	/usr/libexec/pipewire-launcher # Starts pipewire and waits for it to initialize
+fi
 mako &
 waybar &
 easyeffects --gapplication-service &

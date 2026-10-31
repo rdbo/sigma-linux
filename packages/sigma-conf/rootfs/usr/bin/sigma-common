@@ -1,6 +1,11 @@
 #!/bin/sh
 
 export SIGMA_CONFIG_DIR="$HOME/.config/sigma"
-export SIGMA_TMP_DIR="/tmp/sigma-$(id -u)"
+# per-user scratch files (cached stats for the bar), in the runtime directory when there is one
+if [ -n "$XDG_RUNTIME_DIR" ]; then
+	export SIGMA_TMP_DIR="$XDG_RUNTIME_DIR/sigma"
+else
+	export SIGMA_TMP_DIR="/tmp/sigma-$(id -u)"
+fi
 
 mkdir -p "$SIGMA_CONFIG_DIR" "$SIGMA_TMP_DIR"

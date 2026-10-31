@@ -1,12 +1,21 @@
-# show logo
-echo
-printf "\033[1;36m"
-cat /usr/share/sigma/ascii/sigma
-echo
+# show logo (interactive shells only: openrc-user also runs this as a login shell)
+case $- in
+*i*)
+	echo
+	printf "\033[1;36m"
+	cat /usr/share/sigma/ascii/sigma
+	echo
+	;;
+esac
 
 # setup vars
 . sigma-common
 curtty="$(tty | grep tty)"
+
+# session bus of the dbus OpenRC user service, for shells outside the graphical session too
+if [ -S "$XDG_RUNTIME_DIR/bus" ] && [ -r /etc/user/conf.d/dbus ]; then
+	. /etc/user/conf.d/dbus
+fi
 
 # setup $PS1
 PS1="\[\033[1;36m\]烈\u@\h:\w"
@@ -31,10 +40,10 @@ alias ls="ls --color=auto"
 
 # start window manager on tty1
 if [ "$curtty" = "/dev/tty1" ] && [ $(id -u) -ne 0 ]; then
-	# exec dbus-launch --exit-with-session river
-	# exec dbus-launch --exit-with-session Hyprland
-	# exec dbus-launch --exit-with-session dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
-	# exec dbus-launch --exit-with-session niri
-	# exec dbus-launch --exit-with-session start-cosmic
-	exec dbus-launch --exit-with-session mango
+	# exec sigma-session river
+	# exec sigma-session Hyprland
+	# exec sigma-session dwl -s "sh -c '$SIGMA_CONFIG_DIR/startup.sh'"
+	# exec sigma-session niri
+	# exec sigma-session start-cosmic
+	exec sigma-session mango
 fi

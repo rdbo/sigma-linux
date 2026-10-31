@@ -36,6 +36,12 @@ umount
 merge-usr
 losetup
 
+## Login session
+# A PAM-enabled login (busybox's has no PAM), so that at login pam_rundir
+# creates /run/user/$UID (XDG_RUNTIME_DIR) and pam_openrc starts the user's
+# OpenRC services (session bus, PipeWire)
+util-linux-login pam-rundir openrc-user-pam
+
 ## Firmware
 linux-firmware-amd
 linux-firmware-amd-ucode
