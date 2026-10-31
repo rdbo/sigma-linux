@@ -52,6 +52,10 @@ Packages rebuild when anything in their `packages/<name>/` directory changes. To
 
 The boot menu's look (resolution, wallpaper, console colours) lives in `packages/sigma-conf/rootfs/usr/share/sigma/grub/grub.conf`, shared by the ISO and installed systems. On an installed system, `sigma-grub-setup` hooks it into `/etc/default/grub`, so the menu keeps its theme when kernel updates regenerate it. Installs made before this fix can run it once to migrate: `doas sigma-grub-setup`.
 
+## CI
+
+GitHub Actions (`.github/workflows/build-iso.yml`) runs the tests on every push and pull request. The full ISO build runs for `master`, for version tags, and on demand (`gh workflow run build-iso.yml --ref <branch>`). After building, it boots the ISO in QEMU (`.github/boot-test.sh`) and uploads it as the run's `sigma-linux` artifact. Pushing a `v*` tag also publishes the ISO as a GitHub release. Builds carry ccache between runs, so a rebuild after a kernel bump only recompiles what changed.
+
 ## Resources
 
 A full build needs about 35 GB of free disk space (the kernel alone takes 15-20 GB while it builds). `jobs: auto` uses one core less than the machine has, and at most one job per 1.5 GiB of RAM, so the system stays usable. Run the tests with `ruby test/run.rb`.

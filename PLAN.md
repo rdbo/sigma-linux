@@ -193,8 +193,8 @@ Port the four stages onto the toolkit, with the selection grammar and freshness 
       abuild signing keys (`keys/`)
 - [x] Docker dispatch from the host (`build` / `shell` / everything), cross-arch binfmt setup kept
 - [x] Host-owned outputs (no more root-owned `cache/` / `out/` on the host)
-- [~] CI workflow rewritten to run the same `./sigma build` in a privileged container (can't be run from
-      here; mirrors the local invocation exactly, plus freeing runner disk space)
+- [x] CI workflow rewritten to run the same `./sigma build` in a privileged container; grown into the full
+      CI/CD of Phase 7
 - [x] **Check:** image builds; `sigma shell` works; `sigma pkg initrdbo` builds a package end to end
       in the container; a second run is a no-op; editing the APKBUILD triggers a rebuild.
       Also verified: a `pkgrel` bump builds `-r1` and prunes `-r0` from the signed index (and back);
@@ -229,45 +229,43 @@ Port the four stages onto the toolkit, with the selection grammar and freshness 
       them anyway)
 - [x] README: build documentation
 - [x] `sigma run --disk FILE [--no-iso]` to try the installer in QEMU (replaces `start*.sh`)
-- [ ] **Check:** the runbook below, run by hand, one step at a time
+- [~] **Check:** the runbook below. Steps 0-5 done on the workstation; the full build and a boot moved to
+      CI (Phase 7), so the workstation only runs the light steps and, when it can be spared, the VM test.
 
 #### Runbook
 
 You run these; I don't. Nothing heavy runs in parallel. **Stop at the first step that doesn't look as
 described** and send me the error box (plus `cache/logs/latest/<stage>/<step>.log` if it names one).
-Steps 1-4 are light; 5 is the long one.
 
-0. **Protect the work.** Commit and push (see the chat), and ideally check the SSD's health:
-   `doas smartctl -a /dev/nvme0` (look at *Media and Data Integrity Errors*, *Percentage Used*, *Available Spare*).
+0. ✅ **Protect the work.** Committed and pushed (`claude-rework`); SSD health checked: no media errors,
+   5% used. TRIM enabled through dm-crypt (Phase 7).
 
-1. **No Docker yet.** `ruby test/run.rb` → `23 runs, … 0 failures`. Then `./sigma build --plan` → four
-   stages; `packages` says 11 packages, 8 to build (initrdbo, biblegen and sigma-sent were built before the
-   crash). `./sigma status` → a table, nothing broken.
+1. ✅ **No Docker yet.** Tests pass; `--plan` and `status` work.
 
-2. **Container, and leftovers from the crash.** `doas rc-service docker start`, then
-   `docker run --rm -v "$PWD/cache:/c" alpine:edge rm -rf /c/grubtest /c/build/sigma/linux-sigma`
-   (~7 GB of root-owned files). `./sigma shell` should drop you into `/app` as root; `exit`.
+2. ✅ **Leftovers from the crash** removed (`cache/grubtest`, the interrupted kernel tree).
 
-3. **Small packages.** `./sigma pkg initrdbo sigma-conf biblegen` → `sigma-conf` builds (✓, seconds; it
-   has the new GRUB files); `initrdbo` and `biblegen` show ○ up to date. That proves the per-package
-   freshness survived the crash.
+3. ✅ **Small packages.** `initrdbo`, `sigma-conf`, `biblegen`, `sigma-sent` built.
 
-4. **The rest except the kernel.** `./sigma pkg rdbo-archives sigma-firacode-nerd sigma-flat-remix-gtk
-   sigma-material-symbols sigma-sent sigma-vt323 sigma-wvkbd` → seven ✓.
+4. **The rest except the kernel.** Covered by the CI build (step 6); locally only needed before a local
+   `sigma build`: `./sigma pkg rdbo-archives sigma-firacode-nerd sigma-flat-remix-gtk
+   sigma-material-symbols sigma-vt323 sigma-wvkbd` → six ✓.
 
-5. **The kernel, alone.** Nothing else running on the machine. For the first time, go easier than the
-   default: `./sigma pkg linux-sigma --set jobs=6`. Expect 30-90 minutes; it peaks around 15-20 GB of disk
-   (`df -h /` now and then is wise) and cleans its build tree up when it succeeds. If the desktop gets
-   sluggish, Ctrl-C is safe: nothing is mounted during package builds, and the next run starts the package over.
+5. ✅ **The kernel, alone.** `linux-sigma` 7.3.1 built (two fixes on the way, Phase 7), installed on the
+   workstation and booted.
 
-6. **Root filesystem.** `./sigma build rootfs` → `prepare`, `install 237 packages` (downloads ~1-2 GB the
-   first time; cached after), `configure`. Then: `./sigma status` → packages and rootfs up to date.
+6. **Full build, in CI.** Push, then run the workflow on the branch:
+   `gh workflow run build-iso.yml --ref claude-rework` (or Actions → CI → Run workflow). Expect a few hours,
+   mostly the kernel on 4 cores. Green means: every package, rootfs, squashfs and ISO built, and the ISO
+   booted in QEMU to the end of the default runlevel (`.github/boot-test.sh`). The ISO is the run's
+   `sigma-linux` artifact; on failure the `logs` artifact has every step's log.
 
-7. **Image.** `./sigma build squashfs..` → squashfs (several minutes with xz) and the ISO in `out/`.
+7. **Second CI run** (re-run the workflow): the `linux-sigma` line in the Build step should show a high
+   `ccache hit …%`, and the run should be much shorter. That verifies the ccache fix.
 
-8. **Boot it** (needs QEMU on the host: `doas apk add qemu-system-x86_64 qemu-img qemu-ui-gtk ovmf`).
-   `./sigma run` (BIOS) and `./sigma run --uefi`: the Sigma menu (wallpaper, 640x480), boots to the live
-   desktop. Log in as `user` / `pass`.
+8. **Boot it with a screen** (when the workstation can spare a VM; needs QEMU:
+   `doas apk add qemu-system-x86_64 qemu-img qemu-ui-gtk ovmf`). Put the CI artifact's ISO at
+   `out/sigma-linux.iso`, then `./sigma run` (BIOS) and `./sigma run --uefi`: the Sigma menu (wallpaper,
+   640x480), boots to the live desktop. Log in as `user` / `pass`.
 
 9. **Install test, in the VM only.** `./sigma run --uefi --disk cache/vm.qcow2` → in the live system:
    `doas setup-sigma`, disk `/dev/nvme0n1` (the VM disk is NVMe, like your machine), full-disk encryption
@@ -281,17 +279,53 @@ Steps 1-4 are light; 5 is the long one.
      the default entry still boots.
    - Optional: repeat with encryption **n** on a fresh disk (`rm cache/vm.qcow2`).
 
-10. **Incremental behaviour.** `./sigma build` → "Everything is up to date". `./sigma build iso` → only the
-    iso stage runs.
+10. **Incremental behaviour** (after a local full build only). `./sigma build` → "Everything is up to
+    date". `./sigma build iso` → only the iso stage runs.
 
-11. **Optional, last: migrate your own machine's GRUB.** This touches your real bootloader, so dry-run first:
-    1. `./sigma pkg sigma-conf`, then trust the key once: `doas cp cache/keys/*.pub /etc/apk/keys/`.
-    2. `doas apk add --repository "$PWD/cache/repo/sigma" sigma-conf`
-    3. `doas sigma-grub-setup --no-update`, then read `/etc/default/grub`: `GRUB_DEVICE_UUID` must equal the
+11. **Migrate your own machine's GRUB** (light: no build beyond `sigma-conf`, seconds). The installed
+    `sigma-conf` predates the theme files, so the new one goes in first. This touches your real
+    bootloader, so dry-run first:
+    1. `./sigma pkg sigma-conf` (Docker running). The key is already trusted from the kernel install.
+    2. `doas apk add -u --repository "$PWD/cache/repo/sigma" sigma-conf`
+    3. `doas rm /boot/vmlinuz-sigma.old_*`: grub-mkconfig lists every `vmlinuz-*`, and that one has no
+       matching initramfs (or modules), so its entry couldn't boot.
+    4. `doas sigma-grub-setup --no-update`, then read `/etc/default/grub`: `GRUB_DEVICE_UUID` must equal the
        `root=UUID=` in your `/proc/cmdline`.
-    4. `doas grub-mkconfig -o /tmp/grub.cfg.new` and compare with `/boot/grub/grub.cfg`: same root UUID,
+    5. `doas grub-mkconfig -o /tmp/grub.cfg.new` and compare with `/boot/grub/grub.cfg`: same root UUID,
        `rootfstype=ext4`, the colours, the wallpaper.
-    5. Only then `doas update-grub` (it keeps the old file as `grub.cfg.backup`).
+    6. Only then `doas update-grub` (it keeps the old file as `grub.cfg.backup`). From here on, kernel
+       updates regenerate the themed menu by themselves; `sigma-grub-setup` removed the
+       `disable_trigger` guard.
+    7. The generated menu is "Sigma Linux" plus "Advanced options for Sigma Linux" (the other kernels). For
+       a flat list of every kernel instead, like the hand-made menu, add `GRUB_DISABLE_SUBMENU=true` below
+       the "Local overrides" line of `/etc/default/grub` and run `doas update-grub`.
+
+### Phase 7: After the first real builds
+What building and installing the 7.3 kernel for real turned up, and the CI/CD that takes the heavy
+builds off the workstation.
+
+- [x] Kernel 7.3 failed on musl in a build-time self-test (`insn_sanity`: a uapi header uses
+      `__attribute_const__`, which only glibc defines). `CONFIG_X86_DECODER_SELFTEST` off; it's a
+      decoder test for kernel developers, nothing in the shipped kernel depends on it
+- [x] The error box shows the **first** error in the output, with GCC's include chain (parallel make
+      keeps going for thousands of lines after it), and drops the build-tree prefix from paths
+- [~] ccache across kernel builds: the rebuild got ~3% hits. The kernel compiles its GCC plugin
+      (latent entropy) afresh in each build tree and loads it into nearly every compile; ccache keyed
+      the plugin by mtime. Now `compiler_check=content`, cap 10 GiB (`packages.ccache_size`), and each
+      package's line shows its hit rate. **Verify:** runbook step 7
+- [x] `smartmontools` and `nvme-cli` in the `minimal` profile
+- [x] Workstation: TRIM enabled through dm-crypt (`cryptsetup refresh --allow-discards --persistent`),
+      first `fstrim` done; the GRUB guard moved to the file the trigger actually reads
+- [~] CI/CD (`.github/workflows/build-iso.yml`):
+      - tests (in Alpine, plus `sigma build --plan`) on every push and pull request
+      - the full ISO build for master, version tags and on demand, with ccache carried between runs
+        (saved even when a build fails or times out, so a re-run continues)
+      - a boot test: the ISO's kernel and initramfs in QEMU with KVM and a serial console, the ISO as the
+        CD-ROM; passes when OpenRC reaches `Starting local`
+      - on a `v*` tag, a GitHub release with the ISO and its SHA-256, after the boot test passes
+      - the signing key is generated per run and never stored, cached or uploaded
+
+      **Verify:** runbook steps 6-7 (nothing of it can run on the workstation)
 
 ---
 
@@ -305,8 +339,12 @@ Steps 1-4 are light; 5 is the long one.
   - anything that partitions, formats or opens LUKS runs inside a QEMU VM, never against the host kernel;
   - one heavy job at a time.
 
-- **Disk space.** A kernel build peaks around 15-20 GB; the rootfs, squashfs and ISO add ~10 GB. `cache/grubtest/` and the interrupted
-  `cache/build/sigma/linux-sigma/` (~7 GB, root-owned) still need removing through a container.
-- **CI can't be exercised locally**; the workflow is written to mirror the local container invocation.
+- **Disk space.** A kernel build peaks around 23 GB; the rootfs, squashfs and ISO add ~10 GB.
+- **CI can't be exercised locally**; the workflow mirrors the local container invocation, and the first
+  runs (runbook steps 6-7) are its test. Hosted runners have 4 cores and a 6-hour limit: a cold kernel
+  build should fit, and if it ever doesn't, the saved ccache lets a re-run finish.
+- **Release assets must be under 2 GiB**; the release job checks and fails clearly if the ISO grows past it.
+- **initrdbo keeps every old initramfs** (`/boot/initramfs-<flavor>.old_<date>`, ~20 MB per kernel
+  update) and never deletes them; `/boot` (1 GB) fills up after a few dozen updates unless they're pruned.
 - Kernel updates on an installed system: the initramfs name is per-flavor (`initramfs-sigma`), so the order
   in which the initrdbo and grub triggers run doesn't matter for an existing kernel.

@@ -158,6 +158,10 @@ lm-sensors
 pciutils
 lscpu
 
+## Disk Health
+# smartctl -a /dev/nvme0, nvme smart-log /dev/nvme0
+smartmontools nvme-cli
+
 ## Misc
 wl-clipboard
 wlr-randr
