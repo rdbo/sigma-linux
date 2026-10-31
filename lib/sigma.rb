@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Sigma Linux build system. See `./sigma --help` and PLAN.md.
+# Sigma Linux build system. See `./sigma --help`.
 module Sigma
   ROOT = File.expand_path("..", __dir__)
 end

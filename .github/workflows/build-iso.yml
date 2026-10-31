@@ -1,8 +1,8 @@
 name: CI
 
 # Every push and pull request runs the tests. The full ISO build (hours: the
-# kernel alone is most of it) runs for master, for version tags, and on
-# demand: Actions → CI → Run workflow, or `gh workflow run build-iso.yml --ref <branch>`.
+# kernel alone is most of it) runs only for version tags and on demand:
+# Actions → CI → Run workflow, or `gh workflow run build-iso.yml --ref <branch>`.
 # A version tag (git tag v1.2 && git push --tags) also publishes the ISO as a
 # GitHub release, once it has booted in the boot test.
 on:
@@ -40,7 +40,6 @@ jobs:
     needs: test
     if: >
       github.event_name == 'workflow_dispatch' ||
-      github.ref == 'refs/heads/master' ||
       startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     timeout-minutes: 355 # the hosted runner's hard limit is 360

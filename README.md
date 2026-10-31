@@ -54,7 +54,7 @@ The boot menu's look (resolution, wallpaper, console colours) lives in `packages
 
 ## CI
 
-GitHub Actions (`.github/workflows/build-iso.yml`) runs the tests on every push and pull request. The full ISO build runs for `master`, for version tags, and on demand (`gh workflow run build-iso.yml --ref <branch>`). After building, it boots the ISO in QEMU (`.github/boot-test.sh`) and uploads it as the run's `sigma-linux` artifact. Pushing a `v*` tag also publishes the ISO as a GitHub release. Builds carry ccache between runs, so a rebuild after a kernel bump only recompiles what changed.
+GitHub Actions (`.github/workflows/build-iso.yml`) runs the tests on every push and pull request. The full ISO build runs for version tags and on demand (`gh workflow run build-iso.yml --ref <branch>`). After building, it boots the ISO in QEMU (`.github/boot-test.sh`) and uploads it as the run's `sigma-linux` artifact. Pushing a `v*` tag also publishes the ISO as a GitHub release. Builds carry ccache between runs, so a rebuild after a kernel bump only recompiles what changed.
 
 ## Resources
 
