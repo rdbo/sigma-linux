@@ -1,34 +1,32 @@
+# Sigma Linux build environment.
+#
+# Nothing is copied in: `./sigma` mounts the checkout at /app and runs itself
+# inside, and everything worth keeping (downloads, ccache, signing key, the
+# local repository) lives in ./cache on the host, so this image stays a pure
+# toolbox that is cheap to rebuild.
 FROM alpine:edge
 
-# Setup packages
-RUN printf "http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing\n" > /etc/apk/repositories
-RUN apk update
-RUN apk add gcc openssl-dev elfutils-dev git gpg make musl-dev flex bison linux-headers perl mtools netpbm netpbm-extras bc diffutils findutils installkernel python3 sed xz gmp-dev mpc1-dev mpfr-dev # Kernel dependencies
-RUN apk add doas alpine-sdk # Alpine SDK and build tools
-RUN apk add squashfs-tools xorriso grub grub-efi grub-bios # ISO dependencies
-RUN apk add shadow
-RUN apk add ruby tar
-RUN apk add umount
-# RUN apk add clang llvm lld # For kernel built with clang
-RUN apk add libx11-dev libxft-dev harfbuzz-dev fontconfig-dev freetype-dev gd-dev glib-dev # xorg/suckless dependencies
-RUN apk add libxkbcommon-dev glib-dev wayland-dev pango-dev cairo-dev # wvkbd dependencies
-RUN apk add ruby-dev ruby-full ruby-rdoc ruby-bundler
+RUN printf '%s\n' \
+        https://dl-cdn.alpinelinux.org/alpine/edge/main \
+        https://dl-cdn.alpinelinux.org/alpine/edge/community \
+        https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+        > /etc/apk/repositories
 
-# Create build user
-RUN adduser -D build -G abuild
-RUN addgroup build wheel
+# Package builds pull their own makedepends (abuild -r) from the APKBUILDs,
+# so only the tools around them are listed here.
+RUN apk add --no-cache \
+        ruby \
+        alpine-sdk ccache doas openssl \
+        coreutils tar shadow umount \
+        squashfs-tools xorriso mtools grub grub-bios grub-efi
 
-# Setup abuild for build user
-RUN echo "permit nopass keepenv :wheel" > /etc/doas.conf
-USER build
-RUN abuild-keygen -i -a -n
-# Fix for building helix
-RUN git config --global http.postBuffer 1048576000
-RUN git config --global http.version HTTP/1.1
-USER root
+# The unprivileged user abuild runs as. Matching the host user's UID keeps
+# files it writes into ./cache owned by that user on the host.
+ARG BUILD_UID=1000
+RUN adduser -D -u "$BUILD_UID" -G abuild build \
+    && addgroup build wheel \
+    && printf '%s\n' 'permit nopass root as build' 'permit nopass :wheel' > /etc/doas.conf
 
-# Fix for building helix
-RUN git config --global http.postBuffer 1048576000
-RUN git config --global http.version HTTP/1.1
-
-CMD ["/bin/sh", "./build.sh"]
+ENV SIGMA_CONTAINER=1
+WORKDIR /app
+CMD ["./sigma", "build"]

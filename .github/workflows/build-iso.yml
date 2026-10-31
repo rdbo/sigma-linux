@@ -3,17 +3,26 @@ name: Build ISO
 on: [workflow_dispatch]
 
 jobs:
-    container-job:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
-            - name: Container Build Step
-              uses: ./
-              id: container
-            - name: Upload Build Artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                name: sigma-linux
-                path: ${{ github.workspace }}/cache/sigma-linux.iso
-                compression-level: 0
+  iso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # A kernel build needs ~20 GB; the runner image ships with less free.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      # The same command as locally: sigma builds the container image and
+      # runs the whole pipeline inside it (privileged, for mounts and chroot).
+      - name: Build
+        run: ./sigma build
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: sigma-linux
+          path: out/sigma-linux.iso
+          compression-level: 0

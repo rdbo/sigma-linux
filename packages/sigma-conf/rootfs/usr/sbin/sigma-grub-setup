@@ -1,0 +1,134 @@
+#!/bin/sh
+
+# sigma-grub-setup: make grub-mkconfig produce the Sigma Linux boot menu.
+#
+# Writes /etc/default/grub so that every grub-mkconfig run, including the one
+# apk triggers after each kernel update, keeps the Sigma theme and the kernel
+# parameters initrdbo needs. Safe to re-run. It also migrates older installs,
+# whose grub.cfg was copied from the ISO and got overwritten on kernel updates.
+#
+# usage: sigma-grub-setup [--root DEVICE --fstype TYPE] [--no-update]
+#
+#   --root DEVICE   partition holding the root filesystem (the LUKS container
+#                   on encrypted installs); detected from / when omitted
+#   --fstype TYPE   filesystem of the root (default: detected from /)
+#   --no-update     write the configuration but don't run update-grub
+
+set -e
+
+THEME=/usr/share/sigma/grub
+DEFAULTS=/etc/default/grub
+MARKER="# Managed by sigma-grub-setup."
+OVERRIDES="# Local overrides (kept when sigma-grub-setup runs again):"
+
+die() {
+	echo "sigma-grub-setup: $*" >&2
+	exit 1
+}
+
+usage() {
+	sed -n '/^# usage:/,/^$/s/^# \{0,1\}//p' "$0"
+}
+
+# The device and filesystem type mounted at /. The last entry wins: the
+# initramfs's rootfs can be listed before the real root.
+mounted_root() {
+	awk '$2 == "/" { dev = $1; fs = $3 } END { print dev, fs }' /proc/mounts
+}
+
+# initrdbo opens LUKS containers itself, so root= must name the partition
+# under a device-mapper device, not the mapped filesystem.
+backing_device() {
+	dev="$(readlink -f "$1")"
+	for slave in "/sys/block/${dev##*/}/slaves/"*; do
+		if [ -e "$slave" ]; then
+			echo "/dev/${slave##*/}"
+			return
+		fi
+	done
+	echo "$dev"
+}
+
+# Busybox blkid has no -s/-o, so pick UUID="..." out of its output.
+device_uuid() {
+	blkid "$1" | sed -n 's/.* UUID="\([^"]*\)".*/\1/p'
+}
+
+root_dev=""
+fstype=""
+update=yes
+while [ $# -gt 0 ]; do
+	case "$1" in
+		--root) root_dev="$2"; shift 2 ;;
+		--fstype) fstype="$2"; shift 2 ;;
+		--no-update) update=""; shift ;;
+		-h|--help) usage; exit 0 ;;
+		*) die "unknown option: $1 (see --help)" ;;
+	esac
+done
+
+[ "$(id -u)" = 0 ] || die "run as root"
+[ -r "$THEME/grub.conf" ] || die "$THEME/grub.conf is missing; is sigma-conf installed?"
+
+if [ -z "$root_dev" ]; then
+	set -- $(mounted_root)
+	root_dev="$1"
+	[ -n "$fstype" ] || fstype="$2"
+fi
+[ -n "$fstype" ] || die "--fstype is required with --root"
+root_dev="$(backing_device "$root_dev")"
+[ -b "$root_dev" ] || die "$root_dev is not a block device"
+uuid="$(device_uuid "$root_dev")"
+[ -n "$uuid" ] || die "could not read the UUID of $root_dev"
+
+# A hand-written /etc/default/grub is kept aside, once.
+if [ -f "$DEFAULTS" ] && ! grep -qF "$MARKER" "$DEFAULTS"; then
+	cp "$DEFAULTS" "$DEFAULTS.pre-sigma"
+	echo "Saved the previous $DEFAULTS as $DEFAULTS.pre-sigma"
+fi
+
+# Whatever was added below the overrides line survives a rewrite.
+overrides=""
+if [ -f "$DEFAULTS" ] && grep -qF "$OVERRIDES" "$DEFAULTS"; then
+	overrides="$(sed "1,/^$OVERRIDES\$/d" "$DEFAULTS")"
+fi
+
+mkdir -p "${DEFAULTS%/*}"
+cat > "$DEFAULTS.new" <<- EOF
+	$MARKER Running it again rewrites everything
+	# above the "Local overrides" line and keeps everything below it.
+
+	# The Sigma Linux theme and kernel parameters, shared with the live ISO.
+	[ -r $THEME/grub.conf ] && . $THEME/grub.conf
+
+	# initrdbo mounts the root filesystem itself: root= must name the partition
+	# (on encrypted installs, the LUKS container it unlocks), and rootfstype=
+	# must say how to mount it.
+	GRUB_DEVICE_UUID="$uuid"
+	GRUB_CMDLINE_LINUX="rootfstype=$fstype"
+
+	$OVERRIDES
+EOF
+[ -z "$overrides" ] || printf '%s\n' "$overrides" >> "$DEFAULTS.new"
+mv "$DEFAULTS.new" "$DEFAULTS"
+
+# GRUB reads the wallpaper before any kernel runs, so it has to live on /boot
+# (which may be its own unencrypted partition).
+mkdir -p /boot/grub
+cp "$THEME/wallpaper.png" /boot/grub/wallpaper.png
+
+# Older installs carry files meant to stop apk's grub trigger: one under a
+# name the trigger never reads (upgrade-grub.conf), so it never worked. The
+# trigger is wanted now; it is what keeps the menu current.
+if [ -f /etc/upgrade-grub.conf ] && ! grep -qv '^disable_trigger=' /etc/upgrade-grub.conf; then
+	rm -f /etc/upgrade-grub.conf
+fi
+if [ -f /etc/update-grub.conf ]; then
+	sed -i '/^disable_trigger=/d' /etc/update-grub.conf
+	[ -s /etc/update-grub.conf ] || rm -f /etc/update-grub.conf
+fi
+
+echo "Configured GRUB: root=UUID=$uuid ($root_dev), rootfstype=$fstype"
+if [ -n "$update" ]; then
+	update-grub
+fi

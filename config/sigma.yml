@@ -1,0 +1,57 @@
+# Sigma Linux build configuration.
+#
+# Personal overrides go in config/local.yml (git-ignored, same shape as this
+# file), and one-off ones on the command line: sigma build --set profile=full
+# `sigma config` prints the merged result.
+
+name: Sigma Linux            # shown in the boot menu
+id: sigma                    # hostname and image file names
+arch: x86_64
+profile: standard            # profiles/<profile>.list
+
+jobs: auto                   # parallel build jobs; auto = CPUs - 1, capped at 1 per 1.5 GiB RAM
+
+# Where intermediate state (cache) and finished artifacts (out) are written,
+# relative to the repository. Point cache somewhere roomy: a kernel build
+# alone needs 15-20 GB.
+paths:
+  cache: cache
+  out: out
+
+packages:
+  builder: build             # unprivileged user abuild runs as when we are root
+  ccache: true               # speeds up rebuilds, the kernel's especially
+  keep_build_trees: false    # keep abuild's src/ and pkg/ dirs for debugging
+
+rootfs:
+  repositories: config/repositories
+  overlay: image/overlay     # copied verbatim onto the root filesystem
+
+  user:
+    name: user
+    password: pass
+    shell: /bin/bash
+    groups: [wheel, audio, input, video, seat, dialout, netdev]
+
+  # Created in /etc/skel, so every new user starts with them.
+  skel_dirs: [Downloads, Documents, Pictures, Videos, Music]
+
+  # OpenRC services, by runlevel.
+  #   udev*  set up /dev and device ownership (e.g. /dev/dri/cardN), which is
+  #          what lets users reach the GPU and input devices without root
+  #   local  runs start scripts
+  #   modloop is deliberately absent: Sigma Linux doesn't need it
+  services:
+    sysinit: [devfs, dmesg, mdev, hwdrivers, udev, udev-trigger, udev-settle]
+    boot: [hwclock, modules, sysctl, bootmisc, syslog, hostname, zram-init]
+    default: [udev-postmount, networking, earlyoom, polkit, networkmanager, dbus, seatd, bluetooth, local]
+
+squashfs:
+  compression: xz            # xz is smallest; zstd builds much faster for testing
+  args: []                   # extra mksquashfs arguments
+
+iso:
+  volume_id: sigma-linux-cdrom
+
+docker:
+  image: sigma-linux

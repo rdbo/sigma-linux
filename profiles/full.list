@@ -1,0 +1,73 @@
+# full: standard plus office, creative, virtualization and security tools
+#
+# Syntax: one or more packages per line, # starts a comment,
+# `@include <profile>` pulls in another profile, `-pattern` removes
+# packages (globs allowed) added before it.
+
+@include standard
+
+# All firmware instead of the curated subset
+-linux-firmware-*
+linux-firmware
+
+# Every tree-sitter grammar instead of helix's vendored set
+-helix-tree-sitter-vendor
+
+# System
+
+## Administration Tools
+yt-dlp
+lighttpd
+
+#--------------------------------#
+
+# Desktop Environment
+
+## Text Editing
+tree-sitter-grammars
+
+## Office
+zathura zathura-pdf-mupdf
+libreoffice libreoffice-gtk
+
+## Mail
+neomutt
+thunderbird
+
+## RSS
+newsboat
+
+## Multimedia
+gimp
+inkscape
+shotcut
+lmms
+
+## Chat
+simplex-chat
+
+## Monitoring
+wireshark tshark
+
+## Misc
+electrum
+qemu-ui-gtk qemu-system-x86_64 qemu-system-aarch64 ovmf
+
+#--------------------------------#
+
+# 1337 h@xx0r
+
+aircrack-ng
+nmap nmap-ncat
+rustscan
+ghidra
+zaproxy
+mitmproxy
+hashcat
+john
+hydra
+radare2
+sqlmap
+recon-ng
+bettercap
+jadx apktool

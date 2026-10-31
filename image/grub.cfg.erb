@@ -1,0 +1,21 @@
+<%# Live ISO boot menu. Theme values come from sigma-conf's grub.conf, which installed systems share. -%>
+set timeout=<%= theme.fetch("GRUB_TIMEOUT", "5") %>
+
+insmod all_video
+loadfont /boot/grub/fonts/unicode.pf2
+
+insmod gfxterm
+set gfxmode=<%= theme.fetch("GRUB_GFXMODE", "auto") %>
+terminal_output gfxterm
+
+insmod png
+background_image /boot/grub/wallpaper.png
+<% kernels.each do |kernel| -%>
+
+menuentry "<%= kernel.title %>" {
+	echo "Loading vmlinuz..."
+	linux /boot/<%= kernel.vmlinuz %> root=LABEL=<%= volume_id %> rootfstype=iso9660 rd.live=/rootfs.squashfs <%= cmdline %>
+	echo "Loading initrd..."
+	initrd /boot/<%= kernel.initramfs %>
+}
+<% end -%>

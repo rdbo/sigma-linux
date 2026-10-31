@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Sigma Linux builder. Run `./sigma --help`.
+require_relative "lib/sigma"
+
+exit Sigma::CLI.start(ARGV) || 0
