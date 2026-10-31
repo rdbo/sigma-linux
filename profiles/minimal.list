@@ -131,6 +131,10 @@ swaylock # screen locker
 swaybg # wallpaper daemon
 # cosmic-session cosmic-launcher cosmic-randr cosmic-panel cosmic-files cosmic-icons cosmic-comp cosmic-bg
 
+## Portals
+# screen capture (OBS, browsers) goes through wlr, everything else (file pickers, Flatpak) through gtk
+xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk
+
 ## Terminal
 # rio
 foot
