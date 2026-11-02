@@ -1,0 +1,77 @@
+# Contributor: Rdbo <rdbodev@gmail.com>
+# Maintainer: Rdbo <rdbodev@gmail.com>
+pkgname=noctalia
+pkgver=5.4.1
+pkgrel=0
+pkgdesc="A sleek, customizable desktop shell crafted for Wayland"
+url="https://github.com/noctalia-dev/noctalia"
+arch="x86_64 aarch64" # upstream's first-class targets
+license="MIT"
+# pipewire/wireplumber: audio; upower: batteries; libheif: HEIC/AVIF images (dlopen'd)
+depends="pipewire wireplumber upower sound-theme-freedesktop libheif"
+makedepends="
+	meson
+	cairo-dev
+	curl-dev
+	fontconfig-dev
+	freetype-dev
+	glib-dev
+	harfbuzz-dev
+	libical-dev
+	libjxl-dev
+	libqalculate-dev
+	librsvg-dev
+	libsecret-dev
+	libsndfile-dev
+	libsodium-dev
+	libwebp-dev
+	libxkbcommon-dev
+	libxml2-dev
+	linux-pam-dev
+	md4c-dev
+	mesa-dev
+	nlohmann-json
+	pango-dev
+	pipewire-dev
+	polkit-dev
+	sdbus-cpp-dev
+	stb
+	tomlplusplus-dev
+	wayland-dev
+	wayland-protocols
+	wireplumber-dev
+	"
+subpackages="$pkgname-bash-completion $pkgname-zsh-completion $pkgname-fish-completion"
+source="$pkgname-$pkgver.tar.gz::https://github.com/noctalia-dev/noctalia/archive/refs/tags/v$pkgver.tar.gz"
+options="!check" # upstream only builds its tests in debug mode
+
+prepare() {
+	default_prepare
+
+	# The version string comes from `git describe`, which would find Sigma's own
+	# repository above the source tree, or is 'unknown' without git; use the release tag
+	sed -i "s/'unknown'/'v$pkgver'/" meson.build
+}
+
+build() {
+	# release, not abuild's plain: plain keeps assertions that abort the whole session
+	GIT_CEILING_DIRECTORIES="$srcdir" abuild-meson \
+		--buildtype=release \
+		-Dtests=disabled \
+		-Djemalloc=disabled \
+		. output
+	meson compile -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+
+	local bin="$builddir/output/noctalia"
+	"$bin" completions bash | install -Dm644 /dev/stdin "$pkgdir"/usr/share/bash-completion/completions/noctalia
+	"$bin" completions zsh | install -Dm644 /dev/stdin "$pkgdir"/usr/share/zsh/site-functions/_noctalia
+	"$bin" completions fish | install -Dm644 /dev/stdin "$pkgdir"/usr/share/fish/vendor_completions.d/noctalia.fish
+}
+
+sha512sums="
+f21768677a6ffe46daec505f1f1e8c4f55d3a18875507eda62bd7070c957d1c26185bd1d05e22ea98023f2cec70776e73e9f48938cac185cbd69d9bc47edfa27  noctalia-5.4.1.tar.gz
+"

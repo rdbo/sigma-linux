@@ -130,11 +130,10 @@ font-ubuntu-nerd
 # hyprland # hyprland-doc
 mangowm
 # niri
-waybar waybar-doc # status bar
+noctalia # shell: bar, notifications, wallpaper, lock screen
 # yambar yambar-doc # status bar
 fuzzel # dmenu-like
 swaylock # screen locker
-swaybg # wallpaper daemon
 # cosmic-session cosmic-launcher cosmic-randr cosmic-panel cosmic-files cosmic-icons cosmic-comp cosmic-bg
 
 ## Portals
@@ -153,7 +152,6 @@ vim
 # firefox
 
 ## Notifications
-mako
 libnotify
 
 ## Screenshot

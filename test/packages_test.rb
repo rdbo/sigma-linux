@@ -23,7 +23,7 @@ class PackagesTest < Minitest::Test
 
   def test_profile_needs_only_what_it_names
     needed = local.for_profile(Sigma::Profile.new(File.join(Sigma::ROOT, "profiles"), "standard").packages).map(&:name)
-    assert_equal 11, needed.size
+    assert_equal 12, needed.size
     %w[sigma-dwl sigma-st simplex-chat].each { |unused| refute_includes needed, unused }
   end
 
