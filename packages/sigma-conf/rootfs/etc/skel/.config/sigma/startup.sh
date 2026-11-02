@@ -19,7 +19,7 @@ else
 fi
 mako &
 waybar &
-easyeffects --gapplication-service &
+easyeffects --service-mode &
 sigma-vkbd --hidden &
 sigma-change-kbdlayout -r # Restore last used keyboard layout
 xrdb "$HOME/.Xresources" # Setup Xresources

@@ -32,7 +32,7 @@ rootfs:
     name: user
     password: pass
     shell: /bin/bash
-    groups: [wheel, audio, input, video, seat, dialout, netdev]
+    groups: [wheel, audio, input, video, seat, dialout, netdev, pipewire] # pipewire: realtime priority for audio (limits.d/25-pw-rlimits.conf)
 
   # Created in /etc/skel, so every new user starts with them.
   skel_dirs: [Downloads, Documents, Pictures, Videos, Music]
